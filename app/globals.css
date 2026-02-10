@@ -1,27 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-cream text-charcoal font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .btn-primary {
+    @apply bg-burgundy text-cream px-8 py-3 rounded-sm font-semibold tracking-wide uppercase text-sm
+    hover:bg-burgundy/90 transition-all duration-300 inline-block;
+  }
+  .btn-outline {
+    @apply border-2 border-burgundy text-burgundy px-8 py-3 rounded-sm font-semibold tracking-wide uppercase text-sm
+    hover:bg-burgundy hover:text-cream transition-all duration-300 inline-block;
+  }
+  .btn-gold {
+    @apply bg-gold text-charcoal px-8 py-3 rounded-sm font-semibold tracking-wide uppercase text-sm
+    hover:bg-gold/90 transition-all duration-300 inline-block;
+  }
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24;
+  }
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+/* Scroll reveal animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* Wine card hover effect */
+.wine-card {
+  @apply transition-all duration-300;
+}
+.wine-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(114, 47, 55, 0.1);
 }
