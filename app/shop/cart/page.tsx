@@ -10,7 +10,7 @@ export default function CartPage() {
     <div className="pt-20">
       <section className="section-padding">
         <div className="container-custom mx-auto max-w-4xl">
-          <h1 className="font-playfair text-3xl sm:text-4xl mb-8">Shopping Cart</h1>
+          <h1 className="font-playfair text-2xl sm:text-3xl lg:text-4xl mb-6 sm:mb-8">Shopping Cart</h1>
 
           {items.length === 0 ? (
             <div className="text-center py-16">
@@ -19,43 +19,47 @@ export default function CartPage() {
             </div>
           ) : (
             <>
-              <div className="space-y-6 mb-8">
+              <div className="space-y-4 sm:space-y-6 mb-8">
                 {items.map((item) => (
-                  <div key={item.wine.id} className="flex gap-6 bg-white p-6 rounded-sm">
-                    <div className="w-20 h-28 flex-shrink-0 overflow-hidden rounded">
-                      <img src={item.wine.image} alt={item.wine.name} className="w-full h-full object-cover" />
+                  <div key={item.wine.id} className="flex flex-col sm:flex-row gap-4 sm:gap-6 bg-white p-4 sm:p-6 rounded-sm">
+                    <div className="flex gap-4 sm:gap-6">
+                      <div className="w-20 h-28 flex-shrink-0 overflow-hidden rounded">
+                        <img src={item.wine.image} alt={item.wine.name} className="w-full h-full object-cover" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-playfair text-lg">{item.wine.name}</h3>
+                        <p className="text-sm text-charcoal/50">{item.wine.vintage} · {item.wine.region}</p>
+                        <p className="text-burgundy font-bold mt-2">€{item.wine.priceShop}</p>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-playfair text-lg">{item.wine.name}</h3>
-                      <p className="text-sm text-charcoal/50">{item.wine.vintage} · {item.wine.region}</p>
-                      <p className="text-burgundy font-bold mt-2">€{item.wine.priceShop}</p>
-                    </div>
-                    <div className="flex flex-col items-end justify-between">
-                      <button onClick={() => removeFromCart(item.wine.id)} className="text-charcoal/40 hover:text-red-500 text-sm">
-                        Remove
-                      </button>
+                    <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-between sm:min-w-[140px]">
                       <div className="flex items-center gap-3">
                         <button
                           onClick={() => updateQuantity(item.wine.id, item.quantity - 1)}
-                          className="w-8 h-8 rounded border border-charcoal/20 flex items-center justify-center hover:bg-burgundy hover:text-cream hover:border-burgundy transition-colors"
+                          className="w-[44px] h-[44px] sm:w-8 sm:h-8 rounded border border-charcoal/20 flex items-center justify-center hover:bg-burgundy hover:text-cream hover:border-burgundy transition-colors"
                         >
                           −
                         </button>
                         <span className="font-semibold w-8 text-center">{item.quantity}</span>
                         <button
                           onClick={() => updateQuantity(item.wine.id, item.quantity + 1)}
-                          className="w-8 h-8 rounded border border-charcoal/20 flex items-center justify-center hover:bg-burgundy hover:text-cream hover:border-burgundy transition-colors"
+                          className="w-[44px] h-[44px] sm:w-8 sm:h-8 rounded border border-charcoal/20 flex items-center justify-center hover:bg-burgundy hover:text-cream hover:border-burgundy transition-colors"
                         >
                           +
                         </button>
                       </div>
-                      <span className="font-bold">€{(item.wine.priceShop * item.quantity).toFixed(2)}</span>
+                      <div className="flex items-center gap-4">
+                        <span className="font-bold text-lg">€{(item.wine.priceShop * item.quantity).toFixed(2)}</span>
+                        <button onClick={() => removeFromCart(item.wine.id)} className="text-charcoal/40 hover:text-red-500 text-sm min-w-[44px] min-h-[44px] flex items-center justify-center">
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
 
-              <div className="bg-white p-8 rounded-sm">
+              <div className="bg-white p-5 sm:p-8 rounded-sm">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-charcoal/60">Subtotal</span>
                   <span className="font-semibold">€{totalPrice.toFixed(2)}</span>

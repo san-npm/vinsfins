@@ -12,9 +12,15 @@
     @apply bg-cream text-charcoal font-sans font-light;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-playfair font-normal;
+  }
+  /* Better focus states for form inputs */
+  input:focus, select:focus, textarea:focus {
+    @apply outline-none ring-1 ring-burgundy/40 border-burgundy/60;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
   }
 }
 
@@ -32,7 +38,7 @@
     hover:bg-gold transition-all duration-600 inline-block;
   }
   .section-padding {
-    @apply px-6 sm:px-10 lg:px-16 py-20 sm:py-28 lg:py-36;
+    @apply px-4 sm:px-8 lg:px-16 py-12 sm:py-20 lg:py-36;
   }
   .container-custom {
     @apply max-w-7xl mx-auto;
@@ -77,6 +83,18 @@
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes slideOutRight {
+  from { transform: translateX(0); }
+  to { transform: translateX(100%); }
+}
+@keyframes fadeInOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
 .animate-fade-in {
   animation: fadeIn 1.2s ease forwards;
@@ -96,19 +114,27 @@
   animation: fadeInSlow 1.5s ease 0.9s forwards;
   opacity: 0;
 }
+.animate-slide-in-right {
+  animation: slideInRight 0.4s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+.animate-fade-in-overlay {
+  animation: fadeInOverlay 0.3s ease forwards;
+}
 
 /* Parallax */
 .parallax-slow {
   will-change: transform;
 }
 
-/* Wine card hover */
+/* Wine card hover — no hover on touch devices */
 .wine-card {
   @apply transition-all duration-700;
 }
-.wine-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 60px rgba(26, 26, 26, 0.06);
+@media (hover: hover) {
+  .wine-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 60px rgba(26, 26, 26, 0.06);
+  }
 }
 
 /* Elegant divider */
@@ -124,4 +150,12 @@
 /* Selection */
 ::selection {
   background-color: rgba(184, 160, 126, 0.3);
+}
+
+/* Mobile: no horizontal overflow anywhere */
+*, *::before, *::after {
+  max-width: 100vw;
+}
+main, section, footer, nav {
+  overflow-x: clip;
 }
