@@ -21,20 +21,20 @@ export default function ContactPage() {
             <div>
               <div className="space-y-6 mb-8">
                 <div>
-                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/20 mb-2">{t("contact.addressLabel")}</p>
-                  <p className="text-xs text-charcoal/50 font-light">18 Rue Münster<br />L-2160 Grund, Luxembourg</p>
+                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/80 mb-2">{t("contact.addressLabel")}</p>
+                  <p className="text-xs text-charcoal/80 font-light">18 Rue Münster<br />L-2160 Grund, Luxembourg</p>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/20 mb-2">{t("contact.phoneLabel")}</p>
-                  <a href="tel:+352123456" className="text-xs text-charcoal/50 hover:text-charcoal transition-colors duration-500 font-light">+352 12 34 56</a>
+                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/80 mb-2">{t("contact.phoneLabel")}</p>
+                  <a href="tel:+352123456" className="text-xs text-charcoal/80 hover:text-charcoal transition-colors duration-500 font-light">+352 12 34 56</a>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/20 mb-2">{t("contact.emailLabel")}</p>
-                  <a href="mailto:hello@vinsfins.lu" className="text-xs text-charcoal/50 hover:text-charcoal transition-colors duration-500 font-light">hello@vinsfins.lu</a>
+                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/80 mb-2">{t("contact.emailLabel")}</p>
+                  <a href="mailto:hello@vinsfins.lu" className="text-xs text-charcoal/80 hover:text-charcoal transition-colors duration-500 font-light">hello@vinsfins.lu</a>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/20 mb-2">{t("contact.hoursLabel")}</p>
-                  <div className="text-xs text-charcoal/40 space-y-1 font-light">
+                  <p className="text-[10px] uppercase tracking-luxury text-charcoal/80 mb-2">{t("contact.hoursLabel")}</p>
+                  <div className="text-xs text-charcoal/70 space-y-1 font-light">
                     <p>{t("contact.hoursTueFri")}</p>
                     <p>{t("contact.hoursSat")}</p>
                     <p>{t("contact.hoursSun")}</p>
@@ -51,9 +51,9 @@ export default function ContactPage() {
 
               <div id="reservation" className="border-t border-charcoal/5 pt-8">
                 <h2 className="font-playfair text-xl sm:text-2xl mb-3">{t("contact.reserveTitle")}</h2>
-                <p className="text-xs text-charcoal/35 mb-6 font-light">{t("contact.reserveDesc")}</p>
+                <p className="text-xs text-charcoal/60 mb-6 font-light">{t("contact.reserveDesc")}</p>
                 <a href="https://bookings.zenchef.com/results?rid=371555" target="_blank" rel="noopener noreferrer" className="btn-primary inline-block">{t("contact.bookOnZenchef")}</a>
-                <p className="text-[10px] text-charcoal/25 mt-4 font-light">{t("contact.orCallUs")} <a href="tel:+352123456" className="text-burgundy/50 hover:text-burgundy transition-opacity duration-500">+352 12 34 56</a></p>
+                <p className="text-[10px] text-charcoal/80 mt-4 font-light">{t("contact.orCallUs")} <a href="tel:+352123456" className="text-burgundy/50 hover:text-burgundy transition-opacity duration-500">+352 12 34 56</a></p>
               </div>
             </div>
           </div>

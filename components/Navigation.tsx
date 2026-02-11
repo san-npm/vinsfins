@@ -41,13 +41,13 @@ export default function Navigation() {
             className={`text-[10px] tracking-wider uppercase transition-all duration-300 px-1 py-0.5 ${
               locale === l
                 ? isLight ? "text-charcoal font-semibold" : "text-cream font-semibold"
-                : isLight ? "text-charcoal/25 hover:text-charcoal/50" : "text-cream/25 hover:text-cream/50"
+                : isLight ? "text-charcoal/80 hover:text-charcoal/80" : "text-cream/25 hover:text-cream/50"
             }`}
           >
             {l.toUpperCase()}
           </button>
           {i < locales.length - 1 && (
-            <span className={`text-[10px] ${isLight ? "text-charcoal/10" : "text-cream/10"}`}>|</span>
+            <span className={`text-[10px] ${isLight ? "text-charcoal/70" : "text-cream/10"}`}>|</span>
           )}
         </span>
       ))}
@@ -80,7 +80,7 @@ export default function Navigation() {
               )}
             </button>
 
-            <Link href="/contact#reservation" className={`hidden lg:inline-block text-[10px] tracking-luxury uppercase transition-all duration-500 hover:opacity-50 ${isLight ? "text-charcoal/50" : "text-cream/50"}`}>{t("nav.reserve")}</Link>
+            <Link href="/contact#reservation" className={`hidden lg:inline-block text-[10px] tracking-luxury uppercase transition-all duration-500 hover:opacity-50 ${isLight ? "text-charcoal/80" : "text-cream/50"}`}>{t("nav.reserve")}</Link>
 
             <button onClick={() => setIsOpen(!isOpen)} className={`lg:hidden p-2 min-w-[44px] min-h-[44px] flex items-center justify-center transition-colors duration-500 ${isLight ? "text-charcoal" : "text-cream"}`}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}>
@@ -102,8 +102,8 @@ export default function Navigation() {
               <div className="flex items-center gap-1 justify-center">
                 {locales.map((l, i) => (
                   <span key={l} className="flex items-center">
-                    <button onClick={() => setLocale(l)} className={`text-[11px] tracking-wider uppercase transition-all duration-300 px-1.5 py-1 ${locale === l ? "text-charcoal font-semibold" : "text-charcoal/25 hover:text-charcoal/50"}`}>{l.toUpperCase()}</button>
-                    {i < locales.length - 1 && <span className="text-[10px] text-charcoal/10">|</span>}
+                    <button onClick={() => setLocale(l)} className={`text-[11px] tracking-wider uppercase transition-all duration-300 px-1.5 py-1 ${locale === l ? "text-charcoal font-semibold" : "text-charcoal/80 hover:text-charcoal/80"}`}>{l.toUpperCase()}</button>
+                    {i < locales.length - 1 && <span className="text-[10px] text-charcoal/70">|</span>}
                   </span>
                 ))}
               </div>
@@ -114,7 +114,7 @@ export default function Navigation() {
               ))}
             </div>
             <div className="px-8 pb-12">
-              <Link href="/contact#reservation" onClick={() => setIsOpen(false)} className="block text-center text-[11px] tracking-luxury uppercase text-charcoal/40">{t("nav.reserveTable")}</Link>
+              <Link href="/contact#reservation" onClick={() => setIsOpen(false)} className="block text-center text-[11px] tracking-luxury uppercase text-charcoal/70">{t("nav.reserveTable")}</Link>
             </div>
           </div>
         )}

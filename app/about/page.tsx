@@ -27,8 +27,8 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center mb-20 sm:mb-32">
             <div>
               <h2 className="font-playfair text-2xl sm:text-3xl mb-6 leading-tight">{t("about.passionTitle")}</h2>
-              <p className="text-xs text-charcoal/40 font-light leading-relaxed mb-4">{t("about.passionP1")}</p>
-              <p className="text-xs text-charcoal/40 font-light leading-relaxed">{t("about.passionP2")}</p>
+              <p className="text-xs text-charcoal/70 font-light leading-relaxed mb-4">{t("about.passionP1")}</p>
+              <p className="text-xs text-charcoal/70 font-light leading-relaxed">{t("about.passionP2")}</p>
             </div>
             <div className="aspect-[4/5] overflow-hidden">
               <img src="https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?w=600&h=750&fit=crop" alt="Wine cellar" className="w-full h-full object-cover" />
@@ -41,8 +41,8 @@ export default function AboutPage() {
             </div>
             <div className="order-1 lg:order-2">
               <h2 className="font-playfair text-2xl sm:text-3xl mb-6 leading-tight">{t("about.philoTitle")}</h2>
-              <p className="text-xs text-charcoal/40 font-light leading-relaxed mb-4">{t("about.philoP1")}</p>
-              <p className="text-xs text-charcoal/40 font-light leading-relaxed">{t("about.philoP2")}</p>
+              <p className="text-xs text-charcoal/70 font-light leading-relaxed mb-4">{t("about.philoP1")}</p>
+              <p className="text-xs text-charcoal/70 font-light leading-relaxed">{t("about.philoP2")}</p>
             </div>
           </div>
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
                   <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
                 </div>
                 <h3 className="font-playfair text-base mb-1">{member.name}</h3>
-                <p className="text-[10px] uppercase tracking-luxury text-charcoal/25">{t(`about.${member.roleKey}`)}</p>
+                <p className="text-[10px] uppercase tracking-luxury text-charcoal/80">{t(`about.${member.roleKey}`)}</p>
               </div>
             ))}
           </div>
@@ -62,7 +62,7 @@ export default function AboutPage() {
 
       <section className="py-20 sm:py-28 text-center px-4">
         <h2 className="font-playfair text-2xl sm:text-3xl mb-4">{t("about.ctaTitle")}</h2>
-        <Link href="/contact#reservation" className="text-[10px] tracking-luxury uppercase text-charcoal/30 hover:text-charcoal border-b border-charcoal/15 pb-1 transition-colors duration-500">{t("about.ctaButton")}</Link>
+        <Link href="/contact#reservation" className="text-[10px] tracking-luxury uppercase text-charcoal/60 hover:text-charcoal border-b border-charcoal/15 pb-1 transition-colors duration-500">{t("about.ctaButton")}</Link>
       </section>
     </div>
   );

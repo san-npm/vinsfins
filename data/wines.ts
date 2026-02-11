@@ -46,7 +46,7 @@ export const wines: Wine[] = [
     priceGlass: 14,
     priceBottle: 58,
     priceShop: 48,
-    image: "https://images.unsplash.com/photo-1566995541428-f4e246e8b88c?w=600&h=800&fit=crop",
+    image: "https://images.unsplash.com/photo-1569236882653-8798028f4254?w=600&h=800&fit=crop",
     featured: true,
   },
   {
@@ -124,7 +124,7 @@ export const wines: Wine[] = [
     priceGlass: 9,
     priceBottle: 34,
     priceShop: 28,
-    image: "https://images.unsplash.com/photo-1569919659476-f0852f9fede3?w=600&h=800&fit=crop",
+    image: "https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&h=800&fit=crop",
   },
   {
     id: "gevrey-chambertin-dugat-2020",

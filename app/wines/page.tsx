@@ -23,9 +23,9 @@ export default function WinesPage() {
       <section className="px-4 sm:px-8 lg:px-20 py-12 sm:py-20 lg:py-32">
         <div className="max-w-7xl mx-auto">
           <div className="flex gap-3 justify-center mb-12 sm:mb-20 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
-            <button onClick={() => setActiveCategory("all")} className={`px-4 py-2 text-[10px] tracking-luxury uppercase transition-all duration-500 whitespace-nowrap flex-shrink-0 min-h-[44px] ${activeCategory === "all" ? "text-charcoal border-b border-charcoal" : "text-charcoal/25 hover:text-charcoal/50"}`}>{t("wines.allWines")}</button>
+            <button onClick={() => setActiveCategory("all")} className={`px-4 py-2 text-[10px] tracking-luxury uppercase transition-all duration-500 whitespace-nowrap flex-shrink-0 min-h-[44px] ${activeCategory === "all" ? "text-charcoal border-b border-charcoal" : "text-charcoal/80 hover:text-charcoal/80"}`}>{t("wines.allWines")}</button>
             {categories.map((cat) => (
-              <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`px-4 py-2 text-[10px] tracking-luxury uppercase transition-all duration-500 whitespace-nowrap flex-shrink-0 min-h-[44px] ${activeCategory === cat.id ? "text-charcoal border-b border-charcoal" : "text-charcoal/25 hover:text-charcoal/50"}`}>{cat.label}</button>
+              <button key={cat.id} onClick={() => setActiveCategory(cat.id)} className={`px-4 py-2 text-[10px] tracking-luxury uppercase transition-all duration-500 whitespace-nowrap flex-shrink-0 min-h-[44px] ${activeCategory === cat.id ? "text-charcoal border-b border-charcoal" : "text-charcoal/80 hover:text-charcoal/80"}`}>{cat.label}</button>
             ))}
           </div>
 
@@ -35,13 +35,13 @@ export default function WinesPage() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-baseline gap-3">
                     <h3 className="font-playfair text-base sm:text-lg">{wine.name}</h3>
-                    <span className="text-[10px] text-charcoal/20 tracking-wider hidden sm:inline">{wine.grape} · {wine.vintage}</span>
+                    <span className="text-[10px] text-charcoal/80 tracking-wider hidden sm:inline">{wine.grape} · {wine.vintage}</span>
                   </div>
-                  <p className="text-[10px] text-charcoal/25 tracking-wider mt-0.5">{wine.region}</p>
+                  <p className="text-[10px] text-charcoal/80 tracking-wider mt-0.5">{wine.region}</p>
                 </div>
-                <div className="flex items-center gap-6 text-xs text-charcoal/40 flex-shrink-0 ml-4">
-                  <span>€{wine.priceGlass} <span className="text-charcoal/20">/ {t("wines.glass")}</span></span>
-                  <span>€{wine.priceBottle} <span className="text-charcoal/20">/ {t("wines.bottle")}</span></span>
+                <div className="flex items-center gap-6 text-xs text-charcoal/70 flex-shrink-0 ml-4">
+                  <span>€{wine.priceGlass} <span className="text-charcoal/80">/ {t("wines.glass")}</span></span>
+                  <span>€{wine.priceBottle} <span className="text-charcoal/80">/ {t("wines.bottle")}</span></span>
                 </div>
               </div>
             ))}

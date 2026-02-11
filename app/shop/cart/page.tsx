@@ -16,7 +16,7 @@ export default function CartPage() {
 
           {items.length === 0 ? (
             <div className="text-center py-16">
-              <p className="text-xs text-charcoal/35 font-light mb-6">{t("cart.empty")}</p>
+              <p className="text-xs text-charcoal/60 font-light mb-6">{t("cart.empty")}</p>
               <Link href="/shop" className="btn-primary">{t("cart.continueShopping")}</Link>
             </div>
           ) : (
@@ -29,7 +29,7 @@ export default function CartPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <h3 className="font-playfair text-sm">{item.wine.name}</h3>
-                      <p className="text-[10px] text-charcoal/30">{item.wine.vintage} · {item.wine.region}</p>
+                      <p className="text-[10px] text-charcoal/60">{item.wine.vintage} · {item.wine.region}</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <button onClick={() => updateQuantity(item.wine.id, item.quantity - 1)} className="w-7 h-7 border border-charcoal/10 flex items-center justify-center text-xs">−</button>
@@ -37,14 +37,14 @@ export default function CartPage() {
                       <button onClick={() => updateQuantity(item.wine.id, item.quantity + 1)} className="w-7 h-7 border border-charcoal/10 flex items-center justify-center text-xs">+</button>
                     </div>
                     <span className="text-sm w-16 text-right">€{(item.wine.priceShop * item.quantity).toFixed(2)}</span>
-                    <button onClick={() => removeFromCart(item.wine.id)} className="text-charcoal/20 hover:text-charcoal/50 text-[10px] tracking-wider uppercase min-w-[44px] min-h-[44px] flex items-center justify-center">{t("cart.remove")}</button>
+                    <button onClick={() => removeFromCart(item.wine.id)} className="text-charcoal/80 hover:text-charcoal/80 text-[10px] tracking-wider uppercase min-w-[44px] min-h-[44px] flex items-center justify-center">{t("cart.remove")}</button>
                   </div>
                 ))}
               </div>
 
               <div className="mt-8 pt-6 border-t border-charcoal/5">
                 <div className="flex justify-between items-baseline mb-6">
-                  <span className="text-[10px] uppercase tracking-luxury text-charcoal/30">{t("cart.total")}</span>
+                  <span className="text-[10px] uppercase tracking-luxury text-charcoal/60">{t("cart.total")}</span>
                   <span className="font-playfair text-xl">€{(totalPrice + (totalPrice >= 100 ? 0 : 9.9)).toFixed(2)}</span>
                 </div>
                 <div className="flex gap-4">

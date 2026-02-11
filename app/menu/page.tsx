@@ -26,9 +26,9 @@ export default function MenuPage() {
                   <div key={i} className="text-center">
                     <div className="flex items-baseline justify-center gap-3">
                       <h4 className="font-playfair text-sm sm:text-base">{item.name}</h4>
-                      <span className="text-xs text-charcoal/30 font-light">€{item.price}</span>
+                      <span className="text-xs text-charcoal/60 font-light">€{item.price}</span>
                     </div>
-                    <p className="text-xs text-charcoal/30 mt-1 font-light">{item.description}</p>
+                    <p className="text-xs text-charcoal/60 mt-1 font-light">{item.description}</p>
                     {item.winePairing && <p className="text-[10px] text-burgundy/40 mt-1 font-light italic">{item.winePairing}</p>}
                   </div>
                 ))}
@@ -37,7 +37,7 @@ export default function MenuPage() {
           ))}
 
           <div className="border-t border-charcoal/5 pt-8">
-            <p className="text-[10px] text-charcoal/20 font-light tracking-wider">{t("menuPage.menuNote")}</p>
+            <p className="text-[10px] text-charcoal/80 font-light tracking-wider">{t("menuPage.menuNote")}</p>
           </div>
         </div>
       </section>
