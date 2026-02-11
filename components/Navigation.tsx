@@ -61,7 +61,7 @@ export default function Navigation() {
       <div className="mx-auto px-4 sm:px-8 lg:px-20">
         <div className="flex items-center justify-between h-16 sm:h-20">
           <Link href="/" className="flex items-center">
-            <span className={`font-playfair text-lg sm:text-xl tracking-wide transition-colors duration-700 ${isLight ? "text-charcoal" : "text-cream"}`}>Vins Fins</span>
+            <span className={`font-caveat text-2xl sm:text-3xl transition-colors duration-700 ${isLight ? "text-charcoal" : "text-cream"}`}>Vins Fins</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-10">
@@ -110,7 +110,7 @@ export default function Navigation() {
         {isOpen && (
           <div className="lg:hidden fixed inset-0 top-0 left-0 w-full h-full bg-cream z-50 flex flex-col">
             <div className="flex items-center justify-between h-16 px-4 sm:px-8">
-              <Link href="/" onClick={() => setIsOpen(false)} className="font-playfair text-lg tracking-wide text-charcoal">Vins Fins</Link>
+              <Link href="/" onClick={() => setIsOpen(false)} className="font-caveat text-2xl tracking-wide text-charcoal dark:text-cream">Vins Fins</Link>
               <button onClick={() => setIsOpen(false)} className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center text-charcoal">
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
               </button>
