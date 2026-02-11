@@ -6,6 +6,7 @@ import CartSidebar from "@/components/CartSidebar";
 import CookieBanner from "@/components/CookieBanner";
 import { CartProvider } from "@/context/CartContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Vins Fins — Wine Bar & Restaurant | Grund, Luxembourg",
@@ -41,9 +42,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t){document.documentElement.setAttribute('data-theme',t)}else if(window.matchMedia('(prefers-color-scheme:dark)').matches){document.documentElement.setAttribute('data-theme','dark')}else{document.documentElement.setAttribute('data-theme','light')}}catch(e){}})()`,
+          }}
+        />
+      </head>
       <body>
         <LanguageProvider>
+          <ThemeProvider>
           <CartProvider>
             <Navigation />
             <CartSidebar />
@@ -51,6 +60,7 @@ export default function RootLayout({
             <Footer />
             <CookieBanner />
           </CartProvider>
+          </ThemeProvider>
         </LanguageProvider>
       </body>
     </html>
