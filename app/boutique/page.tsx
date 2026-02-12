@@ -74,7 +74,7 @@ export default function BoutiquePage() {
       <section className="px-6 pb-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filtered.map((wine) => (
-            <div key={wine.id} className="group">
+            <div key={wine.id} className="group flex flex-col h-full">
               <Link href={`/boutique/${wine.id}`}>
                 <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
                   <Image
@@ -85,19 +85,23 @@ export default function BoutiquePage() {
                   />
                 </div>
               </Link>
-              <Link href={`/boutique/${wine.id}`}>
-                <h3 className="font-playfair text-base text-ink mb-1 hover:text-wine transition-colors">
-                  {wine.name}
-                </h3>
-              </Link>
-              <p className="text-xs text-stone mb-2">{wine.region}, {wine.country}</p>
-              <p className="text-lg text-ink mb-3">{wine.priceShop}€</p>
-              <button
-                onClick={() => addToCart(wine)}
-                className="btn-wine text-[9px] w-full text-center"
-              >
-                {t("shop.addToCart")}
-              </button>
+              <div className="flex flex-col flex-1">
+                <Link href={`/boutique/${wine.id}`}>
+                  <h3 className="font-playfair text-base text-ink mb-1 hover:text-wine transition-colors">
+                    {wine.name}
+                  </h3>
+                </Link>
+                <p className="text-xs text-stone mb-2">{wine.region}, {wine.country}</p>
+                <div className="mt-auto">
+                  <p className="text-lg text-ink mb-3">{wine.priceShop}€</p>
+                  <button
+                    onClick={() => addToCart(wine)}
+                    className="btn-wine text-[9px] w-full text-center"
+                  >
+                    {t("shop.addToCart")}
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
