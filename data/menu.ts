@@ -1,152 +1,227 @@
 export interface MenuItem {
-  name: string;
-  description: string;
+  id: string;
+  category: 'starters' | 'platters' | 'mains' | 'desserts' | 'specials';
+  name: Record<'fr' | 'en' | 'de' | 'lb', string>;
+  description: Record<'fr' | 'en' | 'de' | 'lb', string>;
   price: number;
-  winePairing?: string;
-  isSpecial?: boolean;
+  isAvailable: boolean;
 }
 
-export interface MenuSection {
-  title: string;
-  items: MenuItem[];
-}
-
-export const menuSections: MenuSection[] = [
+export const menuItems: MenuItem[] = [
   {
-    title: "Starters",
-    items: [
-      {
-        name: "Foie Gras Mi-Cuit",
-        description: "House-made duck foie gras with fig chutney and toasted brioche",
-        price: 22,
-        winePairing: "Trimbach Riesling Cuvée Frédéric Émile",
-      },
-      {
-        name: "Burrata & Heirloom Tomatoes",
-        description: "Creamy burrata with multicolored tomatoes, basil oil, and fleur de sel",
-        price: 16,
-        winePairing: "Miraval Rosé",
-      },
-      {
-        name: "Tartare de Bœuf",
-        description: "Hand-cut beef tartare with capers, shallots, and truffle oil",
-        price: 19,
-        winePairing: "Marcel Lapierre Morgon",
-      },
-      {
-        name: "Soupe à l'Oignon Gratinée",
-        description: "Classic French onion soup with Gruyère crouton",
-        price: 14,
-      },
-      {
-        name: "Ceviche de Saint-Jacques",
-        description: "Scallop ceviche with yuzu, pink pepper, and micro herbs",
-        price: 21,
-        winePairing: "Domaine Vacheron Sancerre",
-        isSpecial: true,
-      },
-    ],
+    id: 'planche-charcuterie',
+    category: 'platters',
+    name: {
+      fr: 'Planche Charcuterie',
+      en: 'Charcuterie Board',
+      de: 'Wurstplatte',
+      lb: 'Wurschtplat',
+    },
+    description: {
+      fr: 'Sélection de charcuteries artisanales, cornichons, moutarde',
+      en: 'Selection of artisanal cured meats, pickles, mustard',
+      de: 'Auswahl an handwerklichen Wurstwaren, Cornichons, Senf',
+      lb: 'Auswiel u Wurschtwaaren, Cornichonen, Moschter',
+    },
+    price: 18,
+    isAvailable: true,
   },
   {
-    title: "Main Courses",
-    items: [
-      {
-        name: "Magret de Canard",
-        description: "Pan-seared duck breast with cherry gastrique, potato gratin, and seasonal vegetables",
-        price: 32,
-        winePairing: "Château de Beaucastel Châteauneuf-du-Pape",
-      },
-      {
-        name: "Filet de Bar",
-        description: "Sea bass fillet with beurre blanc, crushed new potatoes, and samphire",
-        price: 29,
-        winePairing: "Domaine Dauvissat Chablis 1er Cru",
-      },
-      {
-        name: "Entrecôte Grillée",
-        description: "Grilled rib-eye steak with béarnaise sauce, hand-cut frites, and watercress",
-        price: 34,
-        winePairing: "E. Guigal Côte-Rôtie",
-      },
-      {
-        name: "Risotto aux Cèpes",
-        description: "Porcini mushroom risotto with aged Parmesan and truffle shavings",
-        price: 26,
-        winePairing: "Dugat-Py Gevrey-Chambertin",
-      },
-      {
-        name: "Bouillabaisse du Chef",
-        description: "Provençal fish stew with rouille, croutons, and Gruyère",
-        price: 28,
-        winePairing: "Miraval Rosé",
-        isSpecial: true,
-      },
-    ],
+    id: 'planche-fromages',
+    category: 'platters',
+    name: {
+      fr: 'Planche Fromages',
+      en: 'Cheese Board',
+      de: 'Käseplatte',
+      lb: 'Kéisplat',
+    },
+    description: {
+      fr: 'Fromages affinés, confiture de figues, noix',
+      en: 'Aged cheeses, fig jam, walnuts',
+      de: 'Gereifte Käse, Feigenmarmelade, Walnüsse',
+      lb: 'Gereiften Kéis, Feigekonfitür, Nëss',
+    },
+    price: 16,
+    isAvailable: true,
   },
   {
-    title: "Cheese",
-    items: [
-      {
-        name: "Plateau de Fromages",
-        description: "Selection of 5 artisanal cheeses with honey, walnuts, and fruit paste",
-        price: 18,
-        winePairing: "Château de Beaucastel Châteauneuf-du-Pape",
-      },
-      {
-        name: "Camembert Rôti",
-        description: "Baked Camembert with garlic, rosemary, and toasted sourdough",
-        price: 15,
-        winePairing: "Marcel Lapierre Morgon",
-      },
-    ],
+    id: 'planche-mixte',
+    category: 'platters',
+    name: {
+      fr: 'Planche Mixte',
+      en: 'Mixed Board',
+      de: 'Gemischte Platte',
+      lb: 'Gemëscht Plat',
+    },
+    description: {
+      fr: 'Charcuterie et fromages, accompagnements maison',
+      en: 'Charcuterie and cheeses with house accompaniments',
+      de: 'Wurst und Käse mit hausgemachten Beilagen',
+      lb: 'Wurscht a Kéis mat Hausbäilagen',
+    },
+    price: 22,
+    isAvailable: true,
   },
   {
-    title: "Desserts",
-    items: [
-      {
-        name: "Tarte Tatin",
-        description: "Caramelized apple tart with crème fraîche and Calvados",
-        price: 14,
-        winePairing: "Dom Pérignon",
-      },
-      {
-        name: "Fondant au Chocolat",
-        description: "Dark chocolate fondant with vanilla bean ice cream",
-        price: 13,
-        winePairing: "Château de Beaucastel Châteauneuf-du-Pape",
-      },
-      {
-        name: "Crème Brûlée à la Lavande",
-        description: "Lavender-infused crème brûlée with shortbread biscuit",
-        price: 12,
-      },
-      {
-        name: "Assiette de Fruits",
-        description: "Seasonal fruit plate with sorbet and mint",
-        price: 11,
-      },
-    ],
+    id: 'carpaccio-boeuf',
+    category: 'starters',
+    name: {
+      fr: 'Carpaccio de Bœuf',
+      en: 'Beef Carpaccio',
+      de: 'Rindercarpaccio',
+      lb: 'Rëndscarpaccio',
+    },
+    description: {
+      fr: 'Bœuf cru finement tranché, roquette, parmesan, huile de truffe',
+      en: 'Thinly sliced raw beef, rocket, parmesan, truffle oil',
+      de: 'Dünn geschnittenes rohes Rindfleisch, Rucola, Parmesan, Trüffelöl',
+      lb: 'Dënn geschnidde rout Rëndfleesch, Rucola, Parmesan, Trüffelueleg',
+    },
+    price: 17,
+    isAvailable: true,
+  },
+  {
+    id: 'escargots',
+    category: 'starters',
+    name: {
+      fr: 'Escargots au Beurre Persillé',
+      en: 'Snails in Parsley Butter',
+      de: 'Schnecken in Petersilienbutter',
+      lb: 'Schnéicken an Péiterséiligebotter',
+    },
+    description: {
+      fr: '6 escargots de Bourgogne, beurre à l\'ail et persil',
+      en: '6 Burgundy snails, garlic and parsley butter',
+      de: '6 Burgunderschnecken, Knoblauch-Petersilienbutter',
+      lb: '6 Burgunder Schnéicken, Knuewelek-Péiterséiligebotter',
+    },
+    price: 14,
+    isAvailable: true,
+  },
+  {
+    id: 'olives-marinees',
+    category: 'starters',
+    name: {
+      fr: 'Olives Marinées',
+      en: 'Marinated Olives',
+      de: 'Marinierte Oliven',
+      lb: 'Marinéiert Oliven',
+    },
+    description: {
+      fr: 'Olives vertes et noires aux herbes de Provence',
+      en: 'Green and black olives with herbs de Provence',
+      de: 'Grüne und schwarze Oliven mit Kräutern der Provence',
+      lb: 'Gréng a schwaarz Oliven mat Kräider vun der Provence',
+    },
+    price: 6,
+    isAvailable: true,
+  },
+  {
+    id: 'houmous',
+    category: 'starters',
+    name: {
+      fr: 'Houmous Maison',
+      en: 'House Hummus',
+      de: 'Hausgemachter Hummus',
+      lb: 'Hausgemaachten Hummus',
+    },
+    description: {
+      fr: 'Houmous crémeux, paprika fumé, pain grillé',
+      en: 'Creamy hummus, smoked paprika, toasted bread',
+      de: 'Cremiger Hummus, geräucherter Paprika, geröstetes Brot',
+      lb: 'Cremegen Hummus, geréicherte Paprika, geréischtert Brout',
+    },
+    price: 9,
+    isAvailable: true,
+  },
+  {
+    id: 'tartine-chevre',
+    category: 'mains',
+    name: {
+      fr: 'Tartine Chèvre Chaud',
+      en: 'Warm Goat Cheese Tartine',
+      de: 'Warme Ziegenkäse-Tartine',
+      lb: 'Waarm Geessekéis-Tartine',
+    },
+    description: {
+      fr: 'Pain de campagne, chèvre fondant, miel, noix',
+      en: 'Country bread, melted goat cheese, honey, walnuts',
+      de: 'Landbrot, geschmolzener Ziegenkäse, Honig, Walnüsse',
+      lb: 'Landbrout, geschmolzene Geessekéis, Hunneg, Nëss',
+    },
+    price: 14,
+    isAvailable: true,
+  },
+  {
+    id: 'croque-monsieur',
+    category: 'mains',
+    name: {
+      fr: 'Croque Monsieur',
+      en: 'Croque Monsieur',
+      de: 'Croque Monsieur',
+      lb: 'Croque Monsieur',
+    },
+    description: {
+      fr: 'Jambon, gruyère, béchamel, salade verte',
+      en: 'Ham, gruyère, béchamel, green salad',
+      de: 'Schinken, Gruyère, Béchamel, grüner Salat',
+      lb: 'Ham, Gruyère, Béchamel, grénge Salat',
+    },
+    price: 13,
+    isAvailable: true,
+  },
+  {
+    id: 'mousse-chocolat',
+    category: 'desserts',
+    name: {
+      fr: 'Mousse au Chocolat',
+      en: 'Chocolate Mousse',
+      de: 'Schokoladenmousse',
+      lb: 'Schokelas Mousse',
+    },
+    description: {
+      fr: 'Mousse au chocolat noir 70%, fleur de sel',
+      en: 'Dark chocolate 70% mousse, fleur de sel',
+      de: 'Zartbitterschokolade 70% Mousse, Fleur de Sel',
+      lb: 'Donkel Schokela 70% Mousse, Fleur de Sel',
+    },
+    price: 9,
+    isAvailable: true,
+  },
+  {
+    id: 'tarte-tatin',
+    category: 'desserts',
+    name: {
+      fr: 'Tarte Tatin',
+      en: 'Tarte Tatin',
+      de: 'Tarte Tatin',
+      lb: 'Tarte Tatin',
+    },
+    description: {
+      fr: 'Pommes caramélisées, crème fraîche',
+      en: 'Caramelized apples, crème fraîche',
+      de: 'Karamellisierte Äpfel, Crème fraîche',
+      lb: 'Karamelliséiert Äppel, Crème fraîche',
+    },
+    price: 10,
+    isAvailable: true,
+  },
+  {
+    id: 'special-saison',
+    category: 'specials',
+    name: {
+      fr: 'Suggestion du Chef',
+      en: 'Chef\'s Special',
+      de: 'Empfehlung des Küchenchefs',
+      lb: 'Virschlag vum Chef',
+    },
+    description: {
+      fr: 'Plat du jour selon le marché — demandez à votre serveur',
+      en: 'Daily special based on market — ask your server',
+      de: 'Tagesgericht nach Marktangebot — fragen Sie Ihren Kellner',
+      lb: 'Dagsgeriicht nom Maart — frot Äre Kellner',
+    },
+    price: 16,
+    isAvailable: true,
   },
 ];
-
-export const seasonalSpecials = {
-  title: "Seasonal Specials — Winter 2026",
-  description: "Our chef's seasonal creations, available for a limited time.",
-  items: [
-    {
-      name: "Ceviche de Saint-Jacques",
-      description: "Scallop ceviche with yuzu, pink pepper, and micro herbs",
-      price: 21,
-    },
-    {
-      name: "Bouillabaisse du Chef",
-      description: "Provençal fish stew with rouille, croutons, and Gruyère",
-      price: 28,
-    },
-    {
-      name: "Chevreuil Rôti",
-      description: "Roast venison loin with juniper jus, parsnip purée, and red cabbage",
-      price: 36,
-    },
-  ],
-};
