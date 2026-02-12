@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 
@@ -18,8 +19,11 @@ const navLinks = [
 export default function Navigation() {
   const { t, locale, setLocale } = useLanguage();
   const { totalItems, setIsCartOpen } = useCart();
+  const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hasHero = pathname === "/";
+  const isLight = scrolled || !hasHero;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -43,7 +47,7 @@ export default function Navigation() {
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className={`font-script text-4xl transition-colors ${scrolled ? "text-ink hover:text-wine" : "text-white hover:text-white/80"}`}>
+          <Link href="/" className={`font-script text-4xl transition-colors ${isLight ? "text-ink hover:text-wine" : "text-white hover:text-white/80"}`}>
             Vins Fins
           </Link>
 
@@ -53,7 +57,7 @@ export default function Navigation() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[11px] font-light tracking-luxury uppercase transition-colors ${scrolled ? "text-ink/70 hover:text-ink" : "text-white/70 hover:text-white"}`}
+                className={`text-[11px] font-light tracking-luxury uppercase transition-colors ${isLight ? "text-ink/70 hover:text-ink" : "text-white/70 hover:text-white"}`}
               >
                 {t(link.key)}
               </Link>
@@ -63,20 +67,20 @@ export default function Navigation() {
           {/* Right side */}
           <div className="hidden lg:flex items-center gap-5">
             {/* Language switcher */}
-            <div className={`flex items-center gap-1 text-[10px] tracking-wider ${scrolled ? "text-stone" : "text-white/50"}`}>
+            <div className={`flex items-center gap-1 text-[10px] tracking-wider ${isLight ? "text-stone" : "text-white/50"}`}>
               {languages.map((lang, i) => (
                 <React.Fragment key={lang}>
                   <button
                     onClick={() => setLocale(lang.toLowerCase() as "fr" | "en" | "de" | "lb")}
                     className={`transition-colors ${
                       locale === lang.toLowerCase() 
-                        ? scrolled ? "text-ink font-medium" : "text-white font-medium"
-                        : scrolled ? "hover:text-ink" : "hover:text-white"
+                        ? isLight ? "text-ink font-medium" : "text-white font-medium"
+                        : isLight ? "hover:text-ink" : "hover:text-white"
                     }`}
                   >
                     {lang}
                   </button>
-                  {i < languages.length - 1 && <span className={scrolled ? "text-stone/40" : "text-white/20"}>|</span>}
+                  {i < languages.length - 1 && <span className={isLight ? "text-stone/40" : "text-white/20"}>|</span>}
                 </React.Fragment>
               ))}
             </div>
@@ -84,7 +88,7 @@ export default function Navigation() {
             {/* Cart */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className={`relative transition-colors ${scrolled ? "text-ink/70 hover:text-ink" : "text-white/70 hover:text-white"}`}
+              className={`relative transition-colors ${isLight ? "text-ink/70 hover:text-ink" : "text-white/70 hover:text-white"}`}
               aria-label="Cart"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -110,7 +114,7 @@ export default function Navigation() {
 
           {/* Mobile hamburger */}
           <button
-            className={`lg:hidden p-2 ${scrolled ? "text-ink" : "text-white"}`}
+            className={`lg:hidden p-2 ${isLight ? "text-ink" : "text-white"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
