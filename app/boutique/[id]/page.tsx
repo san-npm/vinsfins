@@ -5,11 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
-import { wines } from "@/data/wines";
+import { useData } from "@/context/DataContext";
 
 export default function ProductPage() {
   const { t, locale } = useLanguage();
   const { addToCart } = useCart();
+  const { wines } = useData();
   const params = useParams();
   const wine = wines.find((w) => w.id === params.id);
 

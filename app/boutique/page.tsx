@@ -5,9 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
-import { wines } from "@/data/wines";
-
-const shopWines = wines.filter((w) => w.priceShop > 0);
+import { useData } from "@/context/DataContext";
 const categories = ["all", "red", "white", "rosé", "orange", "sparkling"] as const;
 
 const categoryLabels: Record<string, Record<string, string>> = {
@@ -22,8 +20,10 @@ const categoryLabels: Record<string, Record<string, string>> = {
 export default function BoutiquePage() {
   const { t, locale } = useLanguage();
   const { addToCart } = useCart();
+  const { wines } = useData();
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
+  const shopWines = wines.filter((w) => w.priceShop > 0);
   const filtered = activeCategory === "all"
     ? shopWines
     : shopWines.filter((w) => w.category === activeCategory);

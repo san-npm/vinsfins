@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
-import { wines } from "@/data/wines";
+import { useData } from "@/context/DataContext";
 
 const categories = ["all", "red", "white", "rosé", "orange", "sparkling"] as const;
 
@@ -18,6 +18,7 @@ const categoryLabels: Record<string, Record<string, string>> = {
 
 export default function VinsPage() {
   const { t, locale } = useLanguage();
+  const { wines } = useData();
   const [activeCategory, setActiveCategory] = useState<string>("all");
 
   const filtered = activeCategory === "all"

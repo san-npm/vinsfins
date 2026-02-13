@@ -4,12 +4,12 @@ import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
-import { wines } from "@/data/wines";
-
-const featuredWines = wines.filter((w) => w.isFeatured);
+import { useData } from "@/context/DataContext";
 
 export default function HomePage() {
   const { t, locale } = useLanguage();
+  const { wines } = useData();
+  const featuredWines = wines.filter((w) => w.isFeatured);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

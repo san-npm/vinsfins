@@ -1,7 +1,7 @@
 "use client";
 
 import { useLanguage } from "@/context/LanguageContext";
-import { menuItems } from "@/data/menu";
+import { useData } from "@/context/DataContext";
 
 const categoryOrder = ["starters", "platters", "mains", "desserts", "specials"] as const;
 
@@ -15,6 +15,7 @@ const categoryNames: Record<string, Record<string, string>> = {
 
 export default function CartePage() {
   const { t, locale } = useLanguage();
+  const { menuItems } = useData();
 
   return (
     <main className="relative z-[1]">

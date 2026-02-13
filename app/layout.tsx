@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import CartSidebar from "@/components/CartSidebar";
 import { CartProvider } from "@/context/CartContext";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { DataProvider } from "@/context/DataContext";
 
 export const metadata: Metadata = {
   title: "Vins Fins — Bar à Vins & Restaurant | Grund, Luxembourg",
@@ -50,12 +51,14 @@ export default function RootLayout({
       </head>
       <body>
         <LanguageProvider>
-          <CartProvider>
-            <Navigation />
-            {children}
-            <Footer />
-            <CartSidebar />
-          </CartProvider>
+          <DataProvider>
+            <CartProvider>
+              <Navigation />
+              {children}
+              <Footer />
+              <CartSidebar />
+            </CartProvider>
+          </DataProvider>
         </LanguageProvider>
       </body>
     </html>
