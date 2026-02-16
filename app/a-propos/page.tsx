@@ -88,7 +88,7 @@ export default function AProposPage() {
       </section>
 
       {/* Values */}
-      <section className="py-16 px-6 bg-parchment">
+      <section className="py-16 px-6 bg-dark-card">
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
           <div>
             <p className="font-playfair text-xl text-ink mb-3">{t("about.valuesNatural")}</p>
@@ -141,7 +141,7 @@ export default function AProposPage() {
       </section>
 
       {/* Gault & Millau */}
-      <section className="py-16 px-6 bg-parchment text-center">
+      <section className="py-16 px-6 bg-dark-card text-center">
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           Gault &amp; Millau 2024
         </p>

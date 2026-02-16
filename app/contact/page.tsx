@@ -91,10 +91,10 @@ export default function ContactPage() {
             {/* Map + Reservation */}
             <div className="space-y-10">
               {/* Map */}
-              <div className="relative aspect-square bg-parchment overflow-hidden border border-ink/5">
+              <div className="relative aspect-square bg-dark-card overflow-hidden border border-cream/10 shadow-lg shadow-black/20">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2585.8!2d6.1296!3d49.6086!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDnCsDM2JzMxLjAiTiA2wrAwNyc0Ni42IkU!5e0!3m2!1sfr!2slu!4v1"
-                  className="absolute inset-0 w-full h-full"
+                  className="absolute inset-0 w-full h-full grayscale invert-[0.85] contrast-[1.2] hue-rotate-[200deg]"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
@@ -104,7 +104,7 @@ export default function ContactPage() {
               </div>
 
               {/* Reservation */}
-              <div className="bg-parchment p-8 border border-ink/5 text-center">
+              <div className="bg-dark-card p-8 border border-ink/5 text-center">
                 <h2 className="font-playfair text-xl text-ink mb-3">{t("contact.reserveTitle")}</h2>
                 <p className="text-sm text-stone font-light mb-6">{t("contact.reserveDesc")}</p>
                 <a

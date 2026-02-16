@@ -11,12 +11,17 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        sepia: "#fff9f1",
-        ink: "#2c2c2c",
-        wine: "#722F37",
-        gold: "#b8986e",
-        parchment: "#fef7ed",
-        stone: "#8c8278",
+        dark: "#141614",
+        "dark-light": "#1c1e1c",
+        "dark-card": "#232523",
+        cream: "#f0e6d3",
+        "cream-muted": "#c4b8a5",
+        sepia: "#141614",
+        ink: "#f0e6d3",
+        wine: "#8b3a3a",
+        gold: "#c4a265",
+        parchment: "#1c1e1c",
+        stone: "#9a9389",
       },
       fontFamily: {
         script: ["Monsieur La Doulaise", "cursive"],
