@@ -41,11 +41,9 @@ export default function CartSidebar() {
             <div className="text-center py-16">
               <p className="text-stone mb-2">{t("cartSidebar.empty")}</p>
               <p className="text-xs text-stone/60 mb-6">{t("cartSidebar.emptyDesc")}</p>
-              <button onClick={() => setIsCartOpen(false)}>
-                <Link href="/boutique" className="btn-outline text-xs">
-                  {t("cartSidebar.browseWines")}
-                </Link>
-              </button>
+              <Link href="/boutique" onClick={() => setIsCartOpen(false)} className="btn-outline text-xs inline-block">
+                {t("cartSidebar.browseWines")}
+              </Link>
             </div>
           ) : (
             <div className="space-y-4">
