@@ -3,14 +3,10 @@ import { menuItems } from "@/data/menu";
 import { wines } from "@/data/wines";
 import { siteContent } from "@/data/content";
 import { loadData, saveData } from "@/lib/storage";
-
-function checkAuth(req: NextRequest): boolean {
-  const auth = req.headers.get("authorization");
-  return !!auth && auth.startsWith("Bearer ") && auth.length > 10;
-}
+import { verifyToken } from "@/lib/admin-auth";
 
 export async function GET(req: NextRequest) {
-  if (!checkAuth(req)) {
+  if (!verifyToken(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const type = req.nextUrl.searchParams.get("type");
@@ -21,7 +17,7 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  if (!checkAuth(req)) {
+  if (!verifyToken(req)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
   const { type, data } = await req.json();
