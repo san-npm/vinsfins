@@ -41,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className="dark">
+    <html lang="fr">
       <head>
         <script
           src="https://sdk.zenchef.com/v1/widget.js"

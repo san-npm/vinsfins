@@ -22,6 +22,8 @@ export default function Navigation() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hasHero = pathname === "/";
+  const isLight = scrolled || !hasHero;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -39,65 +41,67 @@ export default function Navigation() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-dark/95 backdrop-blur-sm shadow-sm shadow-black/20"
+            ? "bg-sepia/95 backdrop-blur-sm shadow-sm"
             : "bg-transparent"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
-          <Link href="/" className="font-script text-4xl transition-colors text-cream hover:text-gold">
+          {/* Logo */}
+          <Link href="/" className={`font-script text-4xl transition-colors ${isLight ? "text-ink hover:text-wine" : "text-white hover:text-white/80"}`}>
             Vins Fins
           </Link>
 
+          {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-[11px] font-light tracking-luxury uppercase transition-colors ${
-                  pathname === link.href
-                    ? "text-gold"
-                    : "text-cream/60 hover:text-cream"
-                }`}
+                className={`text-[11px] font-light tracking-luxury uppercase transition-colors ${isLight ? "text-ink/70 hover:text-ink" : "text-white/70 hover:text-white"}`}
               >
                 {t(link.key)}
               </Link>
             ))}
           </div>
 
+          {/* Right side */}
           <div className="hidden lg:flex items-center gap-5">
-            <div className="flex items-center gap-1 text-[10px] tracking-wider text-cream/40">
+            {/* Language switcher */}
+            <div className={`flex items-center gap-1 text-[10px] tracking-wider ${isLight ? "text-stone" : "text-white/50"}`}>
               {languages.map((lang, i) => (
                 <React.Fragment key={lang}>
                   <button
                     onClick={() => setLocale(lang.toLowerCase() as "fr" | "en" | "de" | "lb")}
                     className={`transition-colors ${
-                      locale === lang.toLowerCase()
-                        ? "text-cream font-medium"
-                        : "hover:text-cream"
+                      locale === lang.toLowerCase() 
+                        ? isLight ? "text-ink font-medium" : "text-white font-medium"
+                        : isLight ? "hover:text-ink" : "hover:text-white"
                     }`}
                   >
                     {lang}
                   </button>
-                  {i < languages.length - 1 && <span className="text-cream/20">|</span>}
+                  {i < languages.length - 1 && <span className={isLight ? "text-stone/40" : "text-white/20"}>|</span>}
                 </React.Fragment>
               ))}
             </div>
 
+            {/* Cart */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative transition-colors text-cream/60 hover:text-cream"
+              className={`relative transition-colors ${isLight ? "text-ink/70 hover:text-ink" : "text-white/70 hover:text-white"}`}
               aria-label="Cart"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
               </svg>
               {totalItems > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 bg-wine text-cream text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute -top-1.5 -right-1.5 bg-wine text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
                   {totalItems}
                 </span>
               )}
             </button>
 
+            {/* Reserve */}
             <a
               href="https://bookings.zenchef.com/results?rid=379498"
               target="_blank"
@@ -108,8 +112,9 @@ export default function Navigation() {
             </a>
           </div>
 
+          {/* Mobile hamburger */}
           <button
-            className="lg:hidden p-2 text-cream"
+            className={`lg:hidden p-2 ${isLight ? "text-ink" : "text-white"}`}
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Menu"
           >
@@ -124,10 +129,11 @@ export default function Navigation() {
         </div>
       </nav>
 
+      {/* Mobile overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-[60] bg-dark flex flex-col items-center justify-center gap-8 animate-fade-in-overlay">
+        <div className="fixed inset-0 z-[60] bg-sepia flex flex-col items-center justify-center gap-8 animate-fade-in-overlay">
           <button
-            className="absolute top-6 right-6 text-cream"
+            className="absolute top-6 right-6 text-ink"
             onClick={() => setMobileOpen(false)}
             aria-label="Close menu"
           >
@@ -136,7 +142,7 @@ export default function Navigation() {
             </svg>
           </button>
 
-          <Link href="/" onClick={() => setMobileOpen(false)} className="font-script text-5xl text-cream mb-4">
+          <Link href="/" onClick={() => setMobileOpen(false)} className="font-script text-5xl text-ink mb-4">
             Vins Fins
           </Link>
 
@@ -145,7 +151,7 @@ export default function Navigation() {
               key={link.href}
               href={link.href}
               onClick={() => setMobileOpen(false)}
-              className="text-sm tracking-luxury uppercase text-cream/60 hover:text-cream transition-colors"
+              className="text-sm tracking-luxury uppercase text-ink/70 hover:text-ink transition-colors"
             >
               {t(link.key)}
             </Link>
@@ -159,13 +165,13 @@ export default function Navigation() {
                     setLocale(lang.toLowerCase() as "fr" | "en" | "de" | "lb");
                     setMobileOpen(false);
                   }}
-                  className={`hover:text-cream transition-colors ${
-                    locale === lang.toLowerCase() ? "text-cream font-medium" : ""
+                  className={`hover:text-ink transition-colors ${
+                    locale === lang.toLowerCase() ? "text-ink font-medium" : ""
                   }`}
                 >
                   {lang}
                 </button>
-                {i < languages.length - 1 && <span className="text-cream/20">|</span>}
+                {i < languages.length - 1 && <span className="text-stone/40">|</span>}
               </React.Fragment>
             ))}
           </div>

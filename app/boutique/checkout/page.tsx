@@ -43,10 +43,10 @@ export default function CheckoutPage() {
             <div>
               <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.contactInfo")}</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input placeholder={t("checkout.firstName")} className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
-                <input placeholder={t("checkout.lastName")} className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
-                <input placeholder={t("checkout.email")} type="email" className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm sm:col-span-2" />
-                <input placeholder={t("checkout.phone")} type="tel" className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm sm:col-span-2" />
+                <input placeholder={t("checkout.firstName")} className="border border-ink/15 bg-transparent px-4 py-3 text-sm" />
+                <input placeholder={t("checkout.lastName")} className="border border-ink/15 bg-transparent px-4 py-3 text-sm" />
+                <input placeholder={t("checkout.email")} type="email" className="border border-ink/15 bg-transparent px-4 py-3 text-sm sm:col-span-2" />
+                <input placeholder={t("checkout.phone")} type="tel" className="border border-ink/15 bg-transparent px-4 py-3 text-sm sm:col-span-2" />
               </div>
             </div>
 
@@ -57,7 +57,7 @@ export default function CheckoutPage() {
                 <button
                   onClick={() => setDeliveryMethod("delivery")}
                   className={`flex-1 border px-4 py-4 text-sm text-left transition-all ${
-                    deliveryMethod === "delivery" ? "border-cream bg-dark-card" : "border-cream/15"
+                    deliveryMethod === "delivery" ? "border-ink bg-parchment" : "border-ink/15"
                   }`}
                 >
                   <span className="font-medium text-ink block">{t("checkout.delivery")}</span>
@@ -66,7 +66,7 @@ export default function CheckoutPage() {
                 <button
                   onClick={() => setDeliveryMethod("pickup")}
                   className={`flex-1 border px-4 py-4 text-sm text-left transition-all ${
-                    deliveryMethod === "pickup" ? "border-cream bg-dark-card" : "border-cream/15"
+                    deliveryMethod === "pickup" ? "border-ink bg-parchment" : "border-ink/15"
                   }`}
                 >
                   <span className="font-medium text-ink block">{t("checkout.clickCollect")}</span>
@@ -79,16 +79,16 @@ export default function CheckoutPage() {
               <div>
                 <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.shippingAddress")}</h2>
                 <div className="space-y-4">
-                  <input placeholder={t("checkout.street")} className="w-full border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
-                  <input placeholder={t("checkout.apartment")} className="w-full border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
+                  <input placeholder={t("checkout.street")} className="w-full border border-ink/15 bg-transparent px-4 py-3 text-sm" />
+                  <input placeholder={t("checkout.apartment")} className="w-full border border-ink/15 bg-transparent px-4 py-3 text-sm" />
                   <div className="grid grid-cols-2 gap-4">
-                    <input placeholder={t("checkout.city")} className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
-                    <input placeholder={t("checkout.postalCode")} className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
+                    <input placeholder={t("checkout.city")} className="border border-ink/15 bg-transparent px-4 py-3 text-sm" />
+                    <input placeholder={t("checkout.postalCode")} className="border border-ink/15 bg-transparent px-4 py-3 text-sm" />
                   </div>
                 </div>
               </div>
             ) : (
-              <div className="bg-dark-card p-6 border border-ink/5">
+              <div className="bg-parchment p-6 border border-ink/5">
                 <p className="font-playfair text-base text-ink mb-2">{t("checkout.pickupAt")}</p>
                 <p className="text-sm text-stone">{t("checkout.pickupAddress")}</p>
                 <p className="text-xs text-stone/60 mt-2">{t("checkout.pickupHours")}</p>
@@ -100,10 +100,10 @@ export default function CheckoutPage() {
             <div>
               <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.payment")}</h2>
               <div className="space-y-4">
-                <input placeholder={t("checkout.cardNumber")} className="w-full border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
+                <input placeholder={t("checkout.cardNumber")} className="w-full border border-ink/15 bg-transparent px-4 py-3 text-sm" />
                 <div className="grid grid-cols-2 gap-4">
-                  <input placeholder={t("checkout.expiry")} className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
-                  <input placeholder={t("checkout.cvc")} className="border border-cream/15 bg-dark-card/50 px-4 py-3 text-sm" />
+                  <input placeholder={t("checkout.expiry")} className="border border-ink/15 bg-transparent px-4 py-3 text-sm" />
+                  <input placeholder={t("checkout.cvc")} className="border border-ink/15 bg-transparent px-4 py-3 text-sm" />
                 </div>
                 <p className="text-xs text-stone/60">{t("checkout.paymentNote")}</p>
               </div>
@@ -123,7 +123,7 @@ export default function CheckoutPage() {
 
           {/* Order Summary */}
           <div className="lg:col-span-2">
-            <div className="bg-dark-card p-6 border border-ink/5 sticky top-28">
+            <div className="bg-parchment p-6 border border-ink/5 sticky top-28">
               <h2 className="font-playfair text-xl text-ink mb-6">{t("checkout.orderSummary")}</h2>
               <div className="space-y-4 mb-6">
                 {items.map((item) => (

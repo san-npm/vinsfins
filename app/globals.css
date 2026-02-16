@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -9,8 +9,8 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: #141614;
-    color: #f0e6d3;
+    background-color: #fff9f1;
+    color: #2c2c2c;
     @apply font-sans font-light;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -20,8 +20,7 @@
     @apply font-playfair font-normal;
   }
   input:focus, select:focus, textarea:focus {
-    @apply outline-none ring-0;
-    border-color: rgba(196, 162, 101, 0.4);
+    @apply outline-none ring-0 border-ink/30;
     transition: border-color 0.3s ease;
   }
 }
@@ -30,7 +29,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  opacity: 0.03;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 256px 256px;
   pointer-events: none;
@@ -39,15 +38,15 @@ body::before {
 
 @layer components {
   .btn-primary {
-    @apply bg-cream text-dark px-8 py-3 font-light tracking-luxury uppercase text-[10px]
-    hover:bg-cream/80 transition-all duration-500 inline-block;
+    @apply bg-ink text-sepia px-8 py-3 font-light tracking-luxury uppercase text-[10px]
+    hover:bg-ink/80 transition-all duration-500 inline-block;
   }
   .btn-outline {
-    @apply border border-cream/20 text-cream px-8 py-3 font-light tracking-luxury uppercase text-[10px]
-    hover:border-cream/50 transition-all duration-500 inline-block;
+    @apply border border-ink/15 text-ink px-8 py-3 font-light tracking-luxury uppercase text-[10px]
+    hover:border-ink/40 transition-all duration-500 inline-block;
   }
   .btn-wine {
-    @apply bg-wine text-cream px-8 py-3 font-light tracking-luxury uppercase text-[10px]
+    @apply bg-wine text-white px-8 py-3 font-light tracking-luxury uppercase text-[10px]
     hover:bg-wine/85 transition-all duration-500 inline-block;
   }
 }
@@ -91,7 +90,7 @@ body::before {
 }
 
 ::selection {
-  background-color: rgba(196, 162, 101, 0.2);
+  background-color: rgba(114, 47, 55, 0.15);
 }
 
 *, *::before, *::after {

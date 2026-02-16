@@ -15,18 +15,18 @@ export default function CartSidebar() {
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-[70]"
+        className="fixed inset-0 bg-black/30 z-[70]"
         onClick={() => setIsCartOpen(false)}
       />
 
       {/* Sidebar */}
-      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-dark-light z-[80] animate-slide-in-right flex flex-col">
+      <div className="fixed top-0 right-0 h-full w-full max-w-md bg-sepia z-[80] animate-slide-in-right flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-cream/5">
-          <h2 className="font-playfair text-xl text-cream">{t("cartSidebar.title")}</h2>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-ink/5">
+          <h2 className="font-playfair text-xl text-ink">{t("cartSidebar.title")}</h2>
           <button
             onClick={() => setIsCartOpen(false)}
-            className="text-cream p-1"
+            className="text-ink p-1"
             aria-label="Close"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -48,24 +48,24 @@ export default function CartSidebar() {
           ) : (
             <div className="space-y-4">
               {items.map((item) => (
-                <div key={item.wine.id} className="flex gap-3 border-b border-cream/5 pb-4">
-                  <div className="relative w-14 h-20 flex-shrink-0 bg-dark-card overflow-hidden">
+                <div key={item.wine.id} className="flex gap-3 border-b border-ink/5 pb-4">
+                  <div className="relative w-14 h-20 flex-shrink-0 bg-parchment overflow-hidden">
                     <Image src={item.wine.image} alt={item.wine.name} fill className="object-cover" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-cream truncate">{item.wine.name}</p>
+                    <p className="text-sm text-ink truncate">{item.wine.name}</p>
                     <p className="text-xs text-stone">{item.wine.priceShop}€</p>
                     <div className="flex items-center gap-2 mt-2">
                       <button
                         onClick={() => updateQuantity(item.wine.id, item.quantity - 1)}
-                        className="w-6 h-6 border border-cream/15 text-xs text-cream"
+                        className="w-6 h-6 border border-ink/15 text-xs text-ink"
                       >
                         −
                       </button>
                       <span className="text-xs w-4 text-center">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.wine.id, item.quantity + 1)}
-                        className="w-6 h-6 border border-cream/15 text-xs text-cream"
+                        className="w-6 h-6 border border-ink/15 text-xs text-ink"
                       >
                         +
                       </button>
@@ -85,9 +85,9 @@ export default function CartSidebar() {
 
         {/* Footer */}
         {items.length > 0 && (
-          <div className="px-6 py-5 border-t border-cream/5 space-y-3">
+          <div className="px-6 py-5 border-t border-ink/5 space-y-3">
             <p className="text-xs text-stone/60">{t("cartSidebar.shippingNote")}</p>
-            <div className="flex justify-between font-playfair text-lg text-cream">
+            <div className="flex justify-between font-playfair text-lg">
               <span>{t("cartSidebar.total")}</span>
               <span>{totalPrice}€</span>
             </div>

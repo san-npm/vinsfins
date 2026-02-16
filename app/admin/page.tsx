@@ -70,9 +70,9 @@ export default function AdminPage() {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-dark flex items-center justify-center">
-        <div className="bg-dark-card/90 backdrop-blur p-8 rounded-lg shadow-lg max-w-sm w-full">
-          <h1 className="font-playfair text-2xl text-cream mb-1 text-center">Vins Fins</h1>
+      <div className="min-h-screen bg-sepia flex items-center justify-center">
+        <div className="bg-white/80 backdrop-blur p-8 rounded-lg shadow-lg max-w-sm w-full">
+          <h1 className="font-playfair text-2xl text-ink mb-1 text-center">Vins Fins</h1>
           <p className="text-stone text-sm text-center mb-6">Administration</p>
           <input
             type="password"
@@ -80,10 +80,10 @@ export default function AdminPage() {
             value={password}
             onChange={e => setPassword(e.target.value)}
             onKeyDown={e => e.key === "Enter" && login()}
-            className="w-full border border-cream/15 rounded px-3 py-2 mb-3 bg-dark-light text-cream placeholder:text-stone/50 focus:border-wine"
+            className="w-full border border-stone/30 rounded px-3 py-2 mb-3 bg-sepia/50 text-ink placeholder:text-stone/50 focus:border-wine"
           />
-          {error && <p className="text-red-400 text-sm mb-3">{error}</p>}
-          <button onClick={login} className="w-full bg-wine text-cream py-2 rounded hover:bg-wine/90 transition font-medium">
+          {error && <p className="text-red-600 text-sm mb-3">{error}</p>}
+          <button onClick={login} className="w-full bg-wine text-white py-2 rounded hover:bg-wine/90 transition font-medium">
             Connexion
           </button>
         </div>
@@ -92,17 +92,17 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-sepia">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="font-playfair text-3xl text-cream">Administration</h1>
+            <h1 className="font-playfair text-3xl text-ink">Administration</h1>
             <p className="text-stone text-sm">Vins Fins — Gestion du contenu</p>
           </div>
           <button onClick={() => setToken("")} className="text-stone hover:text-wine text-sm transition">Déconnexion</button>
         </div>
 
-        <div className="flex gap-1 mb-6 border-b border-cream/10">
+        <div className="flex gap-1 mb-6 border-b border-stone/20">
           {(["menu", "wines", "content"] as Tab[]).map(t => (
             <button
               key={t}
@@ -115,145 +115,145 @@ export default function AdminPage() {
         </div>
 
         {saving && <div className="text-stone text-sm mb-2">Enregistrement...</div>}
-        {saved && <div className="text-green-400 text-sm mb-2">✓ {saved} sauvegardé</div>}
+        {saved && <div className="text-green-700 text-sm mb-2">✓ {saved} sauvegardé</div>}
 
         {tab === "menu" && (
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-playfair text-xl text-cream">Carte</h2>
-              <button onClick={() => setMenu([...menu, newMenuItem()])} className="bg-wine text-cream px-3 py-1.5 rounded text-sm hover:bg-wine/90 transition">+ Ajouter</button>
+              <h2 className="font-playfair text-xl text-ink">Carte</h2>
+              <button onClick={() => setMenu([...menu, newMenuItem()])} className="bg-wine text-white px-3 py-1.5 rounded text-sm hover:bg-wine/90 transition">+ Ajouter</button>
             </div>
             <div className="space-y-4">
               {menu.map((item, i) => (
-                <div key={item.id} className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+                <div key={item.id} className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
                   <div className="flex gap-3 mb-3 flex-wrap items-center">
-                    <select value={item.category} onChange={e => { const m = [...menu]; m[i] = { ...item, category: e.target.value as MenuItem["category"] }; setMenu(m); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light">
+                    <select value={item.category} onChange={e => { const m = [...menu]; m[i] = { ...item, category: e.target.value as MenuItem["category"] }; setMenu(m); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50">
                       {MENU_CATS.map(c => <option key={c} value={c}>{c}</option>)}
                     </select>
-                    <input type="number" value={item.price} onChange={e => { const m = [...menu]; m[i] = { ...item, price: Number(e.target.value) }; setMenu(m); }} className="border border-cream/15 rounded px-2 py-1 text-sm w-20 bg-dark-light" placeholder="Prix €" />
+                    <input type="number" value={item.price} onChange={e => { const m = [...menu]; m[i] = { ...item, price: Number(e.target.value) }; setMenu(m); }} className="border border-stone/30 rounded px-2 py-1 text-sm w-20 bg-sepia/50" placeholder="Prix €" />
                     <label className="flex items-center gap-1 text-sm text-stone">
                       <input type="checkbox" checked={item.isAvailable} onChange={e => { const m = [...menu]; m[i] = { ...item, isAvailable: e.target.checked }; setMenu(m); }} />
                       Disponible
                     </label>
-                    <button onClick={() => setMenu(menu.filter((_, j) => j !== i))} className="text-red-400 hover:text-red-300 text-sm ml-auto">Supprimer</button>
+                    <button onClick={() => setMenu(menu.filter((_, j) => j !== i))} className="text-red-500 hover:text-red-700 text-sm ml-auto">Supprimer</button>
                   </div>
                   {LANGS.map(lang => (
                     <div key={lang} className="grid grid-cols-[80px_1fr_2fr] gap-2 mb-1 items-center">
                       <span className="text-xs text-stone font-medium uppercase">{LANG_LABELS[lang]}</span>
-                      <input value={item.name[lang]} onChange={e => { const m = [...menu]; m[i] = { ...item, name: { ...item.name, [lang]: e.target.value } }; setMenu(m); }} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50" placeholder="Nom" />
-                      <input value={item.description[lang]} onChange={e => { const m = [...menu]; m[i] = { ...item, description: { ...item.description, [lang]: e.target.value } }; setMenu(m); }} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50" placeholder="Description" />
+                      <input value={item.name[lang]} onChange={e => { const m = [...menu]; m[i] = { ...item, name: { ...item.name, [lang]: e.target.value } }; setMenu(m); }} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30" placeholder="Nom" />
+                      <input value={item.description[lang]} onChange={e => { const m = [...menu]; m[i] = { ...item, description: { ...item.description, [lang]: e.target.value } }; setMenu(m); }} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30" placeholder="Description" />
                     </div>
                   ))}
                 </div>
               ))}
             </div>
-            <button onClick={() => save("menu", menu)} className="mt-4 bg-wine text-cream px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder la Carte</button>
+            <button onClick={() => save("menu", menu)} className="mt-4 bg-wine text-white px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder la Carte</button>
           </div>
         )}
 
         {tab === "wines" && (
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h2 className="font-playfair text-xl text-cream">Carte des Vins</h2>
-              <button onClick={() => setWines([...wines, newWine()])} className="bg-wine text-cream px-3 py-1.5 rounded text-sm hover:bg-wine/90 transition">+ Ajouter</button>
+              <h2 className="font-playfair text-xl text-ink">Carte des Vins</h2>
+              <button onClick={() => setWines([...wines, newWine()])} className="bg-wine text-white px-3 py-1.5 rounded text-sm hover:bg-wine/90 transition">+ Ajouter</button>
             </div>
             <div className="space-y-4">
               {wines.map((wine, i) => (
-                <div key={wine.id} className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+                <div key={wine.id} className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mb-3">
-                    <input value={wine.name} onChange={e => { const w = [...wines]; w[i] = { ...wine, name: e.target.value }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light col-span-2" placeholder="Nom du vin" />
-                    <input value={wine.region} onChange={e => { const w = [...wines]; w[i] = { ...wine, region: e.target.value }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light" placeholder="Région" />
-                    <input value={wine.country} onChange={e => { const w = [...wines]; w[i] = { ...wine, country: e.target.value }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light" placeholder="Pays" />
-                    <input value={wine.grape} onChange={e => { const w = [...wines]; w[i] = { ...wine, grape: e.target.value }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light col-span-2" placeholder="Cépage" />
-                    <select value={wine.category} onChange={e => { const w = [...wines]; w[i] = { ...wine, category: e.target.value as Wine["category"] }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light">
+                    <input value={wine.name} onChange={e => { const w = [...wines]; w[i] = { ...wine, name: e.target.value }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50 col-span-2" placeholder="Nom du vin" />
+                    <input value={wine.region} onChange={e => { const w = [...wines]; w[i] = { ...wine, region: e.target.value }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50" placeholder="Région" />
+                    <input value={wine.country} onChange={e => { const w = [...wines]; w[i] = { ...wine, country: e.target.value }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50" placeholder="Pays" />
+                    <input value={wine.grape} onChange={e => { const w = [...wines]; w[i] = { ...wine, grape: e.target.value }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50 col-span-2" placeholder="Cépage" />
+                    <select value={wine.category} onChange={e => { const w = [...wines]; w[i] = { ...wine, category: e.target.value as Wine["category"] }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50">
                       {WINE_CATS.map(t => <option key={t} value={t}>{t}</option>)}
                     </select>
-                    <input value={wine.image} onChange={e => { const w = [...wines]; w[i] = { ...wine, image: e.target.value }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm bg-dark-light" placeholder="Image URL" />
+                    <input value={wine.image} onChange={e => { const w = [...wines]; w[i] = { ...wine, image: e.target.value }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm bg-sepia/50" placeholder="Image URL" />
                   </div>
                   <div className="flex gap-2 mb-3 flex-wrap items-center">
                     <label className="text-sm text-stone">Verre €</label>
-                    <input type="number" value={wine.priceGlass} onChange={e => { const w = [...wines]; w[i] = { ...wine, priceGlass: Number(e.target.value) }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm w-20 bg-dark-light" />
+                    <input type="number" value={wine.priceGlass} onChange={e => { const w = [...wines]; w[i] = { ...wine, priceGlass: Number(e.target.value) }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm w-20 bg-sepia/50" />
                     <label className="text-sm text-stone">Bouteille €</label>
-                    <input type="number" value={wine.priceBottle} onChange={e => { const w = [...wines]; w[i] = { ...wine, priceBottle: Number(e.target.value) }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm w-20 bg-dark-light" />
+                    <input type="number" value={wine.priceBottle} onChange={e => { const w = [...wines]; w[i] = { ...wine, priceBottle: Number(e.target.value) }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm w-20 bg-sepia/50" />
                     <label className="text-sm text-stone">Boutique €</label>
-                    <input type="number" value={wine.priceShop} onChange={e => { const w = [...wines]; w[i] = { ...wine, priceShop: Number(e.target.value) }; setWines(w); }} className="border border-cream/15 rounded px-2 py-1 text-sm w-20 bg-dark-light" />
+                    <input type="number" value={wine.priceShop} onChange={e => { const w = [...wines]; w[i] = { ...wine, priceShop: Number(e.target.value) }; setWines(w); }} className="border border-stone/30 rounded px-2 py-1 text-sm w-20 bg-sepia/50" />
                     <label className="flex items-center gap-1 text-sm text-stone"><input type="checkbox" checked={wine.isAvailable} onChange={e => { const w = [...wines]; w[i] = { ...wine, isAvailable: e.target.checked }; setWines(w); }} /> Dispo</label>
                     <label className="flex items-center gap-1 text-sm text-stone"><input type="checkbox" checked={wine.isFeatured} onChange={e => { const w = [...wines]; w[i] = { ...wine, isFeatured: e.target.checked }; setWines(w); }} /> ⭐</label>
                     <label className="flex items-center gap-1 text-sm text-stone"><input type="checkbox" checked={wine.isOrganic} onChange={e => { const w = [...wines]; w[i] = { ...wine, isOrganic: e.target.checked }; setWines(w); }} /> Bio</label>
                     <label className="flex items-center gap-1 text-sm text-stone"><input type="checkbox" checked={wine.isBiodynamic} onChange={e => { const w = [...wines]; w[i] = { ...wine, isBiodynamic: e.target.checked }; setWines(w); }} /> Biodyn</label>
-                    <button onClick={() => setWines(wines.filter((_, j) => j !== i))} className="text-red-400 hover:text-red-300 text-sm ml-auto">Supprimer</button>
+                    <button onClick={() => setWines(wines.filter((_, j) => j !== i))} className="text-red-500 hover:text-red-700 text-sm ml-auto">Supprimer</button>
                   </div>
                   {LANGS.map(lang => (
                     <div key={lang} className="grid grid-cols-[80px_1fr] gap-2 mb-1 items-center">
                       <span className="text-xs text-stone font-medium uppercase">{LANG_LABELS[lang]}</span>
-                      <input value={wine.description[lang]} onChange={e => { const w = [...wines]; w[i] = { ...wine, description: { ...wine.description, [lang]: e.target.value } }; setWines(w); }} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50" placeholder="Description" />
+                      <input value={wine.description[lang]} onChange={e => { const w = [...wines]; w[i] = { ...wine, description: { ...wine.description, [lang]: e.target.value } }; setWines(w); }} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30" placeholder="Description" />
                     </div>
                   ))}
                 </div>
               ))}
             </div>
-            <button onClick={() => save("wines", wines)} className="mt-4 bg-wine text-cream px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder les Vins</button>
+            <button onClick={() => save("wines", wines)} className="mt-4 bg-wine text-white px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder les Vins</button>
           </div>
         )}
 
         {tab === "content" && content && (
           <div className="space-y-6">
-            <h2 className="font-playfair text-xl text-cream">Contenu du Site</h2>
+            <h2 className="font-playfair text-xl text-ink">Contenu du Site</h2>
 
-            <fieldset className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+            <fieldset className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
               <legend className="font-playfair text-lg text-wine px-2">Hero Tagline</legend>
               {LANGS.map(lang => (
                 <div key={lang} className="grid grid-cols-[80px_1fr] gap-2 mb-1 items-center">
                   <span className="text-xs text-stone font-medium uppercase">{LANG_LABELS[lang]}</span>
-                  <input value={content.heroTagline[lang]} onChange={e => setContent({ ...content, heroTagline: { ...content.heroTagline, [lang]: e.target.value } })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50" />
+                  <input value={content.heroTagline[lang]} onChange={e => setContent({ ...content, heroTagline: { ...content.heroTagline, [lang]: e.target.value } })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30" />
                 </div>
               ))}
             </fieldset>
 
-            <fieldset className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+            <fieldset className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
               <legend className="font-playfair text-lg text-wine px-2">Horaires</legend>
               {LANGS.map(lang => (
                 <div key={lang} className="mb-2">
                   <span className="text-xs text-stone font-medium uppercase block mb-1">{LANG_LABELS[lang]}</span>
-                  <input value={content.hours[lang]} onChange={e => setContent({ ...content, hours: { ...content.hours, [lang]: e.target.value } })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" />
+                  <input value={content.hours[lang]} onChange={e => setContent({ ...content, hours: { ...content.hours, [lang]: e.target.value } })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" />
                 </div>
               ))}
             </fieldset>
 
-            <fieldset className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+            <fieldset className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
               <legend className="font-playfair text-lg text-wine px-2">Message Fermé</legend>
               {LANGS.map(lang => (
                 <div key={lang} className="grid grid-cols-[80px_1fr] gap-2 mb-1 items-center">
                   <span className="text-xs text-stone font-medium uppercase">{LANG_LABELS[lang]}</span>
-                  <input value={content.closedMessage[lang]} onChange={e => setContent({ ...content, closedMessage: { ...content.closedMessage, [lang]: e.target.value } })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50" />
+                  <input value={content.closedMessage[lang]} onChange={e => setContent({ ...content, closedMessage: { ...content.closedMessage, [lang]: e.target.value } })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30" />
                 </div>
               ))}
             </fieldset>
 
-            <fieldset className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+            <fieldset className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
               <legend className="font-playfair text-lg text-wine px-2">Annonce</legend>
               <p className="text-xs text-stone mb-2">Laisser vide pour désactiver</p>
               {LANGS.map(lang => (
                 <div key={lang} className="grid grid-cols-[80px_1fr] gap-2 mb-1 items-center">
                   <span className="text-xs text-stone font-medium uppercase">{LANG_LABELS[lang]}</span>
-                  <input value={content.announcement?.[lang] ?? ""} onChange={e => { const ann = content.announcement ? { ...content.announcement } : emptyLR(); ann[lang] = e.target.value; const allEmpty = LANGS.every(l => !ann[l]); setContent({ ...content, announcement: allEmpty ? null : ann }); }} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50" />
+                  <input value={content.announcement?.[lang] ?? ""} onChange={e => { const ann = content.announcement ? { ...content.announcement } : emptyLR(); ann[lang] = e.target.value; const allEmpty = LANGS.every(l => !ann[l]); setContent({ ...content, announcement: allEmpty ? null : ann }); }} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30" />
                 </div>
               ))}
             </fieldset>
 
-            <fieldset className="bg-dark-card/70 backdrop-blur rounded-lg p-4 shadow-sm border border-cream/10">
+            <fieldset className="bg-white/70 backdrop-blur rounded-lg p-4 shadow-sm border border-stone/10">
               <legend className="font-playfair text-lg text-wine px-2">Contact</legend>
               <div className="grid grid-cols-2 gap-3">
-                <div><label className="text-xs text-stone block mb-1">Adresse</label><input value={content.address} onChange={e => setContent({ ...content, address: e.target.value })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" /></div>
-                <div><label className="text-xs text-stone block mb-1">Téléphone</label><input value={content.phone} onChange={e => setContent({ ...content, phone: e.target.value })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" /></div>
-                <div><label className="text-xs text-stone block mb-1">Email</label><input value={content.email} onChange={e => setContent({ ...content, email: e.target.value })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" /></div>
-                <div><label className="text-xs text-stone block mb-1">Zenchef ID</label><input value={content.zenchefId} onChange={e => setContent({ ...content, zenchefId: e.target.value })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" /></div>
-                <div><label className="text-xs text-stone block mb-1">Instagram</label><input value={content.instagram} onChange={e => setContent({ ...content, instagram: e.target.value })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" /></div>
-                <div><label className="text-xs text-stone block mb-1">Facebook</label><input value={content.facebook} onChange={e => setContent({ ...content, facebook: e.target.value })} className="border border-cream/10 rounded px-2 py-1 text-sm bg-dark-light/50 w-full" /></div>
+                <div><label className="text-xs text-stone block mb-1">Adresse</label><input value={content.address} onChange={e => setContent({ ...content, address: e.target.value })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" /></div>
+                <div><label className="text-xs text-stone block mb-1">Téléphone</label><input value={content.phone} onChange={e => setContent({ ...content, phone: e.target.value })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" /></div>
+                <div><label className="text-xs text-stone block mb-1">Email</label><input value={content.email} onChange={e => setContent({ ...content, email: e.target.value })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" /></div>
+                <div><label className="text-xs text-stone block mb-1">Zenchef ID</label><input value={content.zenchefId} onChange={e => setContent({ ...content, zenchefId: e.target.value })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" /></div>
+                <div><label className="text-xs text-stone block mb-1">Instagram</label><input value={content.instagram} onChange={e => setContent({ ...content, instagram: e.target.value })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" /></div>
+                <div><label className="text-xs text-stone block mb-1">Facebook</label><input value={content.facebook} onChange={e => setContent({ ...content, facebook: e.target.value })} className="border border-stone/20 rounded px-2 py-1 text-sm bg-sepia/30 w-full" /></div>
               </div>
             </fieldset>
 
-            <button onClick={() => save("content", content)} className="bg-wine text-cream px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder le Contenu</button>
+            <button onClick={() => save("content", content)} className="bg-wine text-white px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder le Contenu</button>
           </div>
         )}
       </div>
