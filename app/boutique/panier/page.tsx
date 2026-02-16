@@ -27,7 +27,7 @@ export default function PanierPage() {
         <div className="space-y-6">
           {items.map((item) => (
             <div key={item.wine.id} className="flex gap-4 items-center border-b border-ink/5 pb-6">
-              <div className="relative w-20 h-28 flex-shrink-0 bg-parchment overflow-hidden">
+              <div className="relative w-20 h-28 flex-shrink-0 bg-dark-card overflow-hidden">
                 <Image src={item.wine.image} alt={item.wine.name} fill className="object-cover" />
               </div>
               <div className="flex-1 min-w-0">
@@ -38,14 +38,14 @@ export default function PanierPage() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => updateQuantity(item.wine.id, item.quantity - 1)}
-                  className="w-8 h-8 border border-ink/15 text-ink text-sm hover:border-ink/40 transition-colors"
+                  className="w-8 h-8 border border-cream/15 text-ink text-sm hover:border-cream/40 transition-colors"
                 >
                   −
                 </button>
                 <span className="w-8 text-center text-sm">{item.quantity}</span>
                 <button
                   onClick={() => updateQuantity(item.wine.id, item.quantity + 1)}
-                  className="w-8 h-8 border border-ink/15 text-ink text-sm hover:border-ink/40 transition-colors"
+                  className="w-8 h-8 border border-cream/15 text-ink text-sm hover:border-cream/40 transition-colors"
                 >
                   +
                 </button>

@@ -96,7 +96,7 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   {wine.isOrganic && (
-                    <span className="absolute top-3 left-3 bg-white/90 text-[9px] tracking-luxury uppercase px-3 py-1 text-ink">
+                    <span className="absolute top-3 left-3 bg-dark-card/90 text-cream text-[9px] tracking-luxury uppercase px-3 py-1">
                       Bio
                     </span>
                   )}
@@ -169,14 +169,14 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 px-6 bg-ink text-sepia text-center">
+      <section className="py-24 px-6 bg-dark-card text-cream text-center">
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("home.ctaLabel")}
         </p>
         <h2 className="font-playfair text-3xl md:text-4xl mb-6">
           {t("home.ctaTitle")}
         </h2>
-        <p className="text-sepia/60 font-light max-w-lg mx-auto mb-8">
+        <p className="text-cream/60 font-light max-w-lg mx-auto mb-8">
           {t("home.ctaDesc")}
         </p>
         <a
