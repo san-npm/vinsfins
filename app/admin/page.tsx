@@ -65,7 +65,7 @@ export default function AdminPage() {
     setError("");
     const res = await fetch("/api/admin/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password }) });
     const data = await res.json();
-    if (data.ok) { setToken(data.token); } else { setError("Mot de passe incorrect"); }
+    if (data.token) { setToken(data.token); } else { setError("Mot de passe incorrect"); }
   };
 
   if (!token) {
