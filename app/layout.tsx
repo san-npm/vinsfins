@@ -75,7 +75,7 @@ const restaurantJsonLd = {
   description:
     "Bar à vins & restaurant au Grund, Luxembourg. Plus de 80 vins naturels et bio de vignerons artisans, accompagnés d'une cuisine française de saison.",
   url: SITE_URL,
-  telephone: "+352-XX-XX-XX",
+  telephone: "+352 26 20 04 49",
   email: "contact@vinsfins.lu",
   address: {
     "@type": "PostalAddress",

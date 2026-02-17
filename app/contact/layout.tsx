@@ -58,7 +58,7 @@ const jsonLd = {
         closes: "00:00",
       },
     ],
-    telephone: "+352-XX-XX-XX",
+    telephone: "+352 26 20 04 49",
     email: "contact@vinsfins.lu",
     hasMap: "https://maps.google.com/?q=18+Rue+Münster,+Luxembourg",
   },
