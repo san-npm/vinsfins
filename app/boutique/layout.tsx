@@ -1,43 +1,51 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import {
+  getLocale,
+  pageMeta,
+  SITE_URL,
+  localeUrl,
+  locales,
+  breadcrumbNames,
+} from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Boutique — Achetez nos Vins en Ligne",
-  description:
-    "Commandez vos vins naturels préférés en ligne. Sélection de domaines bio et biodynamiques. Livraison gratuite dès 100€ au Luxembourg.",
-  alternates: {
-    canonical: "https://vinsfins.lu/boutique",
-  },
-  openGraph: {
-    title: "Boutique — Achetez nos Vins en Ligne | Vins Fins Luxembourg",
-    description:
-      "Commandez vos vins naturels en ligne. Domaines bio et biodynamiques. Livraison Luxembourg.",
-    url: "https://vinsfins.lu/boutique",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getLocale();
+  const meta = pageMeta.boutique[locale];
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${SITE_URL}/boutique`,
+      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/boutique", l)])),
+    },
+    openGraph: {
+      title: meta.ogTitle,
+      description: meta.ogDescription,
+      url: `${SITE_URL}/boutique`,
+    },
+  };
+}
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Store",
-  "@id": "https://vinsfins.lu/boutique/#store",
+  "@id": `${SITE_URL}/boutique/#store`,
   name: "Vins Fins — Boutique en Ligne",
   description:
-    "Boutique de vins naturels et bio en ligne. Livraison dans tout le Luxembourg. Sélection de vignerons artisans.",
-  url: "https://vinsfins.lu/boutique",
+    "Boutique de vins naturels et bio en ligne. Livraison dans tout le Luxembourg.",
+  url: `${SITE_URL}/boutique`,
   currenciesAccepted: "EUR",
   paymentAccepted: "Credit Card",
-  areaServed: {
-    "@type": "Country",
-    name: "Luxembourg",
-  },
-  potentialAction: {
-    "@type": "BuyAction",
-    target: "https://vinsfins.lu/boutique",
-  },
+  areaServed: { "@type": "Country", name: "Luxembourg" },
+  potentialAction: { "@type": "BuyAction", target: `${SITE_URL}/boutique` },
 };
 
 export default function BoutiqueLayout({ children }: { children: React.ReactNode }) {
+  const locale = getLocale();
+
   return (
     <>
       <Script
@@ -45,10 +53,12 @@ export default function BoutiqueLayout({ children }: { children: React.ReactNode
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs items={[
-        { name: "Accueil", url: "https://vinsfins.lu" },
-        { name: "Boutique", url: "https://vinsfins.lu/boutique" },
-      ]} />
+      <Breadcrumbs
+        items={[
+          { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },
+          { name: breadcrumbNames.boutique[locale], url: localeUrl("/boutique", locale) },
+        ]}
+      />
       {children}
     </>
   );

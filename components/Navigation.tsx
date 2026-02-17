@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useLanguage } from "@/context/LanguageContext";
+import { useLanguage, type Locale } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 
-const languages = ["FR", "EN", "DE", "LB"] as const;
+const languages: Locale[] = ["fr", "en", "de", "lb"];
 
 const navLinks = [
   { href: "/vins", key: "nav.wines" },
@@ -17,11 +17,20 @@ const navLinks = [
 ];
 
 export default function Navigation() {
-  const { t, locale, setLocale } = useLanguage();
+  const { t, locale, setLocale, localePath } = useLanguage();
   const { totalItems, setIsCartOpen } = useCart();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Strip locale prefix from pathname for active-link matching
+  const barePath = (() => {
+    const segs = pathname.split("/");
+    if (["en", "de", "lb"].includes(segs[1])) {
+      return "/" + segs.slice(2).join("/") || "/";
+    }
+    return pathname;
+  })();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -44,7 +53,7 @@ export default function Navigation() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
-          <Link href="/" className="font-script text-4xl transition-colors text-cream hover:text-gold">
+          <Link href={localePath("/")} className="font-script text-4xl transition-colors text-cream hover:text-gold">
             Vins Fins
           </Link>
 
@@ -52,9 +61,9 @@ export default function Navigation() {
             {navLinks.map((link) => (
               <Link
                 key={link.href}
-                href={link.href}
+                href={localePath(link.href)}
                 className={`text-[11px] font-light tracking-luxury uppercase transition-colors ${
-                  pathname === link.href
+                  barePath === link.href
                     ? "text-gold"
                     : "text-cream/60 hover:text-cream"
                 }`}
@@ -69,14 +78,14 @@ export default function Navigation() {
               {languages.map((lang, i) => (
                 <React.Fragment key={lang}>
                   <button
-                    onClick={() => setLocale(lang.toLowerCase() as "fr" | "en" | "de" | "lb")}
+                    onClick={() => setLocale(lang)}
                     className={`transition-colors ${
-                      locale === lang.toLowerCase()
+                      locale === lang
                         ? "text-cream font-medium"
                         : "hover:text-cream"
                     }`}
                   >
-                    {lang}
+                    {lang.toUpperCase()}
                   </button>
                   {i < languages.length - 1 && <span className="text-cream/20">|</span>}
                 </React.Fragment>
@@ -136,14 +145,14 @@ export default function Navigation() {
             </svg>
           </button>
 
-          <Link href="/" onClick={() => setMobileOpen(false)} className="font-script text-5xl text-cream mb-4">
+          <Link href={localePath("/")} onClick={() => setMobileOpen(false)} className="font-script text-5xl text-cream mb-4">
             Vins Fins
           </Link>
 
           {navLinks.map((link) => (
             <Link
               key={link.href}
-              href={link.href}
+              href={localePath(link.href)}
               onClick={() => setMobileOpen(false)}
               className="text-sm tracking-luxury uppercase text-cream/60 hover:text-cream transition-colors"
             >
@@ -156,14 +165,14 @@ export default function Navigation() {
               <React.Fragment key={lang}>
                 <button
                   onClick={() => {
-                    setLocale(lang.toLowerCase() as "fr" | "en" | "de" | "lb");
+                    setLocale(lang);
                     setMobileOpen(false);
                   }}
                   className={`hover:text-cream transition-colors ${
-                    locale === lang.toLowerCase() ? "text-cream font-medium" : ""
+                    locale === lang ? "text-cream font-medium" : ""
                   }`}
                 >
-                  {lang}
+                  {lang.toUpperCase()}
                 </button>
                 {i < languages.length - 1 && <span className="text-cream/20">|</span>}
               </React.Fragment>

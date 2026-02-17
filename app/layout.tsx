@@ -7,87 +7,73 @@ import { CartProvider } from "@/context/CartContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
 import Script from "next/script";
+import { getLocale, pageMeta, SITE_URL, localeUrl, locales } from "@/lib/i18n";
 
-const SITE_URL = "https://vinsfins.lu";
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getLocale();
+  const meta = pageMeta.home[locale];
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: {
-    default: "Vins Fins — Bar à Vins & Restaurant | Grund, Luxembourg",
-    template: "%s | Vins Fins Luxembourg",
-  },
-  description:
-    "Vins d'exception et cuisine raffinée au cœur du Grund. Carte des vins naturels et bio, cuisine française de saison. Réservez votre table.",
-  keywords:
-    "bar à vins, restaurant, Luxembourg, Grund, vin naturel, vin bio, cuisine française, cave à vins, bar à vins Luxembourg, restaurant Grund",
-  authors: [{ name: "Vins Fins" }],
-  creator: "Vins Fins",
-  publisher: "Vins Fins",
-  formatDetection: {
-    telephone: true,
-    email: true,
-    address: true,
-  },
-  alternates: {
-    canonical: SITE_URL,
-    languages: {
-      "fr": SITE_URL,
-      "en": `${SITE_URL}/en`,
-      "de": `${SITE_URL}/de`,
-      "lb": `${SITE_URL}/lb`,
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: meta.title,
+      template: `%s | Vins Fins Luxembourg`,
     },
-  },
-  openGraph: {
-    title: "Vins Fins — Bar à Vins & Restaurant | Grund, Luxembourg",
-    description:
-      "Vins d'exception & cuisine raffinée au Grund, Luxembourg. Plus de 80 vins naturels, cuisine française de saison.",
-    url: SITE_URL,
-    siteName: "Vins Fins",
-    locale: "fr_FR",
-    type: "website",
-    images: [
-      {
-        url: `${SITE_URL}/og-image.jpg`,
-        width: 1200,
-        height: 630,
-        alt: "Vins Fins — Bar à Vins au Grund, Luxembourg",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vins Fins — Bar à Vins & Restaurant | Grund, Luxembourg",
-    description:
-      "Vins d'exception & cuisine raffinée au Grund, Luxembourg",
-    images: [`${SITE_URL}/og-image.jpg`],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    description: meta.description,
+    keywords:
+      "bar à vins, restaurant, Luxembourg, Grund, vin naturel, vin bio, cuisine française, cave à vins, wine bar, Weinbar",
+    authors: [{ name: "Vins Fins" }],
+    creator: "Vins Fins",
+    publisher: "Vins Fins",
+    formatDetection: { telephone: true, email: true, address: true },
+    alternates: {
+      canonical: SITE_URL,
+      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/", l)])),
+    },
+    openGraph: {
+      title: meta.ogTitle,
+      description: meta.ogDescription,
+      url: SITE_URL,
+      siteName: "Vins Fins",
+      locale: locale === "fr" ? "fr_FR" : locale === "de" ? "de_DE" : locale === "lb" ? "lb_LU" : "en_US",
+      type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/og-image.jpg`,
+          width: 1200,
+          height: 630,
+          alt: "Vins Fins — Bar à Vins au Grund, Luxembourg",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: meta.ogTitle,
+      description: meta.ogDescription,
+      images: [`${SITE_URL}/og-image.jpg`],
+    },
+    robots: {
       index: true,
       follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
     },
-  },
-  icons: {
-    icon: "/favicon.ico",
-  },
-  verification: {
-    // google: "YOUR_GOOGLE_VERIFICATION_CODE",
-    // other: { "msvalidate.01": "YOUR_BING_VERIFICATION_CODE" },
-  },
-};
+    icons: { icon: "/favicon.ico" },
+  };
+}
 
-const jsonLd = {
+const restaurantJsonLd = {
   "@context": "https://schema.org",
   "@type": ["Restaurant", "WineBar"],
   "@id": `${SITE_URL}/#restaurant`,
   name: "Vins Fins",
   description:
-    "Bar à vins & restaurant au Grund, Luxembourg. Plus de 80 vins naturels et bio de vignerons artisans, accompagnés d'une cuisine française de saison élaborée avec les meilleurs ingrédients locaux.",
+    "Bar à vins & restaurant au Grund, Luxembourg. Plus de 80 vins naturels et bio de vignerons artisans, accompagnés d'une cuisine française de saison.",
   url: SITE_URL,
   telephone: "+352-XX-XX-XX",
   email: "contact@vinsfins.lu",
@@ -107,13 +93,7 @@ const jsonLd = {
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: [
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ],
+      dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
       opens: "18:00",
       closes: "00:00",
     },
@@ -122,10 +102,7 @@ const jsonLd = {
   servesCuisine: ["French", "Wine Bar"],
   acceptsReservations: true,
   menu: `${SITE_URL}/carte`,
-  hasMenu: {
-    "@type": "Menu",
-    url: `${SITE_URL}/carte`,
-  },
+  hasMenu: { "@type": "Menu", url: `${SITE_URL}/carte` },
   image: `${SITE_URL}/og-image.jpg`,
   sameAs: [
     "https://instagram.com/vins_fins_grund",
@@ -144,23 +121,17 @@ const jsonLd = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = getLocale();
+
   return (
-    <html lang="fr">
+    <html lang={locale}>
       <head>
-        <script
-          src="https://sdk.zenchef.com/v1/widget.js"
-          async
-          defer
-        />
+        <script src="https://sdk.zenchef.com/v1/widget.js" async defer />
         <Script
           id="json-ld-restaurant"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd) }}
         />
       </head>
       <body>

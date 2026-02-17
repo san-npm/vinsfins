@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { useData } from "@/context/DataContext";
 
 export default function ProductPage() {
-  const { t, locale } = useLanguage();
+  const { t, locale, localePath } = useLanguage();
   const { addToCart } = useCart();
   const { wines } = useData();
   const params = useParams();
@@ -18,7 +18,7 @@ export default function ProductPage() {
     return (
       <main className="relative z-[1] pt-32 pb-24 px-6 text-center">
         <h1 className="font-playfair text-3xl text-ink mb-6">{t("product.notFound")}</h1>
-        <Link href="/boutique" className="btn-outline">{t("product.backToShopBtn")}</Link>
+        <Link href={localePath("/boutique")} className="btn-outline">{t("product.backToShopBtn")}</Link>
       </main>
     );
   }
@@ -26,7 +26,7 @@ export default function ProductPage() {
   return (
     <main className="relative z-[1] pt-32 pb-24 px-6">
       <div className="max-w-6xl mx-auto">
-        <Link href="/boutique" className="text-sm text-stone hover:text-ink transition-colors mb-8 inline-block">
+        <Link href={localePath("/boutique")} className="text-sm text-stone hover:text-ink transition-colors mb-8 inline-block">
           {t("product.backToShop")}
         </Link>
 

@@ -18,7 +18,7 @@ const categoryLabels: Record<string, Record<string, string>> = {
 };
 
 export default function BoutiquePage() {
-  const { t, locale } = useLanguage();
+  const { t, locale, localePath } = useLanguage();
   const { addToCart } = useCart();
   const { wines } = useData();
   const [activeCategory, setActiveCategory] = useState<string>("all");
@@ -75,7 +75,7 @@ export default function BoutiquePage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filtered.map((wine) => (
             <div key={wine.id} className="group flex flex-col h-full">
-              <Link href={`/boutique/${wine.id}`}>
+              <Link href={localePath(`/boutique/${wine.id}`)}>
                 <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-dark-card">
                   <Image
                     src={wine.image}
@@ -86,7 +86,7 @@ export default function BoutiquePage() {
                 </div>
               </Link>
               <div className="flex flex-col flex-1">
-                <Link href={`/boutique/${wine.id}`}>
+                <Link href={localePath(`/boutique/${wine.id}`)}>
                   <h3 className="font-playfair text-base text-ink mb-1 hover:text-wine transition-colors">
                     {wine.name}
                   </h3>

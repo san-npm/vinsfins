@@ -1,65 +1,69 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { wines } from "@/data/wines";
+import {
+  getLocale,
+  pageMeta,
+  SITE_URL,
+  localeUrl,
+  locales,
+  breadcrumbNames,
+} from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "Carte des Vins — Vins Naturels & Bio",
-  description:
-    "Plus de 80 vins naturels et bio sélectionnés auprès de vignerons artisans. Loire, Bourgogne, Beaujolais, Moselle luxembourgeoise. Vins au verre et en bouteille.",
-  alternates: {
-    canonical: "https://vinsfins.lu/vins",
-  },
-  openGraph: {
-    title: "Carte des Vins — Vins Naturels & Bio | Vins Fins Luxembourg",
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getLocale();
+  const meta = pageMeta.vins[locale];
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${SITE_URL}/vins`,
+      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/vins", l)])),
+    },
+    openGraph: {
+      title: meta.ogTitle,
+      description: meta.ogDescription,
+      url: `${SITE_URL}/vins`,
+    },
+  };
+}
+
+function buildWineListJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Carte des Vins — Vins Fins",
     description:
-      "Plus de 80 vins naturels et bio. Loire, Bourgogne, Moselle luxembourgeoise. Au verre et en bouteille.",
-    url: "https://vinsfins.lu/vins",
-  },
-};
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ItemList",
-  name: "Carte des Vins — Vins Fins",
-  description:
-    "Plus de 80 vins naturels et bio sélectionnés auprès de vignerons artisans français et luxembourgeois.",
-  url: "https://vinsfins.lu/vins",
-  numberOfItems: 80,
-  itemListElement: [
-    {
+      "Plus de 80 vins naturels et bio sélectionnés auprès de vignerons artisans français et luxembourgeois.",
+    url: `${SITE_URL}/vins`,
+    numberOfItems: wines.length,
+    itemListElement: wines.slice(0, 10).map((wine, i) => ({
       "@type": "ListItem",
-      position: 1,
+      position: i + 1,
       item: {
         "@type": "Product",
-        name: "Domaine Vacheron Sancerre 2022",
-        description: "Sauvignon Blanc, Loire Valley, France. Vin bio.",
-        offers: { "@type": "Offer", price: "58", priceCurrency: "EUR" },
+        name: wine.name,
+        description: `${wine.description.fr} ${wine.grape}, ${wine.region}, ${wine.country}.`,
+        url: `${SITE_URL}/vins/${wine.id}`,
+        offers: {
+          "@type": "Offer",
+          price: wine.priceBottle.toString(),
+          priceCurrency: "EUR",
+          availability: wine.isAvailable
+            ? "https://schema.org/InStock"
+            : "https://schema.org/OutOfStock",
+        },
       },
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      item: {
-        "@type": "Product",
-        name: "Marcel Lapierre Morgon 2021",
-        description: "Gamay, Beaujolais, France. Vin naturel bio.",
-        offers: { "@type": "Offer", price: "48", priceCurrency: "EUR" },
-      },
-    },
-    {
-      "@type": "ListItem",
-      position: 3,
-      item: {
-        "@type": "Product",
-        name: "Domaine Krier-Welbes Auxerrois 2022",
-        description: "Auxerrois, Moselle, Luxembourg. Vin bio local.",
-        offers: { "@type": "Offer", price: "38", priceCurrency: "EUR" },
-      },
-    },
-  ],
-};
+    })),
+  };
+}
 
 export default function VinsLayout({ children }: { children: React.ReactNode }) {
+  const locale = getLocale();
+  const jsonLd = buildWineListJsonLd();
+
   return (
     <>
       <Script
@@ -67,10 +71,12 @@ export default function VinsLayout({ children }: { children: React.ReactNode }) 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs items={[
-        { name: "Accueil", url: "https://vinsfins.lu" },
-        { name: "Carte des Vins", url: "https://vinsfins.lu/vins" },
-      ]} />
+      <Breadcrumbs
+        items={[
+          { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },
+          { name: breadcrumbNames.vins[locale], url: localeUrl("/vins", locale) },
+        ]}
+      />
       {children}
     </>
   );

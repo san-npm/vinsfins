@@ -1,30 +1,42 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import {
+  getLocale,
+  pageMeta,
+  SITE_URL,
+  localeUrl,
+  locales,
+  breadcrumbNames,
+} from "@/lib/i18n";
 
-export const metadata: Metadata = {
-  title: "À Propos — Notre Histoire",
-  description:
-    "L'histoire de Vins Fins, bar à vins niché dans le quartier historique du Grund à Luxembourg. Découvrez notre équipe passionnée : Marc (sommelier), Sophie (chef) et Thomas (acheteur de vins).",
-  alternates: {
-    canonical: "https://vinsfins.lu/a-propos",
-  },
-  openGraph: {
-    title: "À Propos — Notre Histoire | Vins Fins Luxembourg",
-    description:
-      "L'histoire de Vins Fins et notre passion pour les vins naturels au Grund, Luxembourg.",
-    url: "https://vinsfins.lu/a-propos",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = getLocale();
+  const meta = pageMeta["a-propos"][locale];
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    alternates: {
+      canonical: `${SITE_URL}/a-propos`,
+      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/a-propos", l)])),
+    },
+    openGraph: {
+      title: meta.ogTitle,
+      description: meta.ogDescription,
+      url: `${SITE_URL}/a-propos`,
+    },
+  };
+}
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "AboutPage",
   name: "À Propos de Vins Fins",
-  url: "https://vinsfins.lu/a-propos",
+  url: `${SITE_URL}/a-propos`,
   mainEntity: {
     "@type": "Restaurant",
-    "@id": "https://vinsfins.lu/#restaurant",
+    "@id": `${SITE_URL}/#restaurant`,
     name: "Vins Fins",
     foundingDate: "2015",
     employee: [
@@ -32,28 +44,27 @@ const jsonLd = {
         "@type": "Person",
         name: "Marc",
         jobTitle: "Fondateur & Sommelier",
-        description:
-          "Ancien chef sommelier d'un restaurant étoilé Michelin à Paris.",
+        description: "Ancien chef sommelier d'un restaurant étoilé Michelin à Paris.",
       },
       {
         "@type": "Person",
         name: "Sophie",
         jobTitle: "Chef Cuisinière",
-        description:
-          "Formée à Lyon, spécialisée en cuisine saisonnière et accords mets-vins.",
+        description: "Formée à Lyon, spécialisée en cuisine saisonnière et accords mets-vins.",
       },
       {
         "@type": "Person",
         name: "Thomas",
         jobTitle: "Acheteur de Vins & Gérant",
-        description:
-          "Expert de la scène vinicole luxembourgeoise et européenne.",
+        description: "Expert de la scène vinicole luxembourgeoise et européenne.",
       },
     ],
   },
 };
 
 export default function AProposLayout({ children }: { children: React.ReactNode }) {
+  const locale = getLocale();
+
   return (
     <>
       <Script
@@ -61,10 +72,12 @@ export default function AProposLayout({ children }: { children: React.ReactNode 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Breadcrumbs items={[
-        { name: "Accueil", url: "https://vinsfins.lu" },
-        { name: "À Propos", url: "https://vinsfins.lu/a-propos" },
-      ]} />
+      <Breadcrumbs
+        items={[
+          { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },
+          { name: breadcrumbNames["a-propos"][locale], url: localeUrl("/a-propos", locale) },
+        ]}
+      />
       {children}
     </>
   );
