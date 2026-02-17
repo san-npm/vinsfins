@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { wines } from "@/data/wines";
 
 const SITE_URL = "https://vinsfins.lu";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString();
 
-  return [
+  const staticPages: MetadataRoute.Sitemap = [
     {
       url: SITE_URL,
       lastModified: now,
@@ -43,4 +44,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
   ];
+
+  const winePages: MetadataRoute.Sitemap = wines.map((wine) => ({
+    url: `${SITE_URL}/vins/${wine.id}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...winePages];
 }

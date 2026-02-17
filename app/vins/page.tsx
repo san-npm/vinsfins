@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
 import FAQSection from "@/components/FAQSection";
@@ -61,7 +62,7 @@ export default function VinsPage() {
       <section className="px-6 pb-24">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filtered.map((wine) => (
-            <div key={wine.id} className="group">
+            <Link key={wine.id} href={`/vins/${wine.id}`} className="group block">
               <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-dark-card">
                 <Image
                   src={wine.image}
@@ -95,7 +96,7 @@ export default function VinsPage() {
                 <span className="text-ink">{wine.priceBottle}€</span>
                 <span className="text-stone/50 text-xs">{t("wines.bottle")}</span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
