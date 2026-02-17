@@ -46,8 +46,8 @@ export default function VinsPage() {
               onClick={() => setActiveCategory(cat)}
               className={`text-[10px] tracking-luxury uppercase px-5 py-2 border transition-all duration-300 ${
                 activeCategory === cat
-                  ? "bg-cream text-dark border-cream"
-                  : "border-cream/15 text-stone hover:border-cream/40"
+                  ? "bg-ink text-cream border-ink"
+                  : "border-ink/15 text-stone hover:border-ink/40"
               }`}
             >
               {categoryLabels[cat][locale] || cat}
@@ -61,7 +61,7 @@ export default function VinsPage() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {filtered.map((wine) => (
             <Link key={wine.id} href={localePath(`/vins/${wine.id}`)} className="group block">
-              <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-dark-card">
+              <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
                 <Image
                   src={wine.image}
                   alt={wine.name}
@@ -70,7 +70,7 @@ export default function VinsPage() {
                 />
                 <div className="absolute top-3 left-3 flex gap-1.5">
                   {wine.isOrganic && (
-                    <span className="bg-dark-card/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-ink">
+                    <span className="bg-white/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-ink">
                       Bio
                     </span>
                   )}

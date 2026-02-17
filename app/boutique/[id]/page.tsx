@@ -32,7 +32,7 @@ export default function ProductPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
           {/* Image */}
-          <div className="relative aspect-[3/4] bg-dark-card overflow-hidden">
+          <div className="relative aspect-[3/4] bg-parchment overflow-hidden">
             <Image
               src={wine.image}
               alt={wine.name}
@@ -42,7 +42,7 @@ export default function ProductPage() {
             />
             <div className="absolute top-4 left-4 flex gap-2">
               {wine.isOrganic && (
-                <span className="bg-dark-card/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-ink">
+                <span className="bg-white/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-ink">
                   Bio
                 </span>
               )}

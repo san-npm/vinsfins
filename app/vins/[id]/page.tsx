@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useData } from "@/context/DataContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useParams } from "next/navigation";
-import FAQSection from "@/components/FAQSection";
 
 const categoryLabels: Record<string, string> = {
   red: "Rouge",

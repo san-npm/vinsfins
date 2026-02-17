@@ -9,8 +9,8 @@
     scroll-behavior: smooth;
   }
   body {
-    background-color: #141614;
-    color: #f0e6d3;
+    background-color: #f5f0e8;
+    color: #2a2522;
     @apply font-sans font-light;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -39,12 +39,12 @@ body::before {
 
 @layer components {
   .btn-primary {
-    @apply bg-cream text-dark px-8 py-3 font-light tracking-luxury uppercase text-[10px]
-    hover:bg-cream/80 transition-all duration-500 inline-block;
+    @apply bg-ink text-cream px-8 py-3 font-light tracking-luxury uppercase text-[10px]
+    hover:bg-ink/80 transition-all duration-500 inline-block;
   }
   .btn-outline {
-    @apply border border-cream/20 text-cream px-8 py-3 font-light tracking-luxury uppercase text-[10px]
-    hover:border-cream/50 transition-all duration-500 inline-block;
+    @apply border border-ink/20 text-ink px-8 py-3 font-light tracking-luxury uppercase text-[10px]
+    hover:border-ink/50 transition-all duration-500 inline-block;
   }
   .btn-wine {
     @apply bg-wine text-cream px-8 py-3 font-light tracking-luxury uppercase text-[10px]

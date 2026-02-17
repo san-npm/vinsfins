@@ -95,7 +95,7 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-700 group-hover:scale-105"
                   />
                   {wine.isOrganic && (
-                    <span className="absolute top-3 left-3 bg-dark-card/90 text-cream text-[9px] tracking-luxury uppercase px-3 py-1">
+                    <span className="absolute top-3 left-3 bg-white/90 text-ink text-[9px] tracking-luxury uppercase px-3 py-1">
                       Bio
                     </span>
                   )}

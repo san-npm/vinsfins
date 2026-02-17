@@ -60,8 +60,8 @@ export default function BoutiquePage() {
               onClick={() => setActiveCategory(cat)}
               className={`text-[10px] tracking-luxury uppercase px-5 py-2 border transition-all duration-300 ${
                 activeCategory === cat
-                  ? "bg-cream text-dark border-cream"
-                  : "border-cream/15 text-stone hover:border-cream/40"
+                  ? "bg-ink text-cream border-ink"
+                  : "border-ink/15 text-stone hover:border-ink/40"
               }`}
             >
               {categoryLabels[cat][locale] || cat}
@@ -76,7 +76,7 @@ export default function BoutiquePage() {
           {filtered.map((wine) => (
             <div key={wine.id} className="group flex flex-col h-full">
               <Link href={localePath(`/boutique/${wine.id}`)}>
-                <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-dark-card">
+                <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
                   <Image
                     src={wine.image}
                     alt={wine.name}
