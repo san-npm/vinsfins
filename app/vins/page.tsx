@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
+import FAQSection from "@/components/FAQSection";
 
 const categories = ["all", "red", "white", "rosé", "orange", "sparkling"] as const;
 
@@ -98,6 +99,33 @@ export default function VinsPage() {
           ))}
         </div>
       </section>
+
+      <FAQSection
+        label="En savoir plus"
+        title="Nos Vins en Détail"
+        items={[
+          {
+            question: "Qu'est-ce qu'un vin naturel ?",
+            answer:
+              "Un vin naturel est élaboré à partir de raisins cultivés en agriculture biologique ou biodynamique, vinifié avec des levures indigènes et sans (ou très peu) d'additifs. L'objectif est d'exprimer au maximum le terroir et le cépage, avec une intervention minimale en cave.",
+          },
+          {
+            question: "Quelle est la différence entre vin bio et vin naturel ?",
+            answer:
+              "Le vin bio est certifié pour la culture du raisin (sans pesticides de synthèse), mais autorise certains additifs en vinification. Le vin naturel va plus loin : il limite aussi les interventions en cave (pas de levures ajoutées, peu ou pas de sulfites). Chez Vins Fins, nous privilégions les deux approches.",
+          },
+          {
+            question: "Proposez-vous des vins luxembourgeois ?",
+            answer:
+              "Oui, nous sommes fiers de mettre en avant les vins de la Moselle luxembourgeoise. Vous trouverez notamment des vins du Domaine Krier-Welbes et du Crémant Poll-Fabaire, parmi d'autres producteurs locaux d'excellence.",
+          },
+          {
+            question: "À quelle fréquence la carte des vins change-t-elle ?",
+            answer:
+              "Notre carte évolue régulièrement au fil des saisons et des arrivages. Nous ajoutons de nouvelles références chaque mois et proposons des vins au verre en rotation hebdomadaire pour vous faire découvrir de nouveaux domaines.",
+          },
+        ]}
+      />
     </main>
   );
 }

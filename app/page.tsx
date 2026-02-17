@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
+import FAQSection from "@/components/FAQSection";
 
 export default function HomePage() {
   const { t, locale } = useLanguage();
@@ -188,6 +189,42 @@ export default function HomePage() {
           {t("home.ctaButton")}
         </a>
       </section>
+
+      {/* FAQ Section */}
+      <FAQSection
+        items={[
+          {
+            question: "Où se trouve Vins Fins à Luxembourg ?",
+            answer:
+              "Vins Fins est situé au 18 Rue Münster, dans le quartier historique du Grund à Luxembourg (L-2160). Accessible par l'ascenseur gratuit du Grund depuis le Plateau du Saint-Esprit.",
+          },
+          {
+            question: "Faut-il réserver chez Vins Fins ?",
+            answer:
+              "La réservation est recommandée, particulièrement le vendredi et samedi soir. Vous pouvez réserver en ligne via ZenChef ou par téléphone. Les places au bar sont disponibles sans réservation.",
+          },
+          {
+            question: "Quels types de vins proposez-vous ?",
+            answer:
+              "Notre carte propose plus de 80 références de vins naturels, bio et biodynamiques. Nous sélectionnons des vins de vignerons artisans de la Loire, Bourgogne, Beaujolais, Provence, Rhône, ainsi que des vins luxembourgeois de la Moselle.",
+          },
+          {
+            question: "Quels sont les horaires d'ouverture ?",
+            answer:
+              "Vins Fins est ouvert du mardi au samedi de 18h à minuit. Nous sommes fermés le dimanche et le lundi.",
+          },
+          {
+            question: "Proposez-vous des vins au verre ?",
+            answer:
+              "Oui, une large sélection de nos vins est disponible au verre, avec une rotation régulière pour vous faire découvrir de nouvelles références. Les prix au verre commencent à partir de 8€.",
+          },
+          {
+            question: "Peut-on acheter des bouteilles à emporter ?",
+            answer:
+              "Absolument. Notre boutique en ligne propose une sélection de nos vins en livraison dans tout le Luxembourg. Vous pouvez également acheter des bouteilles directement au restaurant.",
+          },
+        ]}
+      />
     </main>
   );
 }

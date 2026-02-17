@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
+import FAQSection from "@/components/FAQSection";
 
 const categoryOrder = ["starters", "platters", "mains", "desserts", "specials"] as const;
 
@@ -72,6 +73,28 @@ export default function CartePage() {
           </div>
         </div>
       </section>
+
+      <FAQSection
+        label="Informations"
+        title="À Propos de Notre Carte"
+        items={[
+          {
+            question: "Le menu change-t-il selon les saisons ?",
+            answer:
+              "Oui, notre carte évolue au fil des saisons. Notre chef Sophie élabore de nouveaux plats chaque saison pour mettre en valeur les meilleurs produits locaux et créer des accords parfaits avec notre sélection de vins.",
+          },
+          {
+            question: "Proposez-vous des options végétariennes ?",
+            answer:
+              "Absolument. Notre carte comprend toujours des entrées et plats végétariens. N'hésitez pas à en informer notre équipe qui pourra vous proposer des alternatives et des accords mets-vins adaptés.",
+          },
+          {
+            question: "Faites-vous des accords mets-vins ?",
+            answer:
+              "C'est notre spécialité. Chaque plat est conçu pour s'accorder avec nos vins, et notre sommelier Marc se fera un plaisir de vous guider dans vos choix pour une expérience gastronomique complète.",
+          },
+        ]}
+      />
     </main>
   );
 }
