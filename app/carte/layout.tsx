@@ -35,9 +35,7 @@ function buildMenuJsonLd() {
   const sectionNames: Record<string, string> = {
     starters: "Entrées",
     platters: "Planches",
-    mains: "Plats",
-    desserts: "Desserts",
-    specials: "Suggestions",
+    carpaccios: "The Signature Carpaccio",
   };
 
   for (const item of menuItems) {
@@ -53,7 +51,7 @@ function buildMenuJsonLd() {
     "@type": "Menu",
     name: "La Carte — Vins Fins",
     description:
-      "Cuisine française de saison au Grund, Luxembourg. Entrées, planches, plats et desserts.",
+      "Cuisine française de saison au Grund, Luxembourg. Entrées, planches et carpaccios signature.",
     url: `${SITE_URL}/carte`,
     inLanguage: "fr",
     hasMenuSection: Object.values(sections).map((section) => ({
