@@ -36,8 +36,15 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
         <div className="relative z-10 text-center px-6">
-          <h1 className="font-script text-7xl md:text-9xl text-white mb-4 animate-handwrite">
-            Vins Fins
+          <h1 className="mb-4 animate-handwrite">
+            <Image
+              src="/vinsfins-logo.png"
+              alt="Vins Fins"
+              width={600}
+              height={600}
+              className="h-40 md:h-64 w-auto mx-auto brightness-0 invert"
+              priority
+            />
           </h1>
           <p className="text-white/80 text-sm md:text-base tracking-luxury uppercase font-light mb-2">
             {t("home.heroSubtitle")}
