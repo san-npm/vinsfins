@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
 export default function Footer() {
@@ -14,8 +15,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <Link href="/" className="font-script text-4xl text-cream">
-              Vins Fins
+            <Link href="/" className="block">
+              <Image
+                src="/vinsfins-logo.png"
+                alt="Vins Fins"
+                width={160}
+                height={160}
+                className="h-16 w-auto brightness-0 invert"
+              />
             </Link>
             <p className="mt-4 text-sm text-stone leading-relaxed">
               Bar à Vins &amp; Restaurant
