@@ -2,14 +2,12 @@
 
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
-const categoryOrder = ["starters", "platters", "mains", "desserts", "specials"] as const;
+const categoryOrder = ["starters", "platters", "carpaccios"] as const;
 
 const categoryNames: Record<string, Record<string, string>> = {
   starters: { fr: "Entrées", en: "Starters", de: "Vorspeisen", lb: "Virspäisen" },
   platters: { fr: "Planches", en: "Boards", de: "Platten", lb: "Platen" },
-  mains: { fr: "Plats", en: "Mains", de: "Hauptgerichte", lb: "Haaptgeriichter" },
-  desserts: { fr: "Desserts", en: "Desserts", de: "Desserts", lb: "Desserten" },
-  specials: { fr: "Suggestions", en: "Specials", de: "Empfehlungen", lb: "Virschléi" },
+  carpaccios: { fr: "The Signature Carpaccio", en: "The Signature Carpaccio", de: "The Signature Carpaccio", lb: "The Signature Carpaccio" },
 };
 
 export default function CartePage() {
@@ -50,7 +48,7 @@ export default function CartePage() {
                           {item.name[locale]}
                         </h3>
                         <span className="text-sm text-ink whitespace-nowrap">
-                          {item.price}€
+                          {item.priceLabel ? item.priceLabel[locale] : `${item.price}€`}
                         </span>
                       </div>
                       <p className="text-sm text-stone font-light mt-1 leading-relaxed">
