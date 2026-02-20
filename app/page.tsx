@@ -46,13 +46,13 @@ export default function HomePage() {
               priority
             />
           </h1>
-          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2 opacity-0 animate-hero-fade-in" style={{ animationDelay: '2s' }}>
+          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2 opacity-0 animate-hero-fade-in" style={{ animationDelay: '1s' }}>
             {t("home.heroSubtitle")}
           </p>
-          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed opacity-0 animate-hero-fade-in" style={{ animationDelay: '2.3s' }}>
+          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed opacity-0 animate-hero-fade-in" style={{ animationDelay: '1.2s' }}>
             {t("home.heroDescription")}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-hero-fade-in" style={{ animationDelay: '2.6s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-hero-fade-in" style={{ animationDelay: '1.4s' }}>
             <a
               href="https://bookings.zenchef.com/results?rid=379498"
               target="_blank"
