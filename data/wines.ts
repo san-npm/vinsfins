@@ -5,6 +5,7 @@
 
 export const WINE_SECTIONS = [
   'bubbles',
+  'cidre',
   'luxembourg-blanc',
   'luxembourg-rouge',
   'alsace-blanc',
@@ -36,6 +37,7 @@ export type WineSection = (typeof WINE_SECTIONS)[number];
 
 export const sectionLabels: Record<WineSection, Record<string, string>> = {
   'bubbles':           { fr: 'Bulles',            en: 'Bubbles',          de: 'Schaumweine',       lb: 'Bléisercher' },
+  'cidre':             { fr: 'Cidre',             en: 'Cider',            de: 'Cidre',             lb: 'Cidre' },
   'luxembourg-blanc':  { fr: 'Luxembourg Blanc',  en: 'Luxembourg White', de: 'Luxemburg Weiß',    lb: 'Lëtzebuerg Wäiss' },
   'luxembourg-rouge':  { fr: 'Luxembourg Rouge',  en: 'Luxembourg Red',   de: 'Luxemburg Rot',     lb: 'Lëtzebuerg Rout' },
   'alsace-blanc':      { fr: 'Alsace Blanc',       en: 'Alsace White',     de: 'Elsass Weiß',       lb: 'Elsass Wäiss' },
@@ -64,8 +66,9 @@ export const sectionLabels: Record<WineSection, Record<string, string>> = {
 };
 
 /** Which colour filter each section belongs to */
-export const sectionCategory: Record<WineSection, 'sparkling' | 'white' | 'red' | 'orange'> = {
+export const sectionCategory: Record<WineSection, 'sparkling' | 'white' | 'red' | 'orange' | 'cider'> = {
   'bubbles': 'sparkling',
+  'cidre': 'cider',
   'luxembourg-blanc': 'white',
   'luxembourg-rouge': 'red',
   'alsace-blanc': 'white',
@@ -268,7 +271,7 @@ export const wines: Wine[] = [
     id: 'vulcain-fendant-2020',
     name: 'Cidrerie du Vulcain Fendant 2020',
     region: 'Valais', country: 'Switzerland', grape: 'Chasselas (Fendant)',
-    category: 'sparkling', section: 'bubbles',
+    category: 'sparkling', section: 'cidre',
     description: {
       fr: 'Cidre de Chasselas du Valais. Pomme, minéralité alpine, bulles sèches.',
       en: 'Chasselas cider from Valais. Apple, alpine minerality, dry bubbles.',
@@ -283,7 +286,7 @@ export const wines: Wine[] = [
     id: 'vulcain-transparente-2018',
     name: 'Cidrerie du Vulcain Transparente 2018 Sec',
     region: 'Valais', country: 'Switzerland', grape: 'Pomme Transparente',
-    category: 'sparkling', section: 'bubbles',
+    category: 'sparkling', section: 'cidre',
     description: {
       fr: 'Cidre sec de pomme Transparente. Net, vif, acidité tranchante.',
       en: 'Dry cider from Transparente apple. Clean, lively, sharp acidity.',
@@ -298,7 +301,7 @@ export const wines: Wine[] = [
     id: 'vulcain-trois-pepins-2020',
     name: 'Cidrerie du Vulcain Trois Pépins 2020 Extra-Brut',
     region: 'Valais', country: 'Switzerland', grape: '3 variétés de pommes',
-    category: 'sparkling', section: 'bubbles',
+    category: 'sparkling', section: 'cidre',
     description: {
       fr: 'Cidre extra-brut, trois variétés de pommes. Complexe, sec, bulles vives.',
       en: 'Extra-brut cider, three apple varieties. Complex, dry, lively bubbles.',
@@ -313,7 +316,7 @@ export const wines: Wine[] = [
     id: 'vulcain-extra-brut-2022',
     name: 'Cidrerie du Vulcain 2022 Extra-Brut',
     region: 'Valais', country: 'Switzerland', grape: 'Pomme',
-    category: 'sparkling', section: 'bubbles',
+    category: 'sparkling', section: 'cidre',
     description: {
       fr: 'Cidre extra-brut millésimé 2022. Frais, tendu, finale sèche.',
       en: 'Vintage 2022 extra-brut cider. Fresh, taut, dry finish.',
@@ -1690,7 +1693,7 @@ export const wines: Wine[] = [
     id: 'vulcain-durize-2021',
     name: 'Cidrerie du Vulcain Durize 2021',
     region: 'Valais', country: 'Switzerland', grape: 'Durize (Pomme)',
-    category: 'red', section: 'suisse-rouge',
+    category: 'sparkling', section: 'cidre',
     description: {
       fr: 'Cidre de pomme Durize naturel. Tannique, rustique, pomme sauvage.',
       en: 'Natural Durize apple cider. Tannic, rustic, wild apple.',
