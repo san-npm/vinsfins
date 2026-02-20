@@ -27,7 +27,7 @@ export default function HomePage() {
       <section className="relative h-screen overflow-hidden flex items-center justify-center">
         <div ref={heroRef} className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1920&h=1080&fit=crop"
+            src="/images/hero.jpg"
             alt="Wine bar ambiance"
             fill
             className="object-cover"
