@@ -37,10 +37,10 @@ export default function BoutiquePage() {
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("shop.heroLabel")}
         </p>
-        <h1 className="font-playfair text-4xl md:text-5xl text-ink mb-4">
+        <h1 className="font-playfair text-4xl md:text-5xl text-ink font-bold mb-4">
           {t("shop.heroTitle")}
         </h1>
-        <p className="text-stone font-light max-w-lg mx-auto">
+        <p className="text-stone font-normal max-w-lg mx-auto">
           {t("shop.heroDesc")}
         </p>
       </section>

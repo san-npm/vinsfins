@@ -17,12 +17,15 @@ const navLinks = [
   { href: "/contact", key: "nav.contact" },
 ];
 
+const langNames: Record<Locale, string> = { fr: "FR", en: "EN", de: "DE", lb: "LB" };
+
 export default function Navigation() {
   const { t, locale, setLocale, localePath } = useLanguage();
   const { totalItems, setIsCartOpen } = useCart();
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
 
   // Strip locale prefix from pathname for active-link matching
   const barePath = (() => {
@@ -82,22 +85,37 @@ export default function Navigation() {
           </div>
 
           <div className="hidden lg:flex items-center gap-5">
-            <div className="flex items-center gap-1 text-[10px] tracking-wider text-cream/40">
-              {languages.map((lang, i) => (
-                <React.Fragment key={lang}>
-                  <button
-                    onClick={() => setLocale(lang)}
-                    className={`transition-colors ${
-                      locale === lang
-                        ? "text-cream font-medium"
-                        : "hover:text-cream"
-                    }`}
-                  >
-                    {lang.toUpperCase()}
-                  </button>
-                  {i < languages.length - 1 && <span className="text-cream/20">|</span>}
-                </React.Fragment>
-              ))}
+            {/* Language dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="flex items-center gap-1.5 text-[10px] tracking-wider text-cream/60 hover:text-cream transition-colors uppercase"
+              >
+                {langNames[locale]}
+                <svg className={`w-3 h-3 transition-transform ${langOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                </svg>
+              </button>
+              {langOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                  <div className="absolute right-0 top-full mt-2 z-50 bg-dark border border-cream/10 shadow-lg min-w-[80px]">
+                    {languages.map((lang) => (
+                      <button
+                        key={lang}
+                        onClick={() => { setLocale(lang); setLangOpen(false); }}
+                        className={`block w-full text-left px-4 py-2 text-[10px] tracking-wider uppercase transition-colors ${
+                          locale === lang
+                            ? "text-cream bg-cream/10"
+                            : "text-cream/50 hover:text-cream hover:bg-cream/5"
+                        }`}
+                      >
+                        {langNames[lang]}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
             </div>
 
             <button
@@ -174,22 +192,22 @@ export default function Navigation() {
             </Link>
           ))}
 
-          <div className="flex items-center gap-2 mt-4 text-[11px] tracking-wider text-stone">
-            {languages.map((lang, i) => (
-              <React.Fragment key={lang}>
-                <button
-                  onClick={() => {
-                    setLocale(lang);
-                    setMobileOpen(false);
-                  }}
-                  className={`hover:text-cream transition-colors ${
-                    locale === lang ? "text-cream font-medium" : ""
-                  }`}
-                >
-                  {lang.toUpperCase()}
-                </button>
-                {i < languages.length - 1 && <span className="text-cream/20">|</span>}
-              </React.Fragment>
+          <div className="flex items-center gap-3 mt-4">
+            {languages.map((lang) => (
+              <button
+                key={lang}
+                onClick={() => {
+                  setLocale(lang);
+                  setMobileOpen(false);
+                }}
+                className={`text-[11px] tracking-wider uppercase px-3 py-1.5 border transition-colors ${
+                  locale === lang
+                    ? "text-cream border-cream/40 bg-cream/10"
+                    : "text-cream/40 border-cream/10 hover:text-cream hover:border-cream/30"
+                }`}
+              >
+                {langNames[lang]}
+              </button>
             ))}
           </div>
 

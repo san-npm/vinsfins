@@ -12,7 +12,7 @@ export default function ContactPage() {
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("contact.heroLabel")}
         </p>
-        <h1 className="font-playfair text-4xl md:text-5xl text-ink">
+        <h1 className="font-playfair text-4xl md:text-5xl text-ink font-bold">
           {t("contact.heroTitle")}
         </h1>
       </section>

@@ -35,7 +35,7 @@ export default function VinsPage() {
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("wines.heroLabel")}
         </p>
-        <h1 className="font-playfair text-4xl md:text-5xl text-ink">
+        <h1 className="font-playfair text-4xl md:text-5xl text-ink font-bold">
           {t("wines.heroTitle")}
         </h1>
       </section>

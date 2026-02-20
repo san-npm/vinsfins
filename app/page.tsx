@@ -46,10 +46,10 @@ export default function HomePage() {
               priority
             />
           </h1>
-          <p className="text-white/80 text-sm md:text-base tracking-luxury uppercase font-light mb-2">
+          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2">
             {t("home.heroSubtitle")}
           </p>
-          <p className="text-white/60 text-sm max-w-lg mx-auto mb-10 font-light leading-relaxed">
+          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed">
             {t("home.heroDescription")}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -111,8 +111,12 @@ export default function HomePage() {
                 <p className="text-sm text-stone mb-1">{wine.region}, {wine.country}</p>
                 <p className="text-xs text-stone/70 mb-2">{wine.grape}</p>
                 <p className="text-sm text-stone">
-                  {wine.priceGlass}€ <span className="text-stone/50">{t("home.glass")}</span>
-                  {" · "}
+                  {wine.priceGlass > 0 && (
+                    <>
+                      {wine.priceGlass}€ <span className="text-stone/50">{t("home.glass")}</span>
+                      {" · "}
+                    </>
+                  )}
                   {wine.priceBottle}€ <span className="text-stone/50">{t("home.bottle")}</span>
                 </p>
               </div>

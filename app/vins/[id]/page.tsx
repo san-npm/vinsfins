@@ -168,13 +168,17 @@ export default function WinePage() {
             </p>
 
             <div className="space-y-3 mb-8 p-6 bg-parchment">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-stone">Au verre</span>
-                <span className="font-playfair text-lg text-ink">
-                  {wine.priceGlass}€
-                </span>
-              </div>
-              <div className="border-t border-ink/5" />
+              {wine.priceGlass > 0 && (
+                <>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-stone">Au verre</span>
+                    <span className="font-playfair text-lg text-ink">
+                      {wine.priceGlass}€
+                    </span>
+                  </div>
+                  <div className="border-t border-ink/5" />
+                </>
+              )}
               <div className="flex justify-between items-center">
                 <span className="text-sm text-stone">Bouteille</span>
                 <span className="font-playfair text-lg text-ink">
