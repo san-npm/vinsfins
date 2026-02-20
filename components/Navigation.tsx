@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useLanguage, type Locale } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
@@ -49,12 +50,19 @@ export default function Navigation() {
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-dark/95 backdrop-blur-sm shadow-sm shadow-black/20"
-            : "bg-transparent"
+            : "bg-dark/80 backdrop-blur-sm"
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
-          <Link href={localePath("/")} className="font-script text-4xl transition-colors text-cream hover:text-gold">
-            Vins Fins
+          <Link href={localePath("/")} className="block transition-opacity hover:opacity-80">
+            <Image
+              src="/vinsfins-logo.png"
+              alt="Vins Fins"
+              width={120}
+              height={120}
+              className="h-12 w-auto brightness-0 invert"
+              priority
+            />
           </Link>
 
           <div className="hidden lg:flex items-center gap-8">
@@ -145,8 +153,14 @@ export default function Navigation() {
             </svg>
           </button>
 
-          <Link href={localePath("/")} onClick={() => setMobileOpen(false)} className="font-script text-5xl text-cream mb-4">
-            Vins Fins
+          <Link href={localePath("/")} onClick={() => setMobileOpen(false)} className="block mb-4">
+            <Image
+              src="/vinsfins-logo.png"
+              alt="Vins Fins"
+              width={200}
+              height={200}
+              className="h-24 w-auto brightness-0 invert"
+            />
           </Link>
 
           {navLinks.map((link) => (
