@@ -23,6 +23,11 @@ export const WINE_SECTIONS = [
   'allemagne-blanc',
   'suisse-blanc',
   'suisse-rouge',
+  'espagne-blanc',
+  'espagne-rouge',
+  'italie-rouge',
+  'serbie-rouge',
+  'hongrie-blanc',
 ] as const;
 
 export type WineSection = (typeof WINE_SECTIONS)[number];
@@ -47,10 +52,15 @@ export const sectionLabels: Record<WineSection, Record<string, string>> = {
   'allemagne-blanc':   { fr: 'Allemagne Blanc',     en: 'Germany White',    de: 'Deutschland Weiß',  lb: 'Däitschland Wäiss' },
   'suisse-blanc':      { fr: 'Suisse Blanc',         en: 'Switzerland White',de: 'Schweiz Weiß',      lb: 'Schwäiz Wäiss' },
   'suisse-rouge':      { fr: 'Suisse Rouge',         en: 'Switzerland Red',  de: 'Schweiz Rot',       lb: 'Schwäiz Rout' },
+  'espagne-blanc':     { fr: 'Espagne Blanc',        en: 'Spain White',      de: 'Spanien Weiß',      lb: 'Spuenien Wäiss' },
+  'espagne-rouge':     { fr: 'Espagne Rouge',        en: 'Spain Red',        de: 'Spanien Rot',       lb: 'Spuenien Rout' },
+  'italie-rouge':      { fr: 'Italie Rouge',          en: 'Italy Red',        de: 'Italien Rot',       lb: 'Italien Rout' },
+  'serbie-rouge':      { fr: 'Serbie Rouge',          en: 'Serbia Red',       de: 'Serbien Rot',       lb: 'Serbien Rout' },
+  'hongrie-blanc':     { fr: 'Hongrie Blanc',         en: 'Hungary White',    de: 'Ungarn Weiß',       lb: 'Ungarn Wäiss' },
 };
 
 /** Which colour filter each section belongs to */
-export const sectionCategory: Record<WineSection, 'sparkling' | 'white' | 'red'> = {
+export const sectionCategory: Record<WineSection, 'sparkling' | 'white' | 'red' | 'orange'> = {
   'bubbles': 'sparkling',
   'luxembourg-blanc': 'white',
   'luxembourg-rouge': 'red',
@@ -70,6 +80,11 @@ export const sectionCategory: Record<WineSection, 'sparkling' | 'white' | 'red'>
   'allemagne-blanc': 'white',
   'suisse-blanc': 'white',
   'suisse-rouge': 'red',
+  'espagne-blanc': 'white',
+  'espagne-rouge': 'red',
+  'italie-rouge': 'red',
+  'serbie-rouge': 'red',
+  'hongrie-blanc': 'white',
 };
 
 export interface Wine {
@@ -1679,5 +1694,175 @@ export const wines: Wine[] = [
     priceGlass: 13, priceBottle: 51, priceShop: 41,
     image: IMG.cider, isAvailable: true, isFeatured: false,
     isOrganic: false, isBiodynamic: false, isNatural: true,
+  },
+
+  /* ═══════════════════════════════════════════════
+     ESPAGNE BLANC
+     ═══════════════════════════════════════════════ */
+  {
+    id: 'xarelo-2020',
+    name: 'Xarel·lo 2020',
+    region: 'Catalogne', country: 'Spain', grape: 'Xarel·lo',
+    category: 'white', section: 'espagne-blanc',
+    description: {
+      fr: 'Xarel·lo naturel de Catalogne. Agrumes, herbes, salin et vibrant.',
+      en: 'Natural Catalan Xarel·lo. Citrus, herbs, saline and vibrant.',
+      de: 'Natürlicher katalanischer Xarel·lo. Zitrus, Kräuter, salzig und lebendig.',
+      lb: 'Natierlech katalanesche Xarel·lo. Zitrus, Kraider, salzeg a lieweg.',
+    },
+    priceGlass: 10, priceBottle: 38, priceShop: 30,
+    image: IMG.white1, isAvailable: true, isFeatured: false,
+    isOrganic: false, isBiodynamic: false, isNatural: true,
+  },
+  {
+    id: 'aroa-berandu-navarra-2015',
+    name: 'Aroa Berandu Navarra 2015 Doux (0,50 cl)',
+    region: 'Navarra', country: 'Spain', grape: 'Grenache Blanc',
+    category: 'white', section: 'espagne-blanc',
+    description: {
+      fr: 'Vin doux naturel bio de Navarre. Grenache blanc, miel, abricot confit.',
+      en: 'Organic sweet wine from Navarra. White Grenache, honey, candied apricot.',
+      de: 'Bio Süßwein aus Navarra. Weißer Grenache, Honig, kandierte Aprikose.',
+      lb: 'Bio séissen Wäin aus Navarra. Wäisse Grenache, Hunneg, kandéiert Abrikose.',
+    },
+    priceGlass: 12, priceBottle: 45, priceShop: 36,
+    image: IMG.white2, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+
+  /* ═══════════════════════════════════════════════
+     ESPAGNE ROUGE
+     ═══════════════════════════════════════════════ */
+  {
+    id: 'aroa-gorena-navarra-2014',
+    name: 'Aroa Gorena Navarra 2014',
+    region: 'Navarra', country: 'Spain', grape: 'Cabernet Sauvignon, Garnacha Tinto',
+    category: 'red', section: 'espagne-rouge',
+    description: {
+      fr: 'Navarra bio évolué. Cabernet et Garnacha, fruits mûrs, épices.',
+      en: 'Evolved organic Navarra. Cabernet and Garnacha, ripe fruits, spices.',
+      de: 'Gereifter Bio Navarra. Cabernet und Garnacha, reife Früchte, Gewürze.',
+      lb: 'Gereifte Bio Navarra. Cabernet a Garnacha, reif Friichten, Gewierzer.',
+    },
+    priceGlass: 9, priceBottle: 36, priceShop: 29,
+    image: IMG.red1, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+  {
+    id: 'el-pacto-tempranillo-2020-magnum',
+    name: 'El Pacto 2020 Tempranillo (1,5L)',
+    region: 'Rioja', country: 'Spain', grape: 'Tempranillo',
+    category: 'red', section: 'espagne-rouge',
+    description: {
+      fr: 'Tempranillo bio en magnum. Fruits noirs, réglisse, structure généreuse.',
+      en: 'Organic Tempranillo in magnum. Dark fruits, liquorice, generous structure.',
+      de: 'Bio Tempranillo in Magnum. Dunkle Früchte, Lakritze, großzügige Struktur.',
+      lb: 'Bio Tempranillo an Magnum. Donkel Friichten, Lakritze, generéis Struktur.',
+    },
+    priceGlass: 0, priceBottle: 75, priceShop: 0,
+    image: IMG.red2, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+  {
+    id: 'navarra-garnacha-2020',
+    name: 'Navarra Garnacha 2020',
+    region: 'Navarra', country: 'Spain', grape: 'Garnacha',
+    category: 'red', section: 'espagne-rouge',
+    description: {
+      fr: 'Garnacha bio de Navarre. Fruits rouges, garrigue, souple.',
+      en: 'Organic Navarra Garnacha. Red fruits, garrigue, supple.',
+      de: 'Bio Navarra Garnacha. Rote Früchte, Garrigue, geschmeidig.',
+      lb: 'Bio Navarra Garnacha. Rout Friichten, Garrigue, geschmeideg.',
+    },
+    priceGlass: 10, priceBottle: 38, priceShop: 30,
+    image: IMG.red1, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+
+  /* ═══════════════════════════════════════════════
+     ITALIE ROUGE
+     ═══════════════════════════════════════════════ */
+  {
+    id: 'san-guido-le-difese-2022',
+    name: 'Tenuta San Guido Le Difese 2022',
+    region: 'Toscane', country: 'Italy', grape: 'Cabernet Sauvignon, Sangiovese',
+    category: 'red', section: 'italie-rouge',
+    description: {
+      fr: 'Le Difese de San Guido (Sassicaia). Toscan bio, élégant et structuré.',
+      en: 'Le Difese from San Guido (Sassicaia). Organic Tuscan, elegant and structured.',
+      de: 'Le Difese von San Guido (Sassicaia). Bio Toskaner, elegant und strukturiert.',
+      lb: 'Le Difese vu San Guido (Sassicaia). Bio Toskaner, elegant a strukturéiert.',
+    },
+    priceGlass: 16, priceBottle: 65, priceShop: 52,
+    image: IMG.red2, isAvailable: true, isFeatured: true,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+  {
+    id: 'il-bioselvatico-2020',
+    name: 'Il BioSelvatico 2020',
+    region: 'Toscane', country: 'Italy', grape: 'Sangiovese',
+    category: 'red', section: 'italie-rouge',
+    description: {
+      fr: 'Sangiovese bio toscan. Cerise, herbes, tanins fins et vivants.',
+      en: 'Organic Tuscan Sangiovese. Cherry, herbs, fine and lively tannins.',
+      de: 'Bio toskanischer Sangiovese. Kirsche, Kräuter, feine und lebendige Tannine.',
+      lb: 'Bio toskanesche Sangiovese. Kiischt, Kraider, fein a lieweg Tanninen.',
+    },
+    priceGlass: 12, priceBottle: 48, priceShop: 38,
+    image: IMG.red1, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+  {
+    id: 'chianti-2020',
+    name: 'Chianti 2020',
+    region: 'Toscane', country: 'Italy', grape: 'Sangiovese',
+    category: 'red', section: 'italie-rouge',
+    description: {
+      fr: 'Chianti classique. Cerise, violette, tanins croquants.',
+      en: 'Classic Chianti. Cherry, violet, crunchy tannins.',
+      de: 'Klassischer Chianti. Kirsche, Veilchen, knackige Tannine.',
+      lb: 'Klassesche Chianti. Kiischt, Véilchen, knackeg Tanninen.',
+    },
+    priceGlass: 11, priceBottle: 42, priceShop: 34,
+    image: IMG.red2, isAvailable: true, isFeatured: false,
+    isOrganic: false, isBiodynamic: false, isNatural: false,
+  },
+
+  /* ═══════════════════════════════════════════════
+     SERBIE ROUGE
+     ═══════════════════════════════════════════════ */
+  {
+    id: 'timacum-minus-2016',
+    name: 'Vinarija Timacum Minus 2016',
+    region: 'Timok', country: 'Serbia', grape: 'Cabernet Sauvignon',
+    category: 'red', section: 'serbie-rouge',
+    description: {
+      fr: 'Cabernet Sauvignon serbe bio. Fruits noirs, tabac, tanins mûrs.',
+      en: 'Organic Serbian Cabernet Sauvignon. Dark fruits, tobacco, ripe tannins.',
+      de: 'Bio serbischer Cabernet Sauvignon. Dunkle Früchte, Tabak, reife Tannine.',
+      lb: 'Bio serbesche Cabernet Sauvignon. Donkel Friichten, Tubak, reif Tanninen.',
+    },
+    priceGlass: 13, priceBottle: 50, priceShop: 40,
+    image: IMG.red1, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
+  },
+
+  /* ═══════════════════════════════════════════════
+     HONGRIE BLANC
+     ═══════════════════════════════════════════════ */
+  {
+    id: 'pelle-tokaji-furmint-2021',
+    name: 'Pelle Tokaji Furmint 2021',
+    region: 'Tokaj', country: 'Hungary', grape: 'Furmint',
+    category: 'white', section: 'hongrie-blanc',
+    description: {
+      fr: 'Furmint sec de Tokaj bio. Minéral, agrumes, acidité tranchante.',
+      en: 'Organic dry Tokaji Furmint. Mineral, citrus, sharp acidity.',
+      de: 'Bio trockener Tokaji Furmint. Mineralisch, Zitrus, scharfe Säure.',
+      lb: 'Bio drëchene Tokaji Furmint. Mineralesch, Zitrus, schaarf Säier.',
+    },
+    priceGlass: 11, priceBottle: 42, priceShop: 34,
+    image: IMG.white1, isAvailable: true, isFeatured: false,
+    isOrganic: true, isBiodynamic: false, isNatural: false,
   },
 ];

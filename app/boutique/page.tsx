@@ -8,12 +8,13 @@ import { useCart } from "@/context/CartContext";
 import { useData } from "@/context/DataContext";
 import { WINE_SECTIONS, sectionLabels, sectionCategory } from "@/data/wines";
 
-const filters = ["all", "white", "red", "sparkling"] as const;
+const filters = ["all", "white", "red", "orange", "sparkling"] as const;
 
 const filterLabels: Record<string, Record<string, string>> = {
   all: { fr: "Tous", en: "All", de: "Alle", lb: "All" },
   white: { fr: "Blanc", en: "White", de: "Weiß", lb: "Wäiss" },
   red: { fr: "Rouge", en: "Red", de: "Rot", lb: "Rout" },
+  orange: { fr: "Orange", en: "Orange", de: "Orange", lb: "Orange" },
   sparkling: { fr: "Pétillant", en: "Sparkling", de: "Schaumwein", lb: "Schaumwäin" },
 };
 
