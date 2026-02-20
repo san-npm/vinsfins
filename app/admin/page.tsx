@@ -9,7 +9,7 @@ type Lang = "fr" | "en" | "de" | "lb";
 const LANGS: Lang[] = ["fr", "en", "de", "lb"];
 const LANG_LABELS: Record<Lang, string> = { fr: "Français", en: "English", de: "Deutsch", lb: "Lëtzebuergesch" };
 const WINE_CATS = ["red", "white", "rosé", "orange", "sparkling"] as const;
-const MENU_CATS = ["starters", "platters", "mains", "desserts", "specials"] as const;
+const MENU_CATS = ["starters", "platters", "carpaccios", "mains", "desserts", "specials"] as const;
 
 type Tab = "menu" | "wines" | "content";
 
@@ -22,7 +22,7 @@ function newMenuItem(): MenuItem {
 }
 
 function newWine(): Wine {
-  return { id: `wine-${Date.now()}`, name: "", region: "", country: "", grape: "", category: "red", description: emptyLR(), priceGlass: 0, priceBottle: 0, priceShop: 0, image: "", isAvailable: true, isFeatured: false, isOrganic: false, isBiodynamic: false };
+  return { id: `wine-${Date.now()}`, name: "", region: "", country: "", grape: "", category: "red", section: "luxembourg-blanc", description: emptyLR(), priceGlass: 0, priceBottle: 0, priceShop: 0, image: "", isAvailable: true, isFeatured: false, isOrganic: false, isBiodynamic: false, isNatural: false };
 }
 
 export default function AdminPage() {
