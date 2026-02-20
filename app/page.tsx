@@ -36,7 +36,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
         <div className="relative z-10 text-center px-6">
-          <h1 className="mb-4 animate-handwrite">
+          <h1 className="mb-4">
             <Image
               src="/vinsfins-logo.png"
               alt="Vins Fins"
@@ -46,13 +46,13 @@ export default function HomePage() {
               priority
             />
           </h1>
-          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2 opacity-0 animate-hero-fade-in" style={{ animationDelay: '1s' }}>
+          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2">
             {t("home.heroSubtitle")}
           </p>
-          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed opacity-0 animate-hero-fade-in" style={{ animationDelay: '1.2s' }}>
+          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed">
             {t("home.heroDescription")}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-hero-fade-in" style={{ animationDelay: '1.4s' }}>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
               href="https://bookings.zenchef.com/results?rid=379498"
               target="_blank"
