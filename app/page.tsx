@@ -54,7 +54,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="https://bookings.zenchef.com/results?rid=379498"
+              href="https://bookings.zenchef.com/results?rid=371555"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-wine"
@@ -190,7 +190,7 @@ export default function HomePage() {
           {t("home.ctaDesc")}
         </p>
         <a
-          href="https://bookings.zenchef.com/results?rid=379498"
+          href="https://bookings.zenchef.com/results?rid=371555"
           target="_blank"
           rel="noopener noreferrer"
           className="btn-wine"

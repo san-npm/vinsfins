@@ -108,7 +108,7 @@ export default function ContactPage() {
                 <h2 className="font-playfair text-xl text-ink mb-3">{t("contact.reserveTitle")}</h2>
                 <p className="text-sm text-stone font-light mb-6">{t("contact.reserveDesc")}</p>
                 <a
-                  href="https://bookings.zenchef.com/results?rid=379498"
+                  href="https://bookings.zenchef.com/results?rid=371555"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-wine"

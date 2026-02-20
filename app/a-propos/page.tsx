@@ -99,7 +99,7 @@ export default function AProposPage() {
         <h2 className="font-playfair text-3xl text-ink mb-4">{t("about.ctaTitle")}</h2>
         <p className="text-stone font-light max-w-md mx-auto mb-8">{t("about.ctaDesc")}</p>
         <a
-          href="https://bookings.zenchef.com/results?rid=379498"
+          href="https://bookings.zenchef.com/results?rid=371555"
           target="_blank"
           rel="noopener noreferrer"
           className="btn-wine"
