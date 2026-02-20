@@ -118,7 +118,7 @@ const restaurantJsonLd = {
     "@type": "ReserveAction",
     target: {
       "@type": "EntryPoint",
-      urlTemplate: "https://bookings.zenchef.com/results?rid=379498",
+      urlTemplate: "https://bookings.zenchef.com/results?rid=371555",
     },
     result: {
       "@type": "FoodEstablishmentReservation",

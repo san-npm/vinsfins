@@ -134,7 +134,7 @@ export default function Navigation() {
             </button>
 
             <a
-              href="https://bookings.zenchef.com/results?rid=379498"
+              href="https://bookings.zenchef.com/results?rid=371555"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-wine text-[9px] px-6 py-2.5"
@@ -212,7 +212,7 @@ export default function Navigation() {
           </div>
 
           <a
-            href="https://bookings.zenchef.com/results?rid=379498"
+            href="https://bookings.zenchef.com/results?rid=371555"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-wine mt-4"
