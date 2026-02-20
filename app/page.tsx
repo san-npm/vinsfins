@@ -27,7 +27,7 @@ export default function HomePage() {
       <section className="relative h-screen overflow-hidden flex items-center justify-center">
         <div ref={heroRef} className="absolute inset-0">
           <Image
-            src="/images/hero.jpg"
+            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1920&h=1080&fit=crop"
             alt="Wine bar ambiance"
             fill
             className="object-cover"
@@ -46,13 +46,13 @@ export default function HomePage() {
               priority
             />
           </h1>
-          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2">
+          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2 opacity-0 animate-hero-fade-in" style={{ animationDelay: '2s' }}>
             {t("home.heroSubtitle")}
           </p>
-          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed">
+          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed opacity-0 animate-hero-fade-in" style={{ animationDelay: '2.3s' }}>
             {t("home.heroDescription")}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 opacity-0 animate-hero-fade-in" style={{ animationDelay: '2.6s' }}>
             <a
               href="https://bookings.zenchef.com/results?rid=379498"
               target="_blank"

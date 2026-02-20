@@ -113,15 +113,15 @@ export interface Wine {
   isNatural: boolean;
 }
 
-/* Placeholder images — replace with real photos */
+/* Unsplash placeholder images — replace with real photos */
 const IMG = {
-  spark1: '/images/wine-sparkling.jpg',
-  spark2: '/images/wine-sparkling-2.jpg',
-  white1: '/images/wine-white.jpg',
-  white2: '/images/wine-white-2.jpg',
-  red1:   '/images/wine-red.jpg',
-  red2:   '/images/wine-red-2.jpg',
-  cider:  '/images/wine-orange.jpg',
+  spark1: 'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=600&h=800&fit=crop',
+  spark2: 'https://images.unsplash.com/photo-1598306442928-4d90f32c6866?w=600&h=800&fit=crop',
+  white1: 'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+  white2: 'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
+  red1:   'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=800&fit=crop',
+  red2:   'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&h=800&fit=crop',
+  cider:  'https://images.unsplash.com/photo-1569919659476-f0852f9fcc16?w=600&h=800&fit=crop',
 };
 
 export const wines: Wine[] = [
