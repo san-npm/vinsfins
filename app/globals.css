@@ -52,34 +52,6 @@ body::before {
   }
 }
 
-/* Handwriting reveal animation — diagonal sweep following calligraphy flow */
-@keyframes handwrite-mask {
-  0% {
-    mask-size: 0% 0%;
-  }
-  100% {
-    mask-size: 300% 300%;
-  }
-}
-.animate-handwrite {
-  mask-image: radial-gradient(ellipse at 20% 15%, #000 40%, transparent 70%);
-  mask-size: 0% 0%;
-  mask-repeat: no-repeat;
-  -webkit-mask-image: radial-gradient(ellipse at 20% 15%, #000 40%, transparent 70%);
-  -webkit-mask-size: 0% 0%;
-  -webkit-mask-repeat: no-repeat;
-  animation: handwrite-mask 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.2s forwards;
-}
-
-/* Hero text fade-in after logo writes */
-@keyframes heroFadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.animate-hero-fade-in {
-  animation: heroFadeIn 0.8s ease forwards;
-}
-
 /* Slow wall texture drift */
 @keyframes wallDrift {
   0% { background-position: 0 0; }
