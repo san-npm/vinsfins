@@ -133,14 +133,9 @@ export default function Navigation() {
               )}
             </button>
 
-            <a
-              href="https://bookings.zenchef.com/results?rid=371555"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wine text-[9px] px-6 py-2.5"
-            >
+            <button data-zc-action="open" className="btn-wine text-[9px] px-6 py-2.5">
               {t("nav.reserve")}
-            </a>
+            </button>
           </div>
 
           <button
@@ -211,15 +206,13 @@ export default function Navigation() {
             ))}
           </div>
 
-          <a
-            href="https://bookings.zenchef.com/results?rid=371555"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            data-zc-action="open"
             className="btn-wine mt-4"
             onClick={() => setMobileOpen(false)}
           >
             {t("nav.reserve")}
-          </a>
+          </button>
         </div>
       )}
     </>

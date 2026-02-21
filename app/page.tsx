@@ -53,14 +53,9 @@ export default function HomePage() {
             {t("home.heroDescription")}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="https://bookings.zenchef.com/results?rid=371555"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wine"
-            >
+            <button data-zc-action="open" className="btn-wine">
               {t("home.reserveTable")}
-            </a>
+            </button>
             <Link href={localePath("/vins")} className="btn-outline border-white/30 text-white hover:border-white/60">
               {t("home.discoverWines")}
             </Link>
@@ -189,14 +184,9 @@ export default function HomePage() {
         <p className="text-cream/60 font-light max-w-lg mx-auto mb-8">
           {t("home.ctaDesc")}
         </p>
-        <a
-          href="https://bookings.zenchef.com/results?rid=371555"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-wine"
-        >
+        <button data-zc-action="open" className="btn-wine">
           {t("home.ctaButton")}
-        </a>
+        </button>
       </section>
 
     </main>

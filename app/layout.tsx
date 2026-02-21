@@ -133,7 +133,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang={locale}>
       <head>
-        <script src="https://sdk.zenchef.com/v1/widget.js" async defer />
         <Script
           id="json-ld-restaurant"
           type="application/ld+json"
@@ -151,6 +150,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </CartProvider>
           </DataProvider>
         </LanguageProvider>
+        <div className="zc-widget-config" data-restaurant="371555" data-open="2000" />
+        <Script id="zenchef-sdk" strategy="afterInteractive">{`
+          ;(function (d, s, id) {
+            var el = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id) || !el || !el.parentNode) return;
+            var js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://sdk.zenchef.com/v1/sdk.min.js';
+            el.parentNode.insertBefore(js, el);
+          })(document, 'script', 'zenchef-sdk');
+        `}</Script>
       </body>
     </html>
   );

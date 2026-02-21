@@ -107,14 +107,9 @@ export default function ContactPage() {
               <div className="bg-parchment p-8 border border-ink/5 text-center">
                 <h2 className="font-playfair text-xl text-ink mb-3">{t("contact.reserveTitle")}</h2>
                 <p className="text-sm text-stone font-light mb-6">{t("contact.reserveDesc")}</p>
-                <a
-                  href="https://bookings.zenchef.com/results?rid=371555"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-wine"
-                >
+                <button data-zc-action="open" className="btn-wine">
                   {t("contact.bookOnZenchef")}
-                </a>
+                </button>
                 <p className="text-xs text-stone/60 mt-4">
                   {t("contact.orCallUs")} <a href="tel:+35226200449" className="text-ink">+352 26 20 04 49</a>
                 </p>

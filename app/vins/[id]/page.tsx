@@ -201,14 +201,9 @@ export default function WinePage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href="https://bookings.zenchef.com/results?rid=371555"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-wine text-center"
-              >
+              <button data-zc-action="open" className="btn-wine text-center">
                 Réserver pour Déguster
-              </a>
+              </button>
               {wine.priceShop > 0 && (
                 <Link href={`/boutique/${wine.id}`} className="btn-outline text-center">
                   Acheter en Ligne
