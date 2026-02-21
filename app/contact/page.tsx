@@ -107,9 +107,9 @@ export default function ContactPage() {
               <div className="bg-parchment p-8 border border-ink/5 text-center">
                 <h2 className="font-playfair text-xl text-ink mb-3">{t("contact.reserveTitle")}</h2>
                 <p className="text-sm text-stone font-light mb-6">{t("contact.reserveDesc")}</p>
-                <button data-zc-action="open" className="btn-wine">
+                <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine">
                   {t("contact.bookOnZenchef")}
-                </button>
+                </a>
                 <p className="text-xs text-stone/60 mt-4">
                   {t("contact.orCallUs")} <a href="tel:+35226200449" className="text-ink">+352 26 20 04 49</a>
                 </p>
