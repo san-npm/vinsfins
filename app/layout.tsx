@@ -150,16 +150,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </CartProvider>
           </DataProvider>
         </LanguageProvider>
-        <div className="zc-widget-config" data-restaurant="371555" data-open="2000" />
+        <div className="zc-widget-config" data-restaurant="371555" data-open="2000"></div>
         <Script id="zenchef-loader" strategy="afterInteractive">{`
           ;(function (d, s, id) {
-            var el = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id) || !el || !el.parentNode) return;
-            var js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://sdk.zenchef.com/v1/sdk.min.js';
-            el.parentNode.insertBefore(js, el);
-          })(document, 'script', 'zenchef-sdk-js');
+            const el = d.getElementsByTagName(s)[0]
+            if (d.getElementById(id) || el.parentNode == null) return
+            var js = d.createElement(s)
+            js.id = id
+            js.src = 'https://sdk.zenchef.com/v1/sdk.min.js'
+            el.parentNode.insertBefore(js, el)
+          })(document, 'script', 'zenchef-sdk')
         `}</Script>
       </body>
     </html>
