@@ -168,13 +168,17 @@ export default function WinePage() {
             </p>
 
             <div className="space-y-3 mb-8 p-6 bg-parchment">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-stone">Au verre</span>
-                <span className="font-playfair text-lg text-ink">
-                  {wine.priceGlass}€
-                </span>
-              </div>
-              <div className="border-t border-ink/5" />
+              {wine.priceGlass > 0 && (
+                <>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-stone">Au verre</span>
+                    <span className="font-playfair text-lg text-ink">
+                      {wine.priceGlass}€
+                    </span>
+                  </div>
+                  <div className="border-t border-ink/5" />
+                </>
+              )}
               <div className="flex justify-between items-center">
                 <span className="text-sm text-stone">Bouteille</span>
                 <span className="font-playfair text-lg text-ink">
@@ -197,12 +201,7 @@ export default function WinePage() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <a
-                href="https://bookings.zenchef.com/results?rid=379498"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-wine text-center"
-              >
+              <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine text-center">
                 Réserver pour Déguster
               </a>
               {wine.priceShop > 0 && (

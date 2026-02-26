@@ -12,7 +12,7 @@ export default function ContactPage() {
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("contact.heroLabel")}
         </p>
-        <h1 className="font-playfair text-4xl md:text-5xl text-ink">
+        <h1 className="font-playfair text-4xl md:text-5xl text-ink font-bold">
           {t("contact.heroTitle")}
         </h1>
       </section>
@@ -107,12 +107,7 @@ export default function ContactPage() {
               <div className="bg-parchment p-8 border border-ink/5 text-center">
                 <h2 className="font-playfair text-xl text-ink mb-3">{t("contact.reserveTitle")}</h2>
                 <p className="text-sm text-stone font-light mb-6">{t("contact.reserveDesc")}</p>
-                <a
-                  href="https://bookings.zenchef.com/results?rid=379498"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-wine"
-                >
+                <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine">
                   {t("contact.bookOnZenchef")}
                 </a>
                 <p className="text-xs text-stone/60 mt-4">
