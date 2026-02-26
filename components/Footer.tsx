@@ -65,6 +65,19 @@ export default function Footer() {
                 Gault &amp; Millau
               </p>
             </div>
+            <div className="mt-4 pt-4 border-t border-cream/5">
+              <p className="text-[10px] tracking-luxury uppercase text-gold mb-2">
+                Notre cave &amp; épicerie
+              </p>
+              <a
+                href="https://lagrocerie.lu"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block hover:text-cream transition-colors"
+              >
+                La Grocerie
+              </a>
+            </div>
           </div>
         </div>
 
