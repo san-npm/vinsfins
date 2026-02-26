@@ -36,7 +36,7 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
         <div className="relative z-10 text-center px-6">
-          <h1 className="mb-4 animate-handwrite">
+          <h1 className="mb-4">
             <Image
               src="/vinsfins-logo.png"
               alt="Vins Fins"
@@ -46,19 +46,14 @@ export default function HomePage() {
               priority
             />
           </h1>
-          <p className="text-white/80 text-sm md:text-base tracking-luxury uppercase font-light mb-2">
+          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2">
             {t("home.heroSubtitle")}
           </p>
-          <p className="text-white/60 text-sm max-w-lg mx-auto mb-10 font-light leading-relaxed">
+          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed">
             {t("home.heroDescription")}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="https://bookings.zenchef.com/results?rid=379498"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-wine"
-            >
+            <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine">
               {t("home.reserveTable")}
             </a>
             <Link href={localePath("/vins")} className="btn-outline border-white/30 text-white hover:border-white/60">
@@ -111,8 +106,12 @@ export default function HomePage() {
                 <p className="text-sm text-stone mb-1">{wine.region}, {wine.country}</p>
                 <p className="text-xs text-stone/70 mb-2">{wine.grape}</p>
                 <p className="text-sm text-stone">
-                  {wine.priceGlass}€ <span className="text-stone/50">{t("home.glass")}</span>
-                  {" · "}
+                  {wine.priceGlass > 0 && (
+                    <>
+                      {wine.priceGlass}€ <span className="text-stone/50">{t("home.glass")}</span>
+                      {" · "}
+                    </>
+                  )}
                   {wine.priceBottle}€ <span className="text-stone/50">{t("home.bottle")}</span>
                 </p>
               </div>
@@ -185,12 +184,7 @@ export default function HomePage() {
         <p className="text-cream/60 font-light max-w-lg mx-auto mb-8">
           {t("home.ctaDesc")}
         </p>
-        <a
-          href="https://bookings.zenchef.com/results?rid=379498"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn-wine"
-        >
+        <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine">
           {t("home.ctaButton")}
         </a>
       </section>

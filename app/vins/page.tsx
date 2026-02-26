@@ -7,7 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
 import { WINE_SECTIONS, sectionLabels, sectionCategory } from "@/data/wines";
 
-const filters = ["all", "white", "red", "orange", "sparkling"] as const;
+const filters = ["all", "white", "red", "orange", "sparkling", "cider"] as const;
 
 const filterLabels: Record<string, Record<string, string>> = {
   all: { fr: "Tous", en: "All", de: "Alle", lb: "All" },
@@ -15,6 +15,7 @@ const filterLabels: Record<string, Record<string, string>> = {
   red: { fr: "Rouge", en: "Red", de: "Rot", lb: "Rout" },
   orange: { fr: "Orange", en: "Orange", de: "Orange", lb: "Orange" },
   sparkling: { fr: "Pétillant", en: "Sparkling", de: "Schaumwein", lb: "Schaumwäin" },
+  cider: { fr: "Cidre", en: "Cider", de: "Cidre", lb: "Cidre" },
 };
 
 export default function VinsPage() {
@@ -35,7 +36,7 @@ export default function VinsPage() {
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("wines.heroLabel")}
         </p>
-        <h1 className="font-playfair text-4xl md:text-5xl text-ink">
+        <h1 className="font-playfair text-4xl md:text-5xl text-ink font-bold">
           {t("wines.heroTitle")}
         </h1>
       </section>

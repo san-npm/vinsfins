@@ -52,19 +52,6 @@ body::before {
   }
 }
 
-/* Handwriting reveal animation */
-@keyframes handwrite {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-.animate-handwrite {
-  animation: handwrite 2s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
-}
-
 /* Slow wall texture drift */
 @keyframes wallDrift {
   0% { background-position: 0 0; }

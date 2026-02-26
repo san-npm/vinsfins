@@ -8,7 +8,7 @@ import { useCart } from "@/context/CartContext";
 import { useData } from "@/context/DataContext";
 import { WINE_SECTIONS, sectionLabels, sectionCategory } from "@/data/wines";
 
-const filters = ["all", "white", "red", "orange", "sparkling"] as const;
+const filters = ["all", "white", "red", "orange", "sparkling", "cider"] as const;
 
 const filterLabels: Record<string, Record<string, string>> = {
   all: { fr: "Tous", en: "All", de: "Alle", lb: "All" },
@@ -16,6 +16,7 @@ const filterLabels: Record<string, Record<string, string>> = {
   red: { fr: "Rouge", en: "Red", de: "Rot", lb: "Rout" },
   orange: { fr: "Orange", en: "Orange", de: "Orange", lb: "Orange" },
   sparkling: { fr: "Pétillant", en: "Sparkling", de: "Schaumwein", lb: "Schaumwäin" },
+  cider: { fr: "Cidre", en: "Cider", de: "Cidre", lb: "Cidre" },
 };
 
 export default function BoutiquePage() {
@@ -37,10 +38,10 @@ export default function BoutiquePage() {
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("shop.heroLabel")}
         </p>
-        <h1 className="font-playfair text-4xl md:text-5xl text-ink mb-4">
+        <h1 className="font-playfair text-4xl md:text-5xl text-ink font-bold mb-4">
           {t("shop.heroTitle")}
         </h1>
-        <p className="text-stone font-light max-w-lg mx-auto">
+        <p className="text-stone font-normal max-w-lg mx-auto">
           {t("shop.heroDesc")}
         </p>
       </section>
