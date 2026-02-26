@@ -30,6 +30,9 @@ export default function Footer() {
             <p className="mt-1 text-sm text-stone leading-relaxed">
               Grund, Luxembourg
             </p>
+            <p className="mt-4 text-[10px] tracking-luxury uppercase text-gold">
+              Gault &amp; Millau
+            </p>
           </div>
 
           {/* Info */}
@@ -61,11 +64,6 @@ export default function Footer() {
               Facebook — Vins Fins
             </a>
             <div className="mt-6 pt-4 border-t border-cream/5">
-              <p className="text-[10px] tracking-luxury uppercase text-gold">
-                Gault &amp; Millau
-              </p>
-            </div>
-            <div className="mt-4 pt-4 border-t border-cream/5">
               <p className="text-[10px] tracking-luxury uppercase text-gold mb-2">
                 Notre cave &amp; épicerie
               </p>
