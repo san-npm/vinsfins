@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import Script from "next/script";
 import { useData } from "@/context/DataContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useParams } from "next/navigation";
@@ -15,7 +16,7 @@ const categoryLabels: Record<string, string> = {
 };
 
 export default function WinePage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const { wines } = useData();
   const { locale } = useLanguage();
   const wine = wines.find((w) => w.id === id);
@@ -92,9 +93,10 @@ export default function WinePage() {
 
   return (
     <main className="relative z-[1]">
-      <script
+      <Script
+        id={`wine-jsonld-${wine.id}`}
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
 
       {/* Breadcrumb */}

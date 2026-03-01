@@ -19,9 +19,9 @@ export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
 
   return (
     <Script
-      id={`breadcrumbs-${items.length}`}
+      id={`breadcrumbs-${items.map(i => i.url).join("-").replace(/[^a-z0-9-]/gi, "")}`}
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
     />
   );
 }
