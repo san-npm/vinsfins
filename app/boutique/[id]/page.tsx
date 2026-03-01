@@ -11,7 +11,7 @@ export default function ProductPage() {
   const { t, locale, localePath } = useLanguage();
   const { addToCart } = useCart();
   const { wines } = useData();
-  const params = useParams();
+  const params = useParams<{ id: string }>();
   const wine = wines.find((w) => w.id === params.id);
 
   if (!wine) {
@@ -38,6 +38,7 @@ export default function ProductPage() {
               alt={wine.name}
               fill
               className="object-cover"
+              sizes="(max-width: 1024px) 100vw, 50vw"
               priority
             />
             <div className="absolute top-4 left-4 flex gap-2">
