@@ -10,6 +10,7 @@ export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const [deliveryMethod, setDeliveryMethod] = useState<"delivery" | "pickup">("delivery");
   const [confirmed, setConfirmed] = useState(false);
+  const [ageConfirmed, setAgeConfirmed] = useState(false);
 
   if (confirmed) {
     return (
@@ -109,13 +110,26 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div className="text-xs text-stone/60 mb-4">
-              {t("checkout.ageConfirm")}
+            <div className="bg-amber-50 border border-amber-200 p-4 mb-4 text-xs text-amber-800">
+              {t("checkout.mockDisclaimer") || "Ceci est une vitrine. Aucun paiement ne sera traité et aucune commande ne sera passée."}
             </div>
+
+            <label className="flex items-start gap-3 mb-4 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={ageConfirmed}
+                onChange={(e) => setAgeConfirmed(e.target.checked)}
+                className="mt-0.5 w-4 h-4 accent-wine"
+              />
+              <span className="text-xs text-stone">
+                {t("checkout.ageConfirm")}
+              </span>
+            </label>
 
             <button
               onClick={() => { setConfirmed(true); clearCart(); }}
-              className="btn-wine w-full text-center"
+              disabled={!ageConfirmed}
+              className={`btn-wine w-full text-center ${!ageConfirmed ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {t("checkout.placeOrder")}
             </button>

@@ -78,7 +78,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     (newLocale: Locale) => {
       if (newLocale === locale) return;
       setLocaleState(newLocale);
-      document.cookie = `locale=${newLocale};path=/;max-age=31536000`;
+      document.cookie = `locale=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
 
       // Get the "bare" path (strip current locale prefix if present)
       const realPath = window.location.pathname;

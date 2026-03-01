@@ -28,7 +28,7 @@ export default function PanierPage() {
           {items.map((item) => (
             <div key={item.wine.id} className="flex gap-4 items-center border-b border-ink/5 pb-6">
               <div className="relative w-20 h-28 flex-shrink-0 bg-parchment overflow-hidden">
-                <Image src={item.wine.image} alt={item.wine.name} fill className="object-cover" />
+                <Image src={item.wine.image} alt={item.wine.name} fill className="object-cover" sizes="80px" />
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-playfair text-base text-ink">{item.wine.name}</h3>
@@ -71,11 +71,11 @@ export default function PanierPage() {
           </div>
           <div className="flex justify-between text-sm mb-4">
             <span className="text-stone">{t("cart.shipping")}</span>
-            <span className="text-stone">{t("cart.shippingNote")}</span>
+            <span className="text-stone">{totalPrice >= 100 ? t("cart.free") || "Gratuit" : "5€"}</span>
           </div>
           <div className="flex justify-between text-lg font-playfair mb-8">
             <span>{t("cart.total")}</span>
-            <span>{totalPrice}€</span>
+            <span>{totalPrice >= 100 ? totalPrice : totalPrice + 5}€</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/boutique/checkout" className="btn-wine text-center flex-1">

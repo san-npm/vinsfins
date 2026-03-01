@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Script from "next/script";
 
 type FAQItem = {
   question: string;
@@ -33,9 +34,10 @@ export default function FAQSection({
 
   return (
     <section className="py-20 md:py-24 px-6">
-      <script
+      <Script
+        id="faq-jsonld"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
