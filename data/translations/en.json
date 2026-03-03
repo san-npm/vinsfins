@@ -45,7 +45,19 @@
     "sortPriceDesc": "Price: High to Low",
     "sortRegion": "Sort by Region",
     "glass": "glass",
-    "bottle": "bottle"
+    "bottle": "bottle",
+    "home": "Home",
+    "wineList": "Wines",
+    "region": "Region",
+    "grape": "Grape",
+    "byTheGlass": "By the glass",
+    "byTheBottle": "Bottle",
+    "onlineShop": "Online shop",
+    "reserveToTaste": "Reserve to Taste",
+    "buyOnline": "Buy Online",
+    "notFound": "Wine not found",
+    "backToWines": "Back to Wine List",
+    "youMayAlsoLike": "You May Also Like"
   },
   "menuPage": {
     "heroLabel": "Seasonal & Inspired",

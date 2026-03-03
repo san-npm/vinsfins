@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 import { Wine } from "@/data/wines";
 
 export interface CartItem {
@@ -20,11 +20,48 @@ interface CartContextType {
   setIsCartOpen: (open: boolean) => void;
 }
 
+const STORAGE_KEY = "vinsfins-cart";
+
+function loadCartFromStorage(): CartItem[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed;
+  } catch {
+    return [];
+  }
+}
+
+function saveCartToStorage(items: CartItem[]) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  } catch {
+    // Storage full or unavailable
+  }
+}
+
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
+
+  // Load from localStorage on mount
+  useEffect(() => {
+    setItems(loadCartFromStorage());
+    setHydrated(true);
+  }, []);
+
+  // Persist to localStorage on change (after initial hydration)
+  useEffect(() => {
+    if (hydrated) {
+      saveCartToStorage(items);
+    }
+  }, [items, hydrated]);
 
   const addToCart = useCallback((wine: Wine) => {
     setItems((prev) => {
