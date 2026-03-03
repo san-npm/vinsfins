@@ -45,7 +45,19 @@
     "sortPriceDesc": "Preis: Absteigend",
     "sortRegion": "Nach Region Sortieren",
     "glass": "Glas",
-    "bottle": "Flasche"
+    "bottle": "Flasche",
+    "home": "Startseite",
+    "wineList": "Weine",
+    "region": "Region",
+    "grape": "Rebsorte",
+    "byTheGlass": "Im Glas",
+    "byTheBottle": "Flasche",
+    "onlineShop": "Online-Shop",
+    "reserveToTaste": "Reservieren zum Probieren",
+    "buyOnline": "Online Kaufen",
+    "notFound": "Wein nicht gefunden",
+    "backToWines": "Zurück zur Weinkarte",
+    "youMayAlsoLike": "Das Könnte Ihnen Auch Gefallen"
   },
   "menuPage": {
     "heroLabel": "Saisonal & Inspiriert",

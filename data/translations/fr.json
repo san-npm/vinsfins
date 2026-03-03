@@ -45,7 +45,19 @@
     "sortPriceDesc": "Prix : Décroissant",
     "sortRegion": "Trier par Région",
     "glass": "verre",
-    "bottle": "bouteille"
+    "bottle": "bouteille",
+    "home": "Accueil",
+    "wineList": "Vins",
+    "region": "Région",
+    "grape": "Cépage",
+    "byTheGlass": "Au verre",
+    "byTheBottle": "Bouteille",
+    "onlineShop": "Boutique en ligne",
+    "reserveToTaste": "Réserver pour Déguster",
+    "buyOnline": "Acheter en Ligne",
+    "notFound": "Vin introuvable",
+    "backToWines": "Retour à la Carte des Vins",
+    "youMayAlsoLike": "Vous Aimerez Aussi"
   },
   "menuPage": {
     "heroLabel": "Saisonnier & Inspiré",

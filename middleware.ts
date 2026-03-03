@@ -37,7 +37,7 @@ export function middleware(request: NextRequest) {
     const response = NextResponse.rewrite(new URL(cleanPath, request.url), {
       request: { headers: requestHeaders },
     });
-    response.cookies.set("locale", locale, { path: "/", maxAge: 31536000 });
+    response.cookies.set("locale", locale, { path: "/", maxAge: 31536000, secure: true, sameSite: "lax" });
     return response;
   }
 

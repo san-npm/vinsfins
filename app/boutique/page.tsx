@@ -7,17 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 import { useData } from "@/context/DataContext";
 import { WINE_SECTIONS, sectionLabels, sectionCategory } from "@/data/wines";
-
-const filters = ["all", "white", "red", "orange", "sparkling", "cider"] as const;
-
-const filterLabels: Record<string, Record<string, string>> = {
-  all: { fr: "Tous", en: "All", de: "Alle", lb: "All" },
-  white: { fr: "Blanc", en: "White", de: "Weiß", lb: "Wäiss" },
-  red: { fr: "Rouge", en: "Red", de: "Rot", lb: "Rout" },
-  orange: { fr: "Orange", en: "Orange", de: "Orange", lb: "Orange" },
-  sparkling: { fr: "Pétillant", en: "Sparkling", de: "Schaumwein", lb: "Schaumwäin" },
-  cider: { fr: "Cidre", en: "Cider", de: "Cidre", lb: "Cidre" },
-};
+import { WINE_FILTERS as filters, filterLabels } from "@/lib/wine-filters";
 
 export default function BoutiquePage() {
   const { t, locale, localePath } = useLanguage();

@@ -45,7 +45,19 @@
     "sortPriceDesc": "Präis: Ofsteigend",
     "sortRegion": "No Regioun Sortéieren",
     "glass": "Glas",
-    "bottle": "Fläsch"
+    "bottle": "Fläsch",
+    "home": "Heem",
+    "wineList": "Wäiner",
+    "region": "Regioun",
+    "grape": "Drauf",
+    "byTheGlass": "Am Glas",
+    "byTheBottle": "Fläsch",
+    "onlineShop": "Online-Buttek",
+    "reserveToTaste": "Reservéieren fir ze Proféieren",
+    "buyOnline": "Online Kafen",
+    "notFound": "Wäin net fonnt",
+    "backToWines": "Zréck op d'Wäinkaart",
+    "youMayAlsoLike": "Dat Kéint Iech och Gefalen"
   },
   "menuPage": {
     "heroLabel": "Saisonal & Inspiréiert",

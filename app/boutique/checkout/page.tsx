@@ -97,19 +97,6 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            {/* Payment */}
-            <div>
-              <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.payment")}</h2>
-              <div className="space-y-4">
-                <input placeholder={t("checkout.cardNumber")} className="w-full border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                <div className="grid grid-cols-2 gap-4">
-                  <input placeholder={t("checkout.expiry")} className="border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                  <input placeholder={t("checkout.cvc")} className="border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                </div>
-                <p className="text-xs text-stone/60">{t("checkout.paymentNote")}</p>
-              </div>
-            </div>
-
             <div className="bg-amber-50 border border-amber-200 p-4 mb-4 text-xs text-amber-800">
               {t("checkout.mockDisclaimer") || "Ceci est une vitrine. Aucun paiement ne sera traité et aucune commande ne sera passée."}
             </div>

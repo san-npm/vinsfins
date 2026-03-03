@@ -17,10 +17,11 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
+  recordLoginAttempt(request);
+
   if (verifyPassword(body.password)) {
     return NextResponse.json({ token: generateToken() });
   }
 
-  recordLoginAttempt(request);
   return NextResponse.json({ error: 'Invalid password' }, { status: 401 });
 }
