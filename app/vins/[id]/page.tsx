@@ -7,26 +7,26 @@ import { useData } from "@/context/DataContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useParams } from "next/navigation";
 
-const categoryLabels: Record<string, string> = {
-  red: "Rouge",
-  white: "Blanc",
-  rosé: "Rosé",
-  orange: "Orange",
-  sparkling: "Pétillant",
+const categoryLabels: Record<string, Record<string, string>> = {
+  red: { fr: "Rouge", en: "Red", de: "Rot", lb: "Rout" },
+  white: { fr: "Blanc", en: "White", de: "Weiß", lb: "Wäiss" },
+  rosé: { fr: "Rosé", en: "Rosé", de: "Rosé", lb: "Rosé" },
+  orange: { fr: "Orange", en: "Orange", de: "Orange", lb: "Orange" },
+  sparkling: { fr: "Pétillant", en: "Sparkling", de: "Schaumwein", lb: "Schaumwäin" },
 };
 
 export default function WinePage() {
   const { id } = useParams<{ id: string }>();
   const { wines } = useData();
-  const { locale } = useLanguage();
+  const { t, locale, localePath } = useLanguage();
   const wine = wines.find((w) => w.id === id);
 
   if (!wine) {
     return (
       <main className="relative z-[1] pt-32 pb-24 px-6 text-center">
-        <h1 className="font-playfair text-4xl text-ink mb-4">Vin introuvable</h1>
-        <Link href="/vins" className="btn-outline">
-          Retour à la Carte des Vins
+        <h1 className="font-playfair text-4xl text-ink mb-4">{t("wines.notFound")}</h1>
+        <Link href={localePath("/vins")} className="btn-outline">
+          {t("wines.backToWines")}
         </Link>
       </main>
     );
@@ -42,7 +42,7 @@ export default function WinePage() {
       "@type": "Brand",
       name: wine.name.split(" ").slice(0, 2).join(" "),
     },
-    category: `Vin ${categoryLabels[wine.category] || wine.category}`,
+    category: `Vin ${categoryLabels[wine.category]?.fr || wine.category}`,
     countryOfOrigin: {
       "@type": "Country",
       name: wine.country,
@@ -103,14 +103,14 @@ export default function WinePage() {
       <nav className="pt-28 px-6 max-w-5xl mx-auto">
         <ol className="flex items-center gap-2 text-xs text-stone/60">
           <li>
-            <Link href="/" className="hover:text-ink transition-colors">
-              Accueil
+            <Link href={localePath("/")} className="hover:text-ink transition-colors">
+              {t("wines.home")}
             </Link>
           </li>
           <li>/</li>
           <li>
-            <Link href="/vins" className="hover:text-ink transition-colors">
-              Vins
+            <Link href={localePath("/vins")} className="hover:text-ink transition-colors">
+              {t("wines.wineList")}
             </Link>
           </li>
           <li>/</li>
@@ -148,7 +148,7 @@ export default function WinePage() {
           {/* Info */}
           <div className="flex flex-col justify-center">
             <p className="text-[10px] tracking-luxury uppercase text-gold mb-3">
-              {categoryLabels[wine.category] || wine.category}
+              {categoryLabels[wine.category]?.[locale] || wine.category}
             </p>
             <h1 className="font-playfair text-3xl md:text-4xl text-ink mb-4">
               {wine.name}
@@ -156,11 +156,11 @@ export default function WinePage() {
 
             <div className="space-y-2 mb-6">
               <p className="text-sm text-stone">
-                <span className="text-ink font-medium">Région :</span>{" "}
+                <span className="text-ink font-medium">{t("wines.region")} :</span>{" "}
                 {wine.region}, {wine.country}
               </p>
               <p className="text-sm text-stone">
-                <span className="text-ink font-medium">Cépage :</span>{" "}
+                <span className="text-ink font-medium">{t("wines.grape")} :</span>{" "}
                 {wine.grape}
               </p>
             </div>
@@ -173,7 +173,7 @@ export default function WinePage() {
               {wine.priceGlass > 0 && (
                 <>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-stone">Au verre</span>
+                    <span className="text-sm text-stone">{t("wines.byTheGlass")}</span>
                     <span className="font-playfair text-lg text-ink">
                       {wine.priceGlass}€
                     </span>
@@ -182,7 +182,7 @@ export default function WinePage() {
                 </>
               )}
               <div className="flex justify-between items-center">
-                <span className="text-sm text-stone">Bouteille</span>
+                <span className="text-sm text-stone">{t("wines.byTheBottle")}</span>
                 <span className="font-playfair text-lg text-ink">
                   {wine.priceBottle}€
                 </span>
@@ -192,7 +192,7 @@ export default function WinePage() {
                   <div className="border-t border-ink/5" />
                   <div className="flex justify-between items-center">
                     <span className="text-sm text-stone">
-                      Boutique en ligne
+                      {t("wines.onlineShop")}
                     </span>
                     <span className="font-playfair text-lg text-ink">
                       {wine.priceShop}€
@@ -204,11 +204,11 @@ export default function WinePage() {
 
             <div className="flex flex-col sm:flex-row gap-3">
               <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine text-center">
-                Réserver pour Déguster
+                {t("wines.reserveToTaste")}
               </a>
               {wine.priceShop > 0 && (
-                <Link href={`/boutique/${wine.id}`} className="btn-outline text-center">
-                  Acheter en Ligne
+                <Link href={localePath(`/boutique/${wine.id}`)} className="btn-outline text-center">
+                  {t("wines.buyOnline")}
                 </Link>
               )}
             </div>
@@ -220,7 +220,7 @@ export default function WinePage() {
       <section className="py-16 px-6 bg-parchment">
         <div className="max-w-5xl mx-auto">
           <h2 className="font-playfair text-2xl text-ink mb-8 text-center">
-            Vous Aimerez Aussi
+            {t("wines.youMayAlsoLike")}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {wines
@@ -233,7 +233,7 @@ export default function WinePage() {
               .map((w) => (
                 <Link
                   key={w.id}
-                  href={`/vins/${w.id}`}
+                  href={localePath(`/vins/${w.id}`)}
                   className="group"
                 >
                   <div className="relative aspect-[3/4] overflow-hidden mb-3">

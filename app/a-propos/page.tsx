@@ -40,8 +40,8 @@ export default function AProposPage() {
         <div className="max-w-5xl mx-auto">
           <div className="relative aspect-[21/9] overflow-hidden">
             <Image
-              src="/326701965_3356142557967527_8857463979310443209_n.jpg"
-              alt="Wine cellar"
+              src="/vins-fins-la-grocerie.jpeg"
+              alt="Vins Fins — La Grocerie"
               fill
               className="object-cover"
             />

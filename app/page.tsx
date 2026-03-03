@@ -27,8 +27,8 @@ export default function HomePage() {
       <section className="relative h-screen overflow-hidden flex items-center justify-center">
         <div ref={heroRef} className="absolute inset-0">
           <Image
-            src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1920&h=1080&fit=crop"
-            alt="Wine bar ambiance"
+            src="/vins-fins.jpeg"
+            alt="Vins Fins — Bar à vins au Grund, Luxembourg"
             fill
             className="object-cover"
             priority
