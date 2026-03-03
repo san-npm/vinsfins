@@ -24,9 +24,8 @@ const config: Config = {
         stone: "#6b6460",
       },
       fontFamily: {
-        script: ["Monsieur La Doulaise", "cursive"],
-        playfair: ["Playfair Display", "serif"],
-        sans: ["Source Sans Pro", "sans-serif"],
+        playfair: ["var(--font-playfair)", "serif"],
+        sans: ["var(--font-sans)", "sans-serif"],
       },
       letterSpacing: {
         luxury: "0.25em",

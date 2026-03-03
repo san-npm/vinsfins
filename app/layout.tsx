@@ -8,6 +8,7 @@ import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
 import Script from "next/script";
 import { getLocale, pageMeta, SITE_URL, localeUrl, locales } from "@/lib/i18n";
+import { playfairDisplay, sourceSans3 } from "@/lib/fonts";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = getLocale();
@@ -133,19 +134,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang={locale}>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Monsieur+La+Doulaise&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,600;0,700;1,300;1,400&display=swap"
-          rel="stylesheet"
-        />
         <Script
           id="json-ld-restaurant"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
-      <body>
+      <body className={`${playfairDisplay.variable} ${sourceSans3.variable}`}>
         <LanguageProvider>
           <DataProvider>
             <CartProvider>
