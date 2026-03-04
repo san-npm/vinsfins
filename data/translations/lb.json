@@ -203,7 +203,10 @@
     "zenchefId": "Restaurant-ID: 371555",
     "zenchefNote": "An der Produktioun géif den Zenchef-Buchungswidget hei agebonnen ginn.",
     "bookOnZenchef": "Op Zenchef Buchen",
-    "orCallUs": "Oder rufft eis un op"
+    "orCallUs": "Oder rufft eis un op",
+    "mapConsent": "Dësen Inhalt gëtt vu Google Maps bereetgestallt.",
+    "mapConsentDetail": "Wann Dir d'Kaart luet, akzeptéiert Dir d'Dateschutzrichtlinn vu Google.",
+    "loadMap": "Kaart lueden"
   },
   "footer": {
     "brandDesc": "Wäibistro & Restaurant am Häerz vum historeschen Gronn-Quartier vu Lëtzebuerg. Kuratéiert Wäiner, inspiréiert Kichen, onvergiesslech Momenter.",
