@@ -203,7 +203,10 @@
     "zenchefId": "Restaurant-ID: 371555",
     "zenchefNote": "In der Produktion würde hier das Zenchef-Buchungswidget eingebettet.",
     "bookOnZenchef": "Auf Zenchef Buchen",
-    "orCallUs": "Oder rufen Sie uns an unter"
+    "orCallUs": "Oder rufen Sie uns an unter",
+    "mapConsent": "Dieser Inhalt wird von Google Maps bereitgestellt.",
+    "mapConsentDetail": "Beim Laden der Karte akzeptieren Sie die Datenschutzrichtlinie von Google.",
+    "loadMap": "Karte laden"
   },
   "footer": {
     "brandDesc": "Weinbar & Restaurant im Herzen von Luxemburgs historischem Stadtteil Grund. Kuratierte Weine, inspirierte Küche, unvergessliche Momente.",
