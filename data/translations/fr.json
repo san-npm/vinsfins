@@ -203,7 +203,10 @@
     "zenchefId": "ID Restaurant : 371555",
     "zenchefNote": "En production, le widget de réservation Zenchef serait intégré ici.",
     "bookOnZenchef": "Réserver sur Zenchef",
-    "orCallUs": "Ou appelez-nous au"
+    "orCallUs": "Ou appelez-nous au",
+    "mapConsent": "Ce contenu est fourni par Google Maps.",
+    "mapConsentDetail": "En chargeant la carte, vous acceptez la politique de confidentialité de Google.",
+    "loadMap": "Charger la carte"
   },
   "footer": {
     "brandDesc": "Bar à vins & restaurant au cœur du quartier historique du Grund au Luxembourg. Vins sélectionnés, cuisine inspirée, moments inoubliables.",

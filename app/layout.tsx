@@ -152,7 +152,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </DataProvider>
         </LanguageProvider>
         <div className="zc-widget-config" data-restaurant="371555" data-open="2000" />
-        <Script id="zenchef-sdk" strategy="afterInteractive">{`
+        <Script id="zenchef-loader" strategy="afterInteractive">{`
           ;(function (d, s, id) {
             var el = d.getElementsByTagName(s)[0];
             if (d.getElementById(id) || !el || !el.parentNode) return;
