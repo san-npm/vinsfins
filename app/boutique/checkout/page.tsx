@@ -7,21 +7,11 @@ import { useCart } from "@/context/CartContext";
 
 export default function CheckoutPage() {
   const { t } = useLanguage();
-  const { items, totalPrice, clearCart } = useCart();
+  const { items, totalPrice } = useCart();
   const [deliveryMethod, setDeliveryMethod] = useState<"delivery" | "pickup">("delivery");
-  const [confirmed, setConfirmed] = useState(false);
   const [ageConfirmed, setAgeConfirmed] = useState(false);
-
-  if (confirmed) {
-    return (
-      <main className="relative z-[1] pt-32 pb-24 px-6 text-center">
-        <h1 className="font-playfair text-3xl text-ink mb-4">{t("checkout.confirmed")}</h1>
-        <p className="text-stone mb-2">{t("checkout.thankYou")}</p>
-        <p className="text-xs text-stone/60 mb-8">{t("checkout.mockNote")}</p>
-        <Link href="/" className="btn-outline">Home</Link>
-      </main>
-    );
-  }
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   if (items.length === 0) {
     return (
@@ -32,25 +22,49 @@ export default function CheckoutPage() {
     );
   }
 
+  const handleCheckout = async () => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            wineId: item.wine.id,
+            quantity: item.quantity,
+          })),
+          deliveryMethod,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Une erreur est survenue");
+        setLoading(false);
+        return;
+      }
+
+      // Redirect to Stripe Checkout
+      if (data.url) {
+        window.location.href = data.url;
+      }
+    } catch {
+      setError("Erreur de connexion. Veuillez réessayer.");
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="relative z-[1] pt-32 pb-24 px-6">
       <div className="max-w-5xl mx-auto">
         <h1 className="font-playfair text-3xl text-ink mb-10 text-center">{t("checkout.title")}</h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          {/* Form */}
+          {/* Options */}
           <div className="lg:col-span-3 space-y-8">
-            {/* Contact */}
-            <div>
-              <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.contactInfo")}</h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <input placeholder={t("checkout.firstName")} className="border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                <input placeholder={t("checkout.lastName")} className="border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                <input placeholder={t("checkout.email")} type="email" className="border border-ink/15 bg-white/50 px-4 py-3 text-sm sm:col-span-2" />
-                <input placeholder={t("checkout.phone")} type="tel" className="border border-ink/15 bg-white/50 px-4 py-3 text-sm sm:col-span-2" />
-              </div>
-            </div>
-
             {/* Delivery method */}
             <div>
               <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.deliveryMethod")}</h2>
@@ -76,19 +90,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            {deliveryMethod === "delivery" ? (
-              <div>
-                <h2 className="font-playfair text-xl text-ink mb-4">{t("checkout.shippingAddress")}</h2>
-                <div className="space-y-4">
-                  <input placeholder={t("checkout.street")} className="w-full border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                  <input placeholder={t("checkout.apartment")} className="w-full border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                  <div className="grid grid-cols-2 gap-4">
-                    <input placeholder={t("checkout.city")} className="border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                    <input placeholder={t("checkout.postalCode")} className="border border-ink/15 bg-white/50 px-4 py-3 text-sm" />
-                  </div>
-                </div>
-              </div>
-            ) : (
+            {deliveryMethod === "pickup" && (
               <div className="bg-parchment p-6 border border-ink/5">
                 <p className="font-playfair text-base text-ink mb-2">{t("checkout.pickupAt")}</p>
                 <p className="text-sm text-stone">{t("checkout.pickupAddress")}</p>
@@ -97,9 +99,11 @@ export default function CheckoutPage() {
               </div>
             )}
 
-            <div className="bg-amber-50 border border-amber-200 p-4 mb-4 text-xs text-amber-800">
-              {t("checkout.mockDisclaimer") || "Ceci est une vitrine. Aucun paiement ne sera traité et aucune commande ne sera passée."}
-            </div>
+            {deliveryMethod === "delivery" && (
+              <div className="bg-parchment/50 p-4 border border-ink/5 text-sm text-stone">
+                {t("checkout.stripeAddressNote") || "L'adresse de livraison sera collectée lors du paiement sécurisé."}
+              </div>
+            )}
 
             <label className="flex items-start gap-3 mb-4 cursor-pointer">
               <input
@@ -113,13 +117,25 @@ export default function CheckoutPage() {
               </span>
             </label>
 
+            {error && (
+              <div className="bg-red-50 border border-red-200 p-4 text-sm text-red-800">
+                {error}
+              </div>
+            )}
+
             <button
-              onClick={() => { setConfirmed(true); clearCart(); }}
-              disabled={!ageConfirmed}
-              className={`btn-wine w-full text-center ${!ageConfirmed ? "opacity-50 cursor-not-allowed" : ""}`}
+              onClick={handleCheckout}
+              disabled={!ageConfirmed || loading}
+              className={`btn-wine w-full text-center ${!ageConfirmed || loading ? "opacity-50 cursor-not-allowed" : ""}`}
             >
-              {t("checkout.placeOrder")}
+              {loading
+                ? (t("checkout.processing") || "Redirection vers le paiement...")
+                : (t("checkout.proceedToPayment") || "Procéder au paiement sécurisé")}
             </button>
+
+            <p className="text-xs text-stone/60 text-center">
+              {t("checkout.stripeSecure") || "Paiement sécurisé par Stripe. Vos données bancaires ne sont jamais stockées sur notre site."}
+            </p>
           </div>
 
           {/* Order Summary */}
@@ -133,22 +149,32 @@ export default function CheckoutPage() {
                       <p className="text-ink">{item.wine.name}</p>
                       <p className="text-xs text-stone">{t("checkout.qty")}: {item.quantity}</p>
                     </div>
-                    <p className="text-ink">{item.wine.priceShop * item.quantity}€</p>
+                    <p className="text-ink">{(item.wine.priceShop * item.quantity).toFixed(2)}€</p>
                   </div>
                 ))}
               </div>
               <div className="border-t border-ink/5 pt-4 space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-stone">{t("checkout.subtotal")}</span>
-                  <span className="text-ink">{totalPrice}€</span>
+                  <span className="text-ink">{totalPrice.toFixed(2)}€</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-stone">{t("checkout.shipping")}</span>
-                  <span className="text-stone">{totalPrice >= 100 ? t("checkout.free") : "5€"}</span>
+                  <span className="text-stone">
+                    {deliveryMethod === "pickup"
+                      ? (t("checkout.free") || "Gratuit")
+                      : totalPrice >= 100
+                        ? (t("checkout.free") || "Gratuit")
+                        : "5.00€"}
+                  </span>
                 </div>
                 <div className="flex justify-between text-lg font-playfair pt-2 border-t border-ink/5">
                   <span>{t("checkout.total")}</span>
-                  <span>{totalPrice >= 100 ? totalPrice : totalPrice + 5}€</span>
+                  <span>
+                    {deliveryMethod === "pickup" || totalPrice >= 100
+                      ? totalPrice.toFixed(2)
+                      : (totalPrice + 5).toFixed(2)}€
+                  </span>
                 </div>
               </div>
             </div>

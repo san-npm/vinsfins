@@ -22,7 +22,7 @@ function newMenuItem(): MenuItem {
 }
 
 function newWine(): Wine {
-  return { id: `wine-${Date.now()}`, name: "", region: "", country: "", grape: "", category: "red", section: "luxembourg-blanc", description: emptyLR(), priceGlass: 0, priceBottle: 0, priceShop: 0, image: "", isAvailable: true, isFeatured: false, isOrganic: false, isBiodynamic: false, isNatural: false };
+  return { id: `wine-${Date.now()}`, name: "", region: "", country: "", grape: "", category: "red", section: "luxembourg-blanc", description: emptyLR(), priceGlass: 0, priceBottle: 0, priceShop: 0, image: "", isAvailable: true, isFeatured: false, isOrganic: false, isBiodynamic: false, isNatural: false, stock: 0, supplier: "", barcode: "" };
 }
 
 export default function AdminPage() {

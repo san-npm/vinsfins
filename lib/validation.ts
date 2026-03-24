@@ -2,7 +2,7 @@
 
 const LANGS = ['fr', 'en', 'de', 'lb'] as const;
 const MAX_STRING_LENGTH = 2000;
-const MAX_ARRAY_LENGTH = 500;
+const MAX_ARRAY_LENGTH = 1500;
 
 function isLangRecord(val: unknown): val is Record<string, string> {
   if (!val || typeof val !== 'object') return false;
