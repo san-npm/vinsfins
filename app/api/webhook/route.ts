@@ -22,20 +22,36 @@ export async function POST(req: NextRequest) {
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      console.log("Payment completed:", {
+      console.log("Checkout completed:", {
         sessionId: session.id,
         email: session.customer_details?.email,
         amount: session.amount_total,
+        paymentStatus: session.payment_status,
         deliveryMethod: session.metadata?.deliveryMethod,
       });
+
+      if (session.payment_status === "paid") {
+        // Payment received immediately (card payments)
+        // TODO: Send order confirmation email
+        // TODO: Update stock quantities
+        console.log("Order fulfilled:", session.id);
+      }
+      // If payment_status is "unpaid", wait for async_payment_succeeded
+      break;
+    }
+
+    case "checkout.session.async_payment_succeeded": {
+      const session = event.data.object as Stripe.Checkout.Session;
+      console.log("Async payment succeeded:", session.id);
       // TODO: Send order confirmation email
       // TODO: Update stock quantities
       break;
     }
 
-    case "checkout.session.expired": {
+    case "checkout.session.async_payment_failed": {
       const session = event.data.object as Stripe.Checkout.Session;
-      console.log("Checkout expired:", session.id);
+      console.log("Async payment failed:", session.id);
+      // TODO: Notify customer about failed payment
       break;
     }
 
