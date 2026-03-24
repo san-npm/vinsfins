@@ -1,4 +1,4 @@
-export const WINE_FILTERS = ["all", "white", "red", "orange", "sparkling", "cider"] as const;
+export const WINE_FILTERS = ["all", "white", "red", "orange", "sparkling", "cider", "beer"] as const;
 
 export const filterLabels: Record<string, Record<string, string>> = {
   all: { fr: "Tous", en: "All", de: "Alle", lb: "All" },
@@ -7,4 +7,5 @@ export const filterLabels: Record<string, Record<string, string>> = {
   orange: { fr: "Orange", en: "Orange", de: "Orange", lb: "Orange" },
   sparkling: { fr: "Pétillant", en: "Sparkling", de: "Schaumwein", lb: "Schaumwäin" },
   cider: { fr: "Cidre", en: "Cider", de: "Cidre", lb: "Cidre" },
+  beer: { fr: "Bière", en: "Beer", de: "Bier", lb: "Béier" },
 };
