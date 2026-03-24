@@ -31,7 +31,7 @@ export default function CheckoutSuccessPage() {
             {t("checkout.backToShop") || "Retour à la boutique"}
           </Link>
           <Link href="/" className="btn-outline">
-            {t("nav.home") || "Accueil"}
+            {t("breadcrumbs.home") || "Accueil"}
           </Link>
         </div>
       </div>
