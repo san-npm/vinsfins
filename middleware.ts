@@ -49,7 +49,7 @@ export function middleware(request: NextRequest) {
     request: { headers: requestHeaders },
   });
   // Set cookie for French too (so client-side knows)
-  response.cookies.set("locale", "fr", { path: "/", maxAge: 31536000 });
+  response.cookies.set("locale", "fr", { path: "/", maxAge: 31536000, secure: true, sameSite: "lax" });
   return response;
 }
 

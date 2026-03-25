@@ -18,7 +18,8 @@ export async function loadData(key: string, fallback: unknown): Promise<unknown>
 
 export async function saveData(key: string, data: unknown): Promise<void> {
   await put(`vinsfins/${key}.json`, JSON.stringify(data), {
-    access: "public",
+    access: "public",  // Vercel Blob requires public for server-side reads via fetch()
     addRandomSuffix: false,
+    cacheControlMaxAge: 0,
   });
 }
