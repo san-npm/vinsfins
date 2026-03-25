@@ -38,18 +38,33 @@ function sleep(ms) {
 function cleanWineName(name) {
   return name
     .replace(/^(BEER|CIDRE|CIDER)\s+/i, '')
-    .replace(/\d+[.,]\d*\s*(cl|l|ml)\b/gi, '')
+    .replace(/\d+[.,]\d*\s*(cl|l|ml)\b/gi, '') // remove volume
+    .replace(/\bMAGNUM\b/gi, '')                // remove format
+    .replace(/\bJEROBOAM\b/gi, '')
     .replace(/["''""«»]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
 
+function toTitleCase(str) {
+  // Convert ALL CAPS to Title Case for better search
+  if (str === str.toUpperCase() && str.length > 3) {
+    return str.toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+  }
+  return str;
+}
+
 function buildSearchQuery(wine) {
-  const name = cleanWineName(wine.name);
-  // Add "wine bottle" to help focus results
+  let name = cleanWineName(wine.name);
+  name = toTitleCase(name);
   const category = wine.category === 'sparkling' ? 'champagne' :
                    wine.category === 'beer' ? 'beer bottle' :
                    wine.category === 'cider' ? 'cider bottle' : 'wine bottle';
+  // For generic names, add region/grape for context
+  const words = name.split(/\s+/).filter(w => w.length > 2);
+  if (words.length <= 2 && wine.region) {
+    return `${name} ${wine.region} ${category}`;
+  }
   return `${name} ${category}`;
 }
 
