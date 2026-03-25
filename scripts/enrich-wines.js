@@ -775,6 +775,301 @@ const enriched = inStock.map(r => {
   // Section
   const section = resolveSection(category, region, country);
 
+  // ─── GRAPE INFERENCE from appellation/region/section ───
+  if (!grape) {
+    const n = name.toLowerCase();
+
+    // Beaujolais = always Gamay
+    if (region === 'Beaujolais') grape = 'Gamay';
+
+    // Champagne blends
+    else if (region === 'Champagne') {
+      if (/blanc de blancs/i.test(n)) grape = 'Chardonnay';
+      else if (/blanc de noirs/i.test(n)) grape = 'Pinot Noir';
+      else if (/meunier/i.test(n)) grape = 'Pinot Meunier';
+      else grape = 'Pinot Noir, Chardonnay, Pinot Meunier';
+    }
+
+    // Bourgogne
+    else if (region === 'Bourgogne') {
+      if (category === 'red') grape = 'Pinot Noir';
+      else if (category === 'white') grape = 'Chardonnay';
+    }
+
+    // Specific Loire appellations
+    else if (region === 'Loire') {
+      if (/muscadet/i.test(n)) grape = 'Melon de Bourgogne';
+      else if (/vouvray|montlouis|jasnières|jasnieres|savennières|savennieres/i.test(n)) grape = 'Chenin Blanc';
+      else if (/sancerre|pouilly.fum|pouily.fum|menetou.salon|quincy|reuilly/i.test(n)) grape = 'Sauvignon Blanc';
+      else if (/chinon|bourgueil|saumur.champigny|saumur.*rouge/i.test(n)) grape = 'Cabernet Franc';
+      else if (/saumur.*blanc/i.test(n)) grape = 'Chenin Blanc';
+      else if (category === 'white') grape = 'Chenin Blanc';
+      else if (category === 'red') grape = 'Cabernet Franc';
+    }
+
+    // Rhône
+    else if (region === 'Rhône') {
+      if (/côte.rôtie|cote.rotie|cornas|saint.joseph.*rouge|st.joseph.*rouge|serine/i.test(n)) grape = 'Syrah';
+      else if (/condrieu|viognier/i.test(n)) grape = 'Viognier';
+      else if (/saint.peray/i.test(n)) grape = 'Marsanne';
+      else if (/côtes du rhône|cotes du rhone|gigondas|vacqueyras|châteauneuf/i.test(n)) grape = 'Grenache blend';
+      else if (category === 'red') grape = 'Syrah';
+      else if (category === 'white') grape = 'Marsanne, Roussanne';
+    }
+
+    // Jura
+    else if (region === 'Jura') {
+      if (/poulsard/i.test(n)) grape = 'Poulsard';
+      else if (/trousseau/i.test(n)) grape = 'Trousseau';
+      else if (/savagnin/i.test(n)) grape = 'Savagnin';
+      else if (category === 'white') grape = 'Chardonnay';
+      else if (category === 'red') grape = 'Poulsard, Trousseau';
+    }
+
+    // Alsace
+    else if (region === 'Alsace') {
+      if (/riesling/i.test(n)) grape = 'Riesling';
+      else if (/gewürz|gewurz/i.test(n)) grape = 'Gewürztraminer';
+      else if (/pinot gris/i.test(n)) grape = 'Pinot Gris';
+      else if (/pinot blanc/i.test(n)) grape = 'Pinot Blanc';
+      else if (/pinot noir/i.test(n)) grape = 'Pinot Noir';
+      else if (/sylvaner/i.test(n)) grape = 'Sylvaner';
+      else if (/muscat/i.test(n)) grape = 'Muscat';
+      else grape = 'Alsace blend';
+    }
+
+    // Sud-Ouest
+    else if (region === 'Sud-Ouest') {
+      if (/cahors/i.test(n)) grape = 'Malbec';
+      else if (/madiran/i.test(n)) grape = 'Tannat';
+      else if (/jurançon|jurancon|pacherenc/i.test(n)) grape = 'Petit Manseng, Gros Manseng';
+      else if (/bergerac/i.test(n)) grape = 'Merlot, Cabernet';
+      else if (/bordeaux/i.test(n)) grape = 'Merlot, Cabernet';
+      else if (category === 'red') grape = 'Malbec blend';
+      else grape = 'Local varieties';
+    }
+
+    // Languedoc
+    else if (region === 'Languedoc' || region === 'Provence') {
+      if (/corbières|faugères|minervois/i.test(n)) grape = 'Carignan, Grenache, Syrah';
+      else if (category === 'red') grape = 'Carignan, Grenache, Syrah';
+      else if (category === 'white') grape = 'Grenache Blanc, Vermentino';
+      else grape = 'Southern blend';
+    }
+
+    // Corse
+    else if (region === 'Corse') {
+      if (category === 'red') grape = 'Nielluccio, Sciaccarellu';
+      else grape = 'Vermentinu';
+    }
+
+    // Savoie
+    else if (region === 'Savoie') {
+      if (/mondeuse/i.test(n)) grape = 'Mondeuse';
+      else if (/gringet/i.test(n)) grape = 'Gringet';
+      else if (/apremont/i.test(n)) grape = 'Jacquère';
+      else if (category === 'white') grape = 'Jacquère';
+      else grape = 'Mondeuse';
+    }
+
+    // Italy
+    else if (country === 'Italy') {
+      if (/chianti|toscana.*rosso/i.test(n)) grape = 'Sangiovese';
+      else if (/barolo|barbaresco/i.test(n)) grape = 'Nebbiolo';
+      else if (/abruzzo.*rosso|montepulciano d/i.test(n)) grape = 'Montepulciano';
+      else if (/trebbiano d/i.test(n)) grape = 'Trebbiano';
+      else if (/primitivo/i.test(n)) grape = 'Primitivo';
+      else if (/negroamaro|nero/i.test(n)) grape = 'Negroamaro';
+      else if (/bombino/i.test(n)) grape = 'Bombino';
+      else if (/verdicchio/i.test(n)) grape = 'Verdicchio';
+      else if (/timorasso/i.test(n)) grape = 'Timorasso';
+      else if (/schiava/i.test(n)) grape = 'Schiava';
+      else if (/gewur/i.test(n)) grape = 'Gewürztraminer';
+    }
+
+    // Spain
+    else if (country === 'Spain') {
+      if (/garnacha|grenache/i.test(n)) grape = 'Garnacha';
+      else if (/tempranillo/i.test(n)) grape = 'Tempranillo';
+      else if (/mencia|mencía/i.test(n)) grape = 'Mencía';
+      else if (/godello/i.test(n)) grape = 'Godello';
+      else if (/cava|brut/i.test(n)) grape = 'Macabeo, Xarel·lo, Parellada';
+      else if (region === 'Rioja') grape = 'Tempranillo, Garnacha';
+      else if (region === 'Bierzo') grape = 'Mencía';
+      else if (region === 'Montsant' || region === 'Priorat') grape = 'Garnacha, Carignan';
+    }
+
+    // Portugal
+    else if (country === 'Portugal') {
+      if (/douro/i.test(n)) grape = 'Touriga Nacional blend';
+      else grape = 'Portuguese varieties';
+    }
+
+    // Luxembourg
+    else if (country === 'Luxembourg') {
+      if (/riesling/i.test(n)) grape = 'Riesling';
+      else if (/auxerrois/i.test(n)) grape = 'Auxerrois';
+      else if (/pinot gris/i.test(n)) grape = 'Pinot Gris';
+      else if (/pinot blanc/i.test(n)) grape = 'Pinot Blanc';
+      else if (/pinot noir/i.test(n)) grape = 'Pinot Noir';
+      else if (/elbling/i.test(n)) grape = 'Elbling';
+      else if (/rivaner/i.test(n)) grape = 'Rivaner';
+      else if (/chardonnay/i.test(n)) grape = 'Chardonnay';
+      else if (/blanc de noir/i.test(n)) grape = 'Pinot Noir';
+      else if (/orange/i.test(n)) grape = 'Auxerrois';
+      else if (category === 'white') grape = 'Luxembourgish varieties';
+    }
+
+    // Austria
+    else if (country === 'Austria') {
+      if (/muskateller/i.test(n)) grape = 'Gelber Muskateller';
+      else if (/morillon/i.test(n)) grape = 'Chardonnay (Morillon)';
+      else if (/blaufränkisch/i.test(n)) grape = 'Blaufränkisch';
+      else if (/zweigelt/i.test(n)) grape = 'Zweigelt';
+      else if (/schilcher/i.test(n)) grape = 'Blauer Wildbacher';
+      else if (category === 'white') grape = 'Austrian white varieties';
+    }
+
+    // Hungary
+    else if (country === 'Hungary') {
+      if (/furmint/i.test(n)) grape = 'Furmint';
+      else if (/olaszrizling/i.test(n)) grape = 'Olaszrizling';
+      else if (/juhfark/i.test(n)) grape = 'Juhfark';
+      else if (/ezerjó|ezerjo/i.test(n)) grape = 'Ezerjó';
+      else if (/kadarka/i.test(n)) grape = 'Kadarka';
+      else grape = 'Hungarian varieties';
+    }
+
+    // Georgia
+    else if (country === 'Georgia') {
+      grape = 'Georgian varieties (Qvevri)';
+    }
+
+    // Lebanon
+    else if (country === 'Lebanon') {
+      grape = 'Lebanese blend';
+    }
+
+    // Serbia
+    else if (country === 'Serbia') {
+      grape = 'Serbian varieties';
+    }
+
+    // South Africa
+    else if (country === 'South Africa') {
+      if (/mourvèdre|mourvedre/i.test(n)) grape = 'Mourvèdre';
+      else if (/pinot noir/i.test(n)) grape = 'Pinot Noir';
+      else if (/pinot blanc/i.test(n)) grape = 'Pinot Blanc';
+      else if (/albariño|albarinio/i.test(n)) grape = 'Albariño';
+    }
+
+    // Ireland (Phelan Farm — hybrid grapes)
+    else if (country === 'Ireland') {
+      if (/chardonnay/i.test(n)) grape = 'Chardonnay';
+      else if (/pinot/i.test(n)) grape = 'Pinot Noir';
+      else if (/trousseau/i.test(n)) grape = 'Trousseau';
+      else if (/gringet/i.test(n)) grape = 'Gringet';
+      else if (/savagnin/i.test(n)) grape = 'Savagnin';
+    }
+
+    // Germany
+    else if (country === 'Germany') {
+      if (/riesling/i.test(n)) grape = 'Riesling';
+      else if (/grauburgunder/i.test(n)) grape = 'Pinot Gris';
+      else if (/sylvaner/i.test(n)) grape = 'Sylvaner';
+      else if (category === 'white') grape = 'German white varieties';
+    }
+
+    // Switzerland
+    else if (country === 'Switzerland') {
+      if (/fendant/i.test(n)) grape = 'Chasselas';
+      else if (/pinot noir/i.test(n)) grape = 'Pinot Noir';
+      else if (category === 'white') grape = 'Chasselas';
+    }
+
+    // Czech Republic / Moravia
+    else if (country === 'Czech Republic') {
+      if (category === 'red') grape = 'Moravian red varieties';
+      else grape = 'Moravian white varieties';
+    }
+
+    // Slovenia
+    else if (country === 'Slovenia') {
+      if (/rebula/i.test(n)) grape = 'Rebula';
+      else if (/jakot/i.test(n)) grape = 'Jakot (Friulano)';
+      else grape = 'Slovenian varieties';
+    }
+
+    // Croatia
+    else if (country === 'Croatia') {
+      grape = 'Croatian varieties';
+    }
+
+    // Sweden
+    else if (country === 'Sweden') {
+      grape = 'Hybrid varieties';
+    }
+
+    // Cider/Beer — set to appropriate product type
+    else if (category === 'cider') grape = 'Apple varieties';
+    else if (category === 'beer') grape = 'Craft brew';
+
+    // ─── Producer-specific grape assignments for remaining unknowns ───
+    // Italian producers
+    if (!grape && country === 'Italy') {
+      if (/controvento/i.test(n)) grape = 'Trebbiano, Pecorino';
+      else if (/don giovanni|sensodivino/i.test(n) && category === 'white') grape = 'Trebbiano';
+      else if (/sono bianco/i.test(n)) grape = 'Albana';
+      else if (/sono rosso/i.test(n)) grape = 'Sangiovese';
+      else if (/vitalba/i.test(n)) grape = 'Sangiovese, Albana';
+      else if (/conestabile/i.test(n)) grape = 'Sangiovese';
+      else if (/pranzegg.*bianco|pranzegg.*caroline|pranzegg.*tonsur/i.test(n)) grape = 'Schiava blend';
+      else if (/pranzegg.*rosso|pranzegg.*laurenc/i.test(n)) grape = 'Lagrein, Schiava';
+      else if (/rallo/i.test(n)) grape = 'Grillo';
+      else if (/carpentiere/i.test(n)) grape = 'Negroamaro';
+      else if (/guarini|taersia/i.test(n)) grape = 'Fiano';
+      else if (/biancara|sassaia/i.test(n)) grape = 'Garganega';
+      else if (/tempesta|piccola peste/i.test(n)) grape = 'Garganega, Corvina';
+      else if (/mezzapezza.*negr|negroamar/i.test(n)) grape = 'Negroamaro';
+      else if (/mezzapezza.*prim|primitivo/i.test(n)) grape = 'Primitivo';
+      else if (/scarfoglio|arlati/i.test(n)) grape = 'Primitivo';
+      else if (/falanghina|miali/i.test(n)) grape = 'Falanghina';
+      else if (/contavino/i.test(n)) grape = 'Negroamaro';
+      else grape = 'Italian varieties';
+    }
+
+    // Spanish producers without grape
+    if (!grape && country === 'Spain') {
+      if (/cosmic/i.test(n)) grape = 'Garnacha, Macabeo';
+      else if (/vinya oculta|bañeres|baneres/i.test(n)) grape = 'Xarel·lo, Macabeo';
+      else if (/pregadeu|lluerna|vinyerons/i.test(n)) grape = 'Xarel·lo';
+      else grape = 'Spanish varieties';
+    }
+
+    // German PetNat
+    if (!grape && country === 'Germany' && /pet.?nat/i.test(n)) {
+      grape = 'German white blend';
+    }
+
+    // Luxembourg bubbles
+    if (!grape && country === 'Luxembourg') {
+      if (/crémant|cremant/i.test(n)) grape = 'Riesling, Pinot Blanc';
+      else if (category === 'red') grape = 'Pinot Noir';
+      else grape = 'Luxembourgish varieties';
+    }
+
+    // Remaining French wines without grape — VdF natural wines
+    if (!grape && country === 'France') {
+      if (/mirabelle/i.test(n)) grape = 'Mirabelle (fruit spirit)';
+      else if (/gringet/i.test(n)) grape = 'Gringet';
+      else if (/gewürz|gewurtz/i.test(n)) grape = 'Gewürztraminer';
+      else if (/crémant|cremant/i.test(n)) grape = 'Crémant blend';
+      else if (/pet.?nat|pétillant|petillant/i.test(n)) grape = 'Pétillant naturel';
+      else if (category === 'sparkling') grape = 'Crémant blend';
+      else if (section === 'uncategorized') grape = 'Natural wine blend';
+    }
+  }
+
   // Description
   const description = generateDescription(name, grape, region, country, category);
 
