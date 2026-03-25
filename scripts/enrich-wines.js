@@ -561,16 +561,102 @@ const COLOR_ROSE = /\bros[eé]\b/i;
 const COLOR_ORANGE = /\borange\b|\bamber\b|skin[- ]?contact|mac[eé]ration/i;
 const COLOR_SPARKLING = /cr[eé]mant|champagne|p[eé]t[- ]?nat|brut|prosecco|cava|spumante|mousseux|sekt|sparkling/i;
 
-// ─── PLACEHOLDER IMAGES BY COLOR ───
-const IMAGES = {
+// ─── PLACEHOLDER IMAGES — Section-based rotation for visual variety ───
+const SECTION_IMAGES = {
+  'bubbles': [
+    'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1598306442928-4d90f32c6866?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1594372365401-3b5ff14eaaed?w=600&h=800&fit=crop',
+  ],
+  'bourgogne-blanc': [
+    'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+  ],
+  'bourgogne-rouge': [
+    'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&h=800&fit=crop',
+  ],
+  'loire-blanc': [
+    'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+  ],
+  'loire-rouge': [
+    'https://images.unsplash.com/photo-1586370434639-0fe43b2d32e6?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&h=800&fit=crop',
+  ],
+  'rhone-blanc': [
+    'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
+  ],
+  'rhone-rouge': [
+    'https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=800&fit=crop',
+  ],
+  'beaujolais-rouge': [
+    'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1586370434639-0fe43b2d32e6?w=600&h=800&fit=crop',
+  ],
+  'languedoc-blanc': [
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+  ],
+  'languedoc-rouge': [
+    'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&h=800&fit=crop',
+  ],
+  'jura-blanc': [
+    'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+  ],
+  'alsace-blanc': [
+    'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+  ],
+  'italie-blanc': [
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&h=800&fit=crop',
+  ],
+  'espagne-blanc': [
+    'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
+  ],
+  'allemagne-blanc': [
+    'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+  ],
+  'luxembourg-blanc': [
+    'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
+  ],
+  'hongrie-blanc': [
+    'https://images.unsplash.com/photo-1600320844319-fab638cf29ab?w=600&h=800&fit=crop',
+    'https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&h=800&fit=crop',
+  ],
+};
+
+const FALLBACK_IMAGES = {
   red: 'https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&h=800&fit=crop',
   white: 'https://images.unsplash.com/photo-1566754436598-de1cf8f0e33c?w=600&h=800&fit=crop',
   rosé: 'https://images.unsplash.com/photo-1558001373-7b93ee48ffa0?w=600&h=800&fit=crop',
   sparkling: 'https://images.unsplash.com/photo-1578911373434-0cb395d2cbfb?w=600&h=800&fit=crop',
-  orange: 'https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=600&h=800&fit=crop',
+  orange: 'https://images.unsplash.com/photo-1584916201218-f4242ceb4809?w=600&h=800&fit=crop',
   beer: 'https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=600&h=800&fit=crop',
   cider: 'https://images.unsplash.com/photo-1569919659476-f0852f9fcc16?w=600&h=800&fit=crop',
 };
+
+let _imgCounter = {};
+function getImage(section, category) {
+  const sectionImages = SECTION_IMAGES[section];
+  if (sectionImages) {
+    if (!_imgCounter[section]) _imgCounter[section] = 0;
+    const img = sectionImages[_imgCounter[section] % sectionImages.length];
+    _imgCounter[section]++;
+    return img;
+  }
+  return FALLBACK_IMAGES[category] || FALLBACK_IMAGES.white;
+}
 
 // ─── HELPER FUNCTIONS ───
 function slugify(str) {
@@ -1073,8 +1159,8 @@ const enriched = inStock.map(r => {
   // Description
   const description = generateDescription(name, grape, region, country, category);
 
-  // Image
-  const image = IMAGES[category] || IMAGES.white;
+  // Image — rotated per section for visual variety
+  const image = getImage(section, category);
 
   return {
     id: slugify(name),
