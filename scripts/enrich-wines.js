@@ -334,6 +334,163 @@ const PRODUCERS = {
   // Cider
   'antidoot': { country: 'Belgium', region: '' },
   'vulcain': { country: 'France', region: '' },
+
+  // ─── BATCH 2: Additional producers from Phase 3 deep enrichment ───
+
+  // Champagne (additional)
+  'larmandier': { country: 'France', region: 'Champagne' },
+  'larmandier bernier': { country: 'France', region: 'Champagne' },
+  'tarlant': { country: 'France', region: 'Champagne' },
+  'laherte': { country: 'France', region: 'Champagne' },
+  'rousseaux batteux': { country: 'France', region: 'Champagne' },
+  'pierre deville': { country: 'France', region: 'Champagne' },
+  'g remy': { country: 'France', region: 'Champagne' },
+  'sandrin etienne': { country: 'France', region: 'Champagne' },
+
+  // Bourgogne (additional)
+  'situsais': { country: 'France', region: 'Bourgogne' },
+  'francois morente': { country: 'France', region: 'Bourgogne' },
+  'théo dancer': { country: 'France', region: 'Bourgogne' },
+  'de moor': { country: 'France', region: 'Bourgogne' },
+  'vin noe': { country: 'France', region: 'Bourgogne' },
+
+  // Beaujolais (additional)
+  'canailles': { country: 'France', region: 'Beaujolais' },
+  'metras': { country: 'France', region: 'Beaujolais' },
+  'lapalu': { country: 'France', region: 'Beaujolais' },
+  'bottes rouges': { country: 'France', region: 'Beaujolais' },
+
+  // Rhône (additional)
+  'cecillon': { country: 'France', region: 'Rhône' },
+  'monier perrol': { country: 'France', region: 'Rhône' },
+  'ostal levant': { country: 'France', region: 'Languedoc' },
+  'gramenon': { country: 'France', region: 'Rhône' },
+
+  // Loire (additional)
+  'belargus': { country: 'France', region: 'Loire' },
+  'angeli': { country: 'France', region: 'Loire' },
+  'pabiot': { country: 'France', region: 'Loire' },
+  'cabaret': { country: 'France', region: 'Loire' },
+  'delrieu': { country: 'France', region: 'Loire' },
+  'pithon': { country: 'France', region: 'Loire' },
+  'grotte': { country: 'France', region: 'Loire' },
+  'hardy ponceau': { country: 'France', region: 'Loire' },
+  'hardy l aubier': { country: 'France', region: 'Loire' },
+  'bouju': { country: 'France', region: 'Loire' },
+
+  // Jura (additional)
+  'tissot': { country: 'France', region: 'Jura' },
+  'labet': { country: 'France', region: 'Jura' },
+  'michel gahier': { country: 'France', region: 'Jura' },
+  'maison maenad': { country: 'France', region: 'Jura' },
+  'lienhardt': { country: 'France', region: 'Jura' },
+
+  // Languedoc (additional)
+  'legrand latour': { country: 'France', region: 'Languedoc' },
+  'balmettes': { country: 'France', region: 'Languedoc' },
+
+  // Alsace (additional)
+  'schuller': { country: 'France', region: 'Alsace' },
+
+  // Sud-Ouest (additional)
+  'cazebonne': { country: 'France', region: 'Sud-Ouest' },
+  'darche': { country: 'France', region: 'Sud-Ouest' },
+  'colombière': { country: 'France', region: 'Sud-Ouest' },
+
+  // Provence
+  'blanc public': { country: 'France', region: 'Provence' },
+
+  // Savoie (additional)
+  'eclectik': { country: 'France', region: 'Savoie' },
+
+  // France misc
+  'tricot': { country: 'France', region: '' },
+  'zeroine': { country: 'France', region: '' },
+  'dandelion': { country: 'France', region: '' },
+  'madloba': { country: 'France', region: '' },
+  'les grillons': { country: 'France', region: 'Rhône' },
+  'grillons': { country: 'France', region: 'Rhône' },
+
+  // Spain (additional)
+  'cosmic': { country: 'Spain', region: 'Catalunya' },
+
+  // Italy (additional)
+  'pranzegg': { country: 'Italy', region: 'Alto Adige' },
+  'pantun': { country: 'Italy', region: 'Puglia' },
+  'contavino': { country: 'Italy', region: 'Puglia' },
+  'la biancara': { country: 'Italy', region: 'Veneto' },
+  't.dipietra': { country: 'Italy', region: 'Veneto' },
+  'carpentiere': { country: 'Italy', region: 'Puglia' },
+  'a.felici': { country: 'Italy', region: 'Marche' },
+  'valli unite': { country: 'Italy', region: 'Piemonte' },
+  'kurtatsch': { country: 'Italy', region: 'Alto Adige' },
+  'guttarolo': { country: 'Italy', region: 'Puglia' },
+  'cantine rallo': { country: 'Italy', region: 'Sicilia' },
+  'm.trullo': { country: 'Italy', region: 'Puglia' },
+  'm2.2trullo': { country: 'Italy', region: 'Puglia' },
+  'ariano': { country: 'Italy', region: 'Puglia' },
+
+  // Portugal (additional)
+  'pequena adega': { country: 'Portugal', region: 'Alentejo' },
+
+  // Lebanon (additional)
+  'musar': { country: 'Lebanon', region: 'Bekaa Valley' },
+
+  // Hungary (additional)
+  'degenfeld': { country: 'Hungary', region: 'Tokaj' },
+
+  // Luxembourg (additional)
+  'roeder': { country: 'Luxembourg', region: 'Moselle' },
+  'sunnen hoffmann': { country: 'Luxembourg', region: 'Moselle' },
+  'sunnen': { country: 'Luxembourg', region: 'Moselle' },
+  'david berto': { country: 'Luxembourg', region: 'Moselle' },
+  'pauls': { country: 'Luxembourg', region: 'Moselle' },
+  'diedenacker': { country: 'Luxembourg', region: 'Moselle' },
+
+  // Czech Republic (additional)
+  'dva duby': { country: 'Czech Republic', region: 'Moravia' },
+
+  // South Africa
+  'pinecone': { country: 'South Africa', region: 'Western Cape' },
+  'brijj': { country: 'South Africa', region: 'Swartland' },
+
+  // Sweden
+  'skeppar': { country: 'Sweden', region: '' },
+
+  // ─── BATCH 3: Final cleanup ───
+  // Luxembourg (were being caught by France supplier fallback)
+  'krier welbes': { country: 'Luxembourg', region: 'Moselle' },
+  'krier bech': { country: 'Luxembourg', region: 'Moselle' },
+  'clos jangli': { country: 'Luxembourg', region: 'Moselle' },
+
+  // Spain (Bierzo/Montsant, from Vins & Vie supplier)
+  'el rapolao': { country: 'Spain', region: 'Bierzo' },
+  'terrenal': { country: 'Spain', region: 'Montsant' },
+  'el rocallis': { country: 'Spain', region: 'Montsant' },
+
+  // Domaine de la Mongestine (Provence)
+  'mongestine': { country: 'France', region: 'Provence' },
+
+  // Savennières (Loire, but the é messes up regex)
+  'savenniéres': { country: 'France', region: 'Loire' },
+
+  // GOISOT (Bourgogne - Saint-Bris)
+  'goisot': { country: 'France', region: 'Bourgogne' },
+
+  // Domaine des Côtes (Beaujolais)
+  'domaine des côtes': { country: 'France', region: 'Beaujolais' },
+
+  // Tricot (Auvergne)
+  'tricot': { country: 'France', region: 'Loire' },
+
+  // Phelan Farm (Ireland)
+  'phelan': { country: 'Ireland', region: '' },
+
+  // Chidaine (Loire)
+  'chidaine': { country: 'France', region: 'Loire' },
+
+  // L'Enclos des Braves (Sud-Ouest)
+  'enclos des braves': { country: 'France', region: 'Sud-Ouest' },
 };
 
 // ─── REGIONAL APPELLATIONS ───
@@ -450,8 +607,8 @@ function findAppellation(name) {
 }
 
 function detectColor(name, excelCat) {
-  if (excelCat === 'BEER') return 'beer';
-  if (excelCat === 'CIDER') return 'cider';
+  if (excelCat === 'BEER' || /\bBEER\b/i.test(name)) return 'beer';
+  if (excelCat === 'CIDER' || /\bCIDRE?\b|CIDER/i.test(name)) return 'cider';
   const n = name.toLowerCase();
   if (COLOR_SPARKLING.test(n)) return 'sparkling';
   if (COLOR_ROSE.test(n)) return 'rosé';
@@ -480,6 +637,7 @@ function resolveSection(category, region, country) {
   if (region === 'Sud-Ouest') return 'sud-ouest-rouge';
   if (region === 'Champagne') return 'bubbles';
   if (region === 'Savoie') return `allemagne-blanc`; // close enough for filter
+  if (region === 'Provence') return `languedoc-${color}`; // Southern France grouping
   if (country === 'Spain') return `espagne-${color}`;
   if (country === 'Italy') return `italie-${color}`;
   if (country === 'Germany' || country === 'Austria') return 'allemagne-blanc';
@@ -587,21 +745,31 @@ const enriched = inStock.map(r => {
   }
 
   // Additional name-based appellation detection for remaining uncategorized
-  if (!region && country === 'France') {
+  if (!region) {
     const n = name.toLowerCase();
-    if (/saumur|guiberteau|brendan stater/i.test(n)) region = 'Loire';
-    else if (/condrieu|saint.joseph|st joseph|côte.rôtie|cornas|serine/i.test(n)) region = 'Rhône';
-    else if (/pouilly.fuiss|nuits.st|côte de beaune|puligny|montrachet|fixin|morey|gevrey|marsannay|meursault|pommard|volnay|bourgogne|chambertin/i.test(n)) region = 'Bourgogne';
-    else if (/champagne|meunier|chamery|cumieres|bouzy/i.test(n)) { region = 'Champagne'; category = 'sparkling'; }
-    else if (/beaujolais|morgon|fleurie|brouilly|chiroubles|juliénas|régnié|chénas|moulin.+vent/i.test(n)) region = 'Beaujolais';
-    else if (/muscadet|vouvray|sancerre|pouilly.fumé|chinon|bourgueil|savennières|anjou|touraine|coteaux du loir/i.test(n)) region = 'Loire';
-    else if (/alsace|rogerie/i.test(n)) region = 'Alsace';
-    else if (/jura|arbois|château.chalon/i.test(n)) region = 'Jura';
-    else if (/corbières|faugères|minervois|languedoc|roussillon|fitou|limoux|cévennes/i.test(n)) region = 'Languedoc';
-    else if (/bergerac|cahors|gaillac|irouléguy|jurançon|madiran/i.test(n)) region = 'Sud-Ouest';
-    else if (/corse|sartène|ajaccio|patrimonio/i.test(n)) region = 'Corse';
-    else if (/côtes du rhône|rhône|ventoux|luberon/i.test(n)) region = 'Rhône';
-    else if (/savoie|apremont|chignin/i.test(n)) region = 'Savoie';
+    // France
+    if (country === 'France' || !country) {
+      if (/saumur|guiberteau|brendan stater|pouilly.fum|pouily.fum|savennières|savennieres|muscadet|vouvray|sancerre|chinon|bourgueil|anjou|touraine|coteaux du loir|coteaux du houet|jasnières|jasnieres/i.test(n)) { region = 'Loire'; if (!country) country = 'France'; }
+      else if (/condrieu|saint.joseph|st joseph|saint.peray|côte.rôtie|cote.rotie|cornas|serine|côtes du rhône|cotes du rhone|ventoux|luberon/i.test(n)) { region = 'Rhône'; if (!country) country = 'France'; }
+      else if (/pouilly.fuiss|nuits.st|côte de beaune|cote de beaune|ht cote|puligny|montrachet|fixin|morey|gevrey|marsannay|meursault|pommard|volnay|bourgogne|chambertin|auxey.duresses|maranges|rully|st.jacques|st.aubin|savigny/i.test(n)) { region = 'Bourgogne'; if (!country) country = 'France'; }
+      else if (/champagne|meunier|chamery|cumieres|bouzy|champenois|avize/i.test(n)) { region = 'Champagne'; category = 'sparkling'; if (!country) country = 'France'; }
+      else if (/beaujolais|morgon|fleurie|brouilly|chiroubles|juliénas|régnié|chénas|moulin.+vent|beaujo/i.test(n)) { region = 'Beaujolais'; if (!country) country = 'France'; }
+      else if (/alsace|rogerie|frankstein/i.test(n)) { region = 'Alsace'; if (!country) country = 'France'; }
+      else if (/jura|arbois|château.chalon|poulsard.*amphore/i.test(n)) { region = 'Jura'; if (!country) country = 'France'; }
+      else if (/corbières|faugères|minervois|languedoc|roussillon|fitou|limoux|cévennes|cevennes/i.test(n)) { region = 'Languedoc'; if (!country) country = 'France'; }
+      else if (/bergerac|cahors|gaillac|irouléguy|jurançon|jurancon|madiran|pacherenc|bordeaux/i.test(n)) { region = 'Sud-Ouest'; if (!country) country = 'France'; }
+      else if (/corse|sartène|ajaccio|patrimonio/i.test(n)) { region = 'Corse'; if (!country) country = 'France'; }
+      else if (/savoie|apremont|chignin/i.test(n)) { region = 'Savoie'; if (!country) country = 'France'; }
+      else if (/provence/i.test(n)) { region = 'Provence'; if (!country) country = 'France'; }
+    }
+    // Italy from name
+    if (/igt\s|igp\s|doc\s|docg|igt$|veneto|puglia|sicilia|campania|piemonte|marche|alto adige/i.test(n) && !country) {
+      country = 'Italy';
+    }
+    // Luxembourg from name
+    if (/luxembourg|gëlle fra|diedenacker/i.test(n) && !country) {
+      country = 'Luxembourg'; region = 'Moselle';
+    }
   }
 
   // Section
