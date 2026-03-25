@@ -75,10 +75,10 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+    // Use server-side config only — never trust the Origin header for redirect URLs
+    const origin = process.env.NEXT_PUBLIC_SITE_URL
       || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null)
       || "https://vinsfins.vercel.app";
-    const origin = req.headers.get("origin") || siteUrl;
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",

@@ -26,7 +26,7 @@ function newWine(): Wine {
 }
 
 export default function AdminPage() {
-  const [token, setToken] = useState("");
+  const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [tab, setTab] = useState<Tab>("menu");
@@ -36,26 +36,24 @@ export default function AdminPage() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState("");
 
-  const headers = useCallback(() => ({ "Content-Type": "application/json", Authorization: `Bearer ${token}` }), [token]);
-
   const loadData = useCallback(async () => {
-    if (!token) return;
-    const h = { Authorization: `Bearer ${token}` };
+    if (!authenticated) return;
     const [m, w, c] = await Promise.all([
-      fetch("/api/admin/data?type=menu", { headers: h }).then(r => r.json()),
-      fetch("/api/admin/data?type=wines", { headers: h }).then(r => r.json()),
-      fetch("/api/admin/data?type=content", { headers: h }).then(r => r.json()),
-    ]);
-    setMenu(m);
-    setWines(w);
-    setContent(c);
-  }, [token]);
+      fetch("/api/admin/data?type=menu").then(r => r.ok ? r.json() : Promise.reject()),
+      fetch("/api/admin/data?type=wines").then(r => r.ok ? r.json() : Promise.reject()),
+      fetch("/api/admin/data?type=content").then(r => r.ok ? r.json() : Promise.reject()),
+    ]).catch(() => { setAuthenticated(false); return [[], [], null]; });
+    if (m) setMenu(m);
+    if (w) setWines(w);
+    if (c) setContent(c);
+  }, [authenticated]);
 
   useEffect(() => { loadData(); }, [loadData]);
 
   const save = async (type: string, data: unknown) => {
     setSaving(true);
-    await fetch("/api/admin/data", { method: "POST", headers: headers(), body: JSON.stringify({ type, data }) });
+    const res = await fetch("/api/admin/data", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ type, data }) });
+    if (!res.ok) setAuthenticated(false);
     setSaving(false);
     setSaved(type);
     setTimeout(() => setSaved(""), 2000);
@@ -64,11 +62,15 @@ export default function AdminPage() {
   const login = async () => {
     setError("");
     const res = await fetch("/api/admin/auth", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ password }) });
-    const data = await res.json();
-    if (data.token) { setToken(data.token); } else { setError("Mot de passe incorrect"); }
+    if (res.ok) { setAuthenticated(true); setPassword(""); } else { setError("Mot de passe incorrect"); }
   };
 
-  if (!token) {
+  const logout = async () => {
+    await fetch("/api/admin/auth", { method: "DELETE" });
+    setAuthenticated(false);
+  };
+
+  if (!authenticated) {
     return (
       <div className="min-h-screen bg-dark flex items-center justify-center">
         <div className="bg-dark-card/90 backdrop-blur p-8 rounded-lg shadow-lg max-w-sm w-full">
@@ -99,7 +101,7 @@ export default function AdminPage() {
             <h1 className="font-playfair text-3xl text-cream">Administration</h1>
             <p className="text-stone text-sm">Vins Fins — Gestion du contenu</p>
           </div>
-          <button onClick={() => setToken("")} className="text-stone hover:text-wine text-sm transition">Déconnexion</button>
+          <button onClick={logout} className="text-stone hover:text-wine text-sm transition">Déconnexion</button>
         </div>
 
         <div className="flex gap-1 mb-6 border-b border-cream/10">

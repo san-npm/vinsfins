@@ -60,9 +60,10 @@ export function verifyPassword(password: string): boolean {
 
 export function verifyToken(request: NextRequest): boolean {
   if (!TOKEN_SECRET) return false;
-  const auth = request.headers.get('Authorization');
-  if (!auth || !auth.startsWith('Bearer ')) return false;
-  const token = auth.slice(7);
+  // Read token from HttpOnly cookie (primary) or Authorization header (fallback)
+  const token = request.cookies.get('admin_token')?.value
+    || (request.headers.get('Authorization')?.startsWith('Bearer ') ? request.headers.get('Authorization')!.slice(7) : null);
+  if (!token) return false;
   try {
     const decoded = Buffer.from(token, 'base64').toString();
     const dotIndex = decoded.indexOf('.');
