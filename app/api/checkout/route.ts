@@ -8,8 +8,32 @@ interface CartItemPayload {
   quantity: number;
 }
 
-const SHIPPING_THRESHOLD = 100; // Free shipping above this
-const SHIPPING_COST = 5; // EUR flat rate
+/**
+ * POST Luxembourg shipping rates (2026)
+ * Domestic (LU): Parcel ≤2kg = 7€, ≤10kg = 9€, ≤30kg = 22€
+ * Europe Zone 1 (FR, DE, BE): Parcel ≤2kg = 12€, ≤10kg = 20€, ≤30kg = 40€
+ * Average bottle weight: ~1.3kg
+ */
+const BOTTLE_WEIGHT_KG = 1.3;
+
+function getShippingCents(totalBottles: number, domestic: boolean): number {
+  const weightKg = totalBottles * BOTTLE_WEIGHT_KG;
+  if (domestic) {
+    if (weightKg <= 2) return 700;
+    if (weightKg <= 10) return 900;
+    return 2200; // up to 30kg
+  }
+  // Europe Zone 1 (FR, DE, BE)
+  if (weightKg <= 2) return 1200;
+  if (weightKg <= 10) return 2000;
+  return 4000; // up to 30kg
+}
+
+function getShippingLabel(totalBottles: number, domestic: boolean): string {
+  const cost = getShippingCents(totalBottles, domestic);
+  const label = domestic ? "Livraison Luxembourg" : "Livraison Europe (FR/DE/BE)";
+  return `${label} — POST Luxembourg`;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -73,26 +97,54 @@ export async function POST(req: NextRequest) {
       });
     }
 
-    // Add shipping line if delivery and under threshold
-    if (deliveryMethod === "delivery" && subtotal < SHIPPING_THRESHOLD * 100) {
-      lineItems.push({
-        price_data: {
-          currency: "eur",
-          product_data: { name: "Livraison / Shipping" },
-          unit_amount: SHIPPING_COST * 100,
-        },
-        quantity: 1,
-      });
-    }
+    // Calculate total bottles for shipping weight
+    const totalBottles = items.reduce((sum, item) => sum + item.quantity, 0);
 
     // Use server-side config only — never trust the Origin header for redirect URLs
     const origin = process.env.NEXT_PUBLIC_SITE_URL
       || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null)
       || "https://vinsfins.vercel.app";
 
+    // Build shipping options for delivery
+    const shippingOptions = deliveryMethod === "delivery"
+      ? [
+          {
+            shipping_rate_data: {
+              type: "fixed_amount" as const,
+              fixed_amount: { amount: getShippingCents(totalBottles, true), currency: "eur" },
+              display_name: "Livraison Luxembourg",
+              delivery_estimate: {
+                minimum: { unit: "business_day" as const, value: 1 },
+                maximum: { unit: "business_day" as const, value: 3 },
+              },
+            },
+          },
+          {
+            shipping_rate_data: {
+              type: "fixed_amount" as const,
+              fixed_amount: { amount: getShippingCents(totalBottles, false), currency: "eur" },
+              display_name: "Livraison Europe (FR/DE/BE)",
+              delivery_estimate: {
+                minimum: { unit: "business_day" as const, value: 3 },
+                maximum: { unit: "business_day" as const, value: 7 },
+              },
+            },
+          },
+        ]
+      : [
+          {
+            shipping_rate_data: {
+              type: "fixed_amount" as const,
+              fixed_amount: { amount: 0, currency: "eur" },
+              display_name: "Click & Collect — Vins Fins, Grund",
+            },
+          },
+        ];
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
+      shipping_options: shippingOptions,
       shipping_address_collection: deliveryMethod === "delivery" ? {
         allowed_countries: ["LU", "FR", "DE", "BE"],
       } : undefined,
