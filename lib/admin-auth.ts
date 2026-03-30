@@ -11,7 +11,11 @@ const MAX_ATTEMPTS = 5;
 const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
 
 function getClientIp(request: NextRequest): string {
-  return request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+  // On Vercel, x-real-ip is set by the platform and cannot be spoofed by clients.
+  // x-forwarded-for can be spoofed so we prefer x-real-ip.
+  return request.headers.get('x-real-ip')
+    || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
+    || 'unknown';
 }
 
 export function checkRateLimit(request: NextRequest): boolean {

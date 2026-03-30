@@ -1,4 +1,4 @@
-import { put, list } from "@vercel/blob";
+import { put, list, del } from "@vercel/blob";
 
 export async function loadData(key: string, fallback: unknown): Promise<unknown> {
   try {
@@ -17,9 +17,19 @@ export async function loadData(key: string, fallback: unknown): Promise<unknown>
 }
 
 export async function saveData(key: string, data: unknown): Promise<void> {
+  // Delete previous blobs for this key to avoid accumulation
+  try {
+    const { blobs } = await list({ prefix: `vinsfins/${key}` });
+    if (blobs.length > 0) {
+      await Promise.all(blobs.map((b) => del(b.url)));
+    }
+  } catch {
+    // Non-critical — old blobs will just accumulate
+  }
+
   await put(`vinsfins/${key}.json`, JSON.stringify(data), {
-    access: "public",  // Vercel Blob requires public for server-side reads via fetch()
-    addRandomSuffix: false,
+    access: "public",
+    addRandomSuffix: true, // Prevents guessable URLs
     cacheControlMaxAge: 0,
   });
 }
