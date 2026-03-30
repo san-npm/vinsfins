@@ -16,7 +16,6 @@ export async function GET(req: NextRequest) {
     // Only return safe, non-sensitive data
     return NextResponse.json({
       orderRef: session.id.slice(-8).toUpperCase(),
-      email: session.customer_details?.email,
       amountTotal: session.amount_total,
       currency: session.currency,
       paymentStatus: session.payment_status,

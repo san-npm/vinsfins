@@ -2,9 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { sendOrderConfirmation } from "@/lib/email";
 import { updateStock } from "@/lib/stock";
+import { loadData, saveData } from "@/lib/storage";
 import Stripe from "stripe";
 
+const PROCESSED_KEY = "processed-sessions";
+
+async function isAlreadyProcessed(sessionId: string): Promise<boolean> {
+  const processed = (await loadData(PROCESSED_KEY, [])) as string[];
+  return processed.includes(sessionId);
+}
+
+async function markProcessed(sessionId: string): Promise<void> {
+  const processed = (await loadData(PROCESSED_KEY, [])) as string[];
+  // Keep last 500 to avoid unbounded growth
+  const updated = [...processed.slice(-499), sessionId];
+  await saveData(PROCESSED_KEY, updated);
+}
+
 async function fulfillOrder(session: Stripe.Checkout.Session) {
+  if (await isAlreadyProcessed(session.id)) {
+    console.log("Session already processed, skipping:", session.id);
+    return;
+  }
   // Retrieve line items for the email
   const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, {
     limit: 100,
@@ -26,6 +45,9 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
 
   // Update stock quantities
   await updateStock(fullSession);
+
+  // Mark as processed to prevent duplicate fulfillment
+  await markProcessed(session.id);
 
   console.log("Order fulfilled:", session.id);
 }
