@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
-import { checkStock } from "@/lib/stock";
+import { reserveStock } from "@/lib/stock";
 import { loadData } from "@/lib/storage";
 
 interface CartItemPayload {
@@ -51,8 +51,8 @@ export async function POST(req: NextRequest) {
     // Load current wine data (admin-updated from blob, fallback to static)
     const wines = (await loadData("wines", staticWines)) as Wine[];
 
-    // Check stock availability
-    const outOfStock = await checkStock(items);
+    // Reserve stock atomically (DECRBY in Redis — no race condition)
+    const outOfStock = await reserveStock(items);
     if (outOfStock) {
       return NextResponse.json(
         { error: `Rupture de stock: ${outOfStock}` },
