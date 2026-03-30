@@ -5,7 +5,7 @@ const COOKIE_NAME = 'admin_token';
 const COOKIE_MAX_AGE = 24 * 60 * 60; // 24 hours in seconds
 
 export async function POST(request: NextRequest) {
-  if (!checkRateLimit(request)) {
+  if (!(await checkRateLimit(request))) {
     return NextResponse.json({ error: 'Too many attempts' }, { status: 429 });
   }
 
@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
   }
 
-  recordLoginAttempt(request);
+  await recordLoginAttempt(request);
 
   if (verifyPassword(body.password)) {
     const token = generateToken();

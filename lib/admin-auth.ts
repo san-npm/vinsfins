@@ -1,48 +1,34 @@
 import { NextRequest } from 'next/server';
 import { createHmac, timingSafeEqual } from 'crypto';
+import { kv } from '@vercel/kv';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 const TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 
-// In-memory rate limiter (per-process, resets on deploy)
-const loginAttempts = new Map<string, { count: number; resetAt: number }>();
 const MAX_ATTEMPTS = 5;
-const WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const WINDOW_SECONDS = 15 * 60; // 15 minutes
 
 function getClientIp(request: NextRequest): string {
-  // On Vercel, x-real-ip is set by the platform and cannot be spoofed by clients.
-  // x-forwarded-for can be spoofed so we prefer x-real-ip.
   return request.headers.get('x-real-ip')
     || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || 'unknown';
 }
 
-export function checkRateLimit(request: NextRequest): boolean {
+export async function checkRateLimit(request: NextRequest): Promise<boolean> {
   const ip = getClientIp(request);
-  const now = Date.now();
-  const entry = loginAttempts.get(ip);
-
-  if (entry && now < entry.resetAt) {
-    return entry.count < MAX_ATTEMPTS;
-  }
-
-  // Reset expired window
-  if (entry && now >= entry.resetAt) {
-    loginAttempts.delete(ip);
-  }
-  return true;
+  const key = `admin_rate:${ip}`;
+  const attempts = await kv.get<number>(key);
+  return (attempts ?? 0) < MAX_ATTEMPTS;
 }
 
-export function recordLoginAttempt(request: NextRequest): void {
+export async function recordLoginAttempt(request: NextRequest): Promise<void> {
   const ip = getClientIp(request);
-  const now = Date.now();
-  const entry = loginAttempts.get(ip);
-
-  if (entry && now < entry.resetAt) {
-    entry.count++;
-  } else {
-    loginAttempts.set(ip, { count: 1, resetAt: now + WINDOW_MS });
+  const key = `admin_rate:${ip}`;
+  const current = await kv.incr(key);
+  if (current === 1) {
+    // First attempt — set TTL
+    await kv.expire(key, WINDOW_SECONDS);
   }
 }
 

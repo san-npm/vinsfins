@@ -2,10 +2,12 @@
 const nextConfig = {
   images: {
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
+      { protocol: "https", hostname: "cmbsxh7oipaip57r.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "www.bodeboca.com" },
+      { protocol: "https", hostname: "hungarianwines.eu" },
+      { protocol: "https", hostname: "wine-amazing.com" },
+      { protocol: "https", hostname: "www.architectureinterieureduvin.com" },
+      { protocol: "https", hostname: "sharewinecdn.azureedge.net" },
     ],
   },
   async headers() {
