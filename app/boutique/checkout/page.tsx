@@ -113,7 +113,8 @@ export default function CheckoutPage() {
                 className="mt-0.5 w-4 h-4 accent-wine"
               />
               <span className="text-xs text-stone">
-                {t("checkout.ageConfirm")}
+                {t("checkout.ageConfirm")}{" "}
+                <a href="/legal/cgv" target="_blank" className="underline text-wine">CGV</a>
               </span>
             </label>
 
@@ -176,6 +177,7 @@ export default function CheckoutPage() {
                       : (totalPrice + 5).toFixed(2)}€
                   </span>
                 </div>
+                <p className="text-xs text-stone/50 mt-2">TVA 17% incluse / VAT 17% included</p>
               </div>
             </div>
           </div>
