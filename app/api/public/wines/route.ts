@@ -1,7 +1,32 @@
 import { NextResponse } from "next/server";
-import { wines } from "@/data/wines";
+import { wines, type Wine } from "@/data/wines";
 import { loadData } from "@/lib/storage";
 
+// Strip internal fields before sending to client
+function sanitizeWine(w: Wine) {
+  return {
+    id: w.id,
+    name: w.name,
+    region: w.region,
+    country: w.country,
+    grape: w.grape,
+    category: w.category,
+    section: w.section,
+    description: w.description,
+    priceGlass: w.priceGlass,
+    priceBottle: w.priceBottle,
+    priceShop: w.priceShop,
+    image: w.image,
+    isAvailable: w.isAvailable,
+    isFeatured: w.isFeatured,
+    isOrganic: w.isOrganic,
+    isBiodynamic: w.isBiodynamic,
+    isNatural: w.isNatural,
+    // Excluded: stock, supplier, barcode
+  };
+}
+
 export async function GET() {
-  return NextResponse.json(await loadData("wines", wines));
+  const allWines = (await loadData("wines", wines)) as Wine[];
+  return NextResponse.json(allWines.map(sanitizeWine));
 }
