@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
+import { sendOrderConfirmation } from "@/lib/email";
+import { updateStock } from "@/lib/stock";
 import Stripe from "stripe";
+
+async function fulfillOrder(session: Stripe.Checkout.Session) {
+  // Retrieve line items for the email
+  const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, {
+    limit: 100,
+  });
+
+  const orderItems = lineItemsResponse.data.map((item) => ({
+    description: item.description || "Article",
+    quantity: item.quantity || 1,
+    amount: item.amount_total / (item.quantity || 1),
+  }));
+
+  // Retrieve full session with shipping details
+  const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+    expand: ["shipping_details"],
+  });
+
+  // Send confirmation email (customer + admin)
+  await sendOrderConfirmation(fullSession, orderItems);
+
+  // Update stock quantities
+  await updateStock(fullSession);
+
+  console.log("Order fulfilled:", session.id);
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -31,32 +59,26 @@ export async function POST(req: NextRequest) {
       });
 
       if (session.payment_status === "paid") {
-        // Payment received immediately (card payments)
-        // TODO: Send order confirmation email
-        // TODO: Update stock quantities
-        console.log("Order fulfilled:", session.id);
+        await fulfillOrder(session);
       }
-      // If payment_status is "unpaid", wait for async_payment_succeeded
       break;
     }
 
     case "checkout.session.async_payment_succeeded": {
       const session = event.data.object as Stripe.Checkout.Session;
       console.log("Async payment succeeded:", session.id);
-      // TODO: Send order confirmation email
-      // TODO: Update stock quantities
+      await fulfillOrder(session);
       break;
     }
 
     case "checkout.session.async_payment_failed": {
       const session = event.data.object as Stripe.Checkout.Session;
       console.log("Async payment failed:", session.id);
-      // TODO: Notify customer about failed payment
+      // Customer will see the failure on Stripe's page
       break;
     }
 
     default:
-      // Unhandled event type
       break;
   }
 

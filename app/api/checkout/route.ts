@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { wines } from "@/data/wines";
+import { checkStock } from "@/lib/stock";
 
 interface CartItemPayload {
   wineId: string;
@@ -20,6 +21,15 @@ export async function POST(req: NextRequest) {
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
+    }
+
+    // Check stock availability
+    const outOfStock = await checkStock(items);
+    if (outOfStock) {
+      return NextResponse.json(
+        { error: `Rupture de stock: ${outOfStock}` },
+        { status: 400 },
+      );
     }
 
     // Validate items against the wine database (server-side price truth)
@@ -88,9 +98,10 @@ export async function POST(req: NextRequest) {
       } : undefined,
       metadata: {
         deliveryMethod,
+        itemsJson: JSON.stringify(items.map((i) => ({ id: i.wineId, qty: i.quantity }))),
       },
       success_url: `${origin}/boutique/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/boutique/panier`,
+      cancel_url: `${origin}/boutique/checkout/cancel`,
     });
 
     return NextResponse.json({ url: session.url });
