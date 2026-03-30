@@ -90,11 +90,9 @@ export default function CheckoutSuccessPage() {
                   ? "📍 Click & Collect — Vins Fins, 18 Rue Münster, Grund"
                   : "📦 Livraison à l'adresse indiquée"}
               </p>
-              {order.email && (
-                <p className="mt-1 text-xs text-stone/60">
-                  Confirmation envoyée à {order.email}
-                </p>
-              )}
+              <p className="mt-1 text-xs text-stone/60">
+                Un e-mail de confirmation vous a été envoyé.
+              </p>
             </div>
           </div>
         )}

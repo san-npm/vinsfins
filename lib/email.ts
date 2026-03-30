@@ -18,6 +18,10 @@ function formatCents(cents: number): string {
   return (cents / 100).toFixed(2) + " €";
 }
 
+function esc(s: string | undefined | null): string {
+  return (s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
 function buildOrderHtml(
   session: Stripe.Checkout.Session,
   lineItems: OrderItem[],
@@ -41,11 +45,11 @@ function buildOrderHtml(
     ? `<div style="margin-top:20px;padding:16px;background:#f9f7f4;border:1px solid #eee">
         <p style="margin:0 0 4px;font-weight:600;font-size:14px">Adresse de livraison / Delivery address</p>
         <p style="margin:0;font-size:14px;color:#555">
-          ${shipping.name || ""}<br>
-          ${shipping.address.line1 || ""}<br>
-          ${shipping.address.line2 ? shipping.address.line2 + "<br>" : ""}
-          ${shipping.address.postal_code || ""} ${shipping.address.city || ""}<br>
-          ${shipping.address.country || ""}
+          ${esc(shipping.name)}<br>
+          ${esc(shipping.address.line1)}<br>
+          ${shipping.address.line2 ? esc(shipping.address.line2) + "<br>" : ""}
+          ${esc(shipping.address.postal_code)} ${esc(shipping.address.city)}<br>
+          ${esc(shipping.address.country)}
         </p>
       </div>`
     : isPickup
