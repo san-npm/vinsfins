@@ -141,7 +141,7 @@ export default function WineLayout({
             id={`json-ld-wine-${params.id}`}
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(buildWineProductJsonLd(wine, locale)),
+              __html: JSON.stringify(buildWineProductJsonLd(wine, locale)).replace(/</g, "\\u003c"),
             }}
           />
           <Breadcrumbs

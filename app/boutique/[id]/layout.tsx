@@ -114,7 +114,7 @@ export default function BoutiqueProductLayout({
             id={`json-ld-product-${params.id}`}
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(buildProductJsonLd(wine, locale)),
+              __html: JSON.stringify(buildProductJsonLd(wine, locale)).replace(/</g, "\\u003c"),
             }}
           />
           <Breadcrumbs
