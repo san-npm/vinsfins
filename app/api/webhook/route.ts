@@ -2,20 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { sendOrderConfirmation } from "@/lib/email";
 import { releaseStock } from "@/lib/stock";
-import { loadData, saveData } from "@/lib/storage";
+import { kv } from "@vercel/kv";
 import Stripe from "stripe";
 
-const PROCESSED_KEY = "processed-sessions";
-
+/**
+ * Atomic idempotency via Redis SETNX.
+ * Returns true if this session was already processed.
+ * Key expires after 7 days to avoid unbounded growth.
+ */
 async function isAlreadyProcessed(sessionId: string): Promise<boolean> {
-  const processed = (await loadData(PROCESSED_KEY, [])) as string[];
-  return processed.includes(sessionId);
-}
-
-async function markProcessed(sessionId: string): Promise<void> {
-  const processed = (await loadData(PROCESSED_KEY, [])) as string[];
-  const updated = [...processed.slice(-499), sessionId];
-  await saveData(PROCESSED_KEY, updated);
+  // SETNX returns 1 if key was set (first time), 0 if already exists
+  const wasSet = await kv.setnx(`fulfilled:${sessionId}`, 1);
+  if (wasSet) {
+    // First time — set TTL of 7 days
+    await kv.expire(`fulfilled:${sessionId}`, 7 * 24 * 60 * 60);
+    return false; // Not previously processed
+  }
+  return true; // Already processed
 }
 
 /**
@@ -59,9 +62,7 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
 
   // Stock was already reserved atomically at checkout creation (DECRBY).
   // Nothing to do here — stock is already decremented.
-
-  // Mark as processed to prevent duplicate fulfillment
-  await markProcessed(session.id);
+  // Idempotency already marked via SETNX in isAlreadyProcessed().
 
   console.log("Order fulfilled:", session.id);
 }

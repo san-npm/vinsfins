@@ -48,8 +48,22 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
 
-    // Load current wine data (admin-updated from blob, fallback to static)
+    // Validate ALL items BEFORE reserving stock — prevents inventory corruption
+    // via negative quantities or invalid IDs
     const wines = (await loadData("wines", staticWines)) as Wine[];
+
+    for (const item of items) {
+      if (!item.wineId || typeof item.quantity !== "number" || item.quantity < 1 || item.quantity > 99 || !Number.isInteger(item.quantity)) {
+        return NextResponse.json({ error: `Invalid item: ${item.wineId}` }, { status: 400 });
+      }
+      const wine = wines.find((w) => w.id === item.wineId);
+      if (!wine) {
+        return NextResponse.json({ error: `Wine not found: ${item.wineId}` }, { status: 400 });
+      }
+      if (wine.priceShop <= 0) {
+        return NextResponse.json({ error: `Wine not available: ${wine.name}` }, { status: 400 });
+      }
+    }
 
     // Reserve stock atomically (DECRBY in Redis — no race condition)
     const outOfStock = await reserveStock(items);
@@ -60,7 +74,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Validate items against the wine database (server-side price truth)
+    // Build line items with server-side price truth
     const lineItems: {
       price_data: {
         currency: string;
@@ -73,18 +87,8 @@ export async function POST(req: NextRequest) {
     let subtotal = 0;
 
     for (const item of items) {
-      if (!item.wineId || typeof item.quantity !== "number" || item.quantity < 1 || item.quantity > 99) {
-        return NextResponse.json({ error: `Invalid item: ${item.wineId}` }, { status: 400 });
-      }
-
-      const wine = wines.find((w) => w.id === item.wineId);
-      if (!wine) {
-        return NextResponse.json({ error: `Wine not found: ${item.wineId}` }, { status: 400 });
-      }
-      if (wine.priceShop <= 0) {
-        return NextResponse.json({ error: `Wine not available for purchase: ${wine.name}` }, { status: 400 });
-      }
-
+      // Already validated above — safe to use directly
+      const wine = wines.find((w) => w.id === item.wineId)!;
       const unitAmount = Math.round(wine.priceShop * 100); // Stripe uses cents
       subtotal += unitAmount * item.quantity;
 
