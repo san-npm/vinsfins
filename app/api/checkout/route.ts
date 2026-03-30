@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
-import { reserveStock } from "@/lib/stock";
+import { reserveStock, releaseStock } from "@/lib/stock";
 import { loadData } from "@/lib/storage";
 
 interface CartItemPayload {
@@ -48,6 +48,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
 
+    // Runtime-validate deliveryMethod — reject anything other than "delivery" or "pickup"
+    if (deliveryMethod !== "delivery" && deliveryMethod !== "pickup") {
+      return NextResponse.json({ error: "Invalid delivery method" }, { status: 400 });
+    }
+
     // Validate ALL items BEFORE reserving stock — prevents inventory corruption
     // via negative quantities or invalid IDs
     const wines = (await loadData("wines", staticWines)) as Wine[];
@@ -66,7 +71,8 @@ export async function POST(req: NextRequest) {
     }
 
     // Reserve stock atomically (DECRBY in Redis — no race condition)
-    const outOfStock = await reserveStock(items);
+    const reservedItems = items.map((i) => ({ wineId: i.wineId, quantity: i.quantity }));
+    const outOfStock = await reserveStock(reservedItems);
     if (outOfStock) {
       return NextResponse.json(
         { error: `Rupture de stock: ${outOfStock}` },
@@ -74,6 +80,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // From here on, stock is reserved — must release on any error
+    try {
     // Build line items with server-side price truth
     const lineItems: {
       price_data: {
@@ -114,26 +122,17 @@ export async function POST(req: NextRequest) {
       || "https://vinsfins.vercel.app";
 
     // Build shipping options for delivery
+    // Single rate (EU/Zone 1) to prevent customers selecting cheaper LU rate
+    // when shipping abroad. POST Luxembourg EU rate covers all destinations.
     const shippingOptions = deliveryMethod === "delivery"
       ? [
           {
             shipping_rate_data: {
               type: "fixed_amount" as const,
-              fixed_amount: { amount: getShippingCents(totalBottles, true), currency: "eur" },
-              display_name: "Livraison Luxembourg",
+              fixed_amount: { amount: getShippingCents(totalBottles, false), currency: "eur" },
+              display_name: "Livraison POST Luxembourg (LU/FR/DE/BE)",
               delivery_estimate: {
                 minimum: { unit: "business_day" as const, value: 1 },
-                maximum: { unit: "business_day" as const, value: 3 },
-              },
-            },
-          },
-          {
-            shipping_rate_data: {
-              type: "fixed_amount" as const,
-              fixed_amount: { amount: getShippingCents(totalBottles, false), currency: "eur" },
-              display_name: "Livraison Europe (FR/DE/BE)",
-              delivery_estimate: {
-                minimum: { unit: "business_day" as const, value: 3 },
                 maximum: { unit: "business_day" as const, value: 7 },
               },
             },
@@ -165,6 +164,12 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: session.url });
+    } catch (innerErr) {
+      // Stripe session creation failed — release reserved stock
+      await releaseStock(reservedItems);
+      console.error("Stock released after checkout failure");
+      throw innerErr; // Re-throw to outer catch
+    }
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
     console.error("Stripe checkout error:", message, err);

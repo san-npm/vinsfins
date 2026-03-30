@@ -68,13 +68,22 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
 }
 
 /**
- * Release reserved stock when payment fails.
+ * Release reserved stock when payment fails or session expires.
+ * Uses SETNX for idempotency — prevents duplicate releases on Stripe retries.
  */
 async function handlePaymentFailed(session: Stripe.Checkout.Session) {
+  const releaseKey = `released:${session.id}`;
+  const wasSet = await kv.setnx(releaseKey, 1);
+  if (!wasSet) {
+    console.log("Stock already released for session, skipping:", session.id);
+    return;
+  }
+  await kv.expire(releaseKey, 7 * 24 * 60 * 60); // 7 day TTL
+
   const items = parseSessionItems(session);
   if (items.length > 0) {
     await releaseStock(items);
-    console.log("Stock released for failed payment:", session.id);
+    console.log("Stock released for failed/expired session:", session.id);
   }
 }
 

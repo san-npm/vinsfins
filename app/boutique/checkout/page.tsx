@@ -169,7 +169,7 @@ export default function CheckoutPage() {
                 </div>
                 {deliveryMethod === "delivery" && (
                   <p className="text-xs text-stone/50">
-                    Tarifs POST Luxembourg : LU dès 7€ · EU dès 12€ (selon poids)
+                    Tarifs POST Luxembourg : dès 12€ (selon poids)
                   </p>
                 )}
                 <div className="flex justify-between text-lg font-playfair pt-2 border-t border-ink/5">
