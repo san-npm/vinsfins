@@ -60,9 +60,8 @@ export function verifyPassword(password: string): boolean {
 
 export function verifyToken(request: NextRequest): boolean {
   if (!TOKEN_SECRET) return false;
-  // Read token from HttpOnly cookie (primary) or Authorization header (fallback)
-  const token = request.cookies.get('admin_token')?.value
-    || (request.headers.get('Authorization')?.startsWith('Bearer ') ? request.headers.get('Authorization')!.slice(7) : null);
+  // Read token from HttpOnly cookie only (no Authorization header to preserve httpOnly protection)
+  const token = request.cookies.get('admin_token')?.value;
   if (!token) return false;
   try {
     const decoded = Buffer.from(token, 'base64').toString();

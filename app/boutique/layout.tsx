@@ -51,7 +51,7 @@ export default function BoutiqueLayout({ children }: { children: React.ReactNode
       <Script
         id="json-ld-shop"
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <Breadcrumbs
         items={[

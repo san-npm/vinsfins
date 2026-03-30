@@ -1,7 +1,11 @@
 import Stripe from "stripe";
 import { stripe } from "@/lib/stripe";
-import { wines } from "@/data/wines";
+import { wines as staticWines, type Wine } from "@/data/wines";
 import { loadData, saveData } from "@/lib/storage";
+
+async function getCurrentWines(): Promise<Wine[]> {
+  return (await loadData("wines", staticWines)) as Wine[];
+}
 
 const STOCK_KEY = "stock-adjustments";
 
@@ -21,6 +25,7 @@ async function getAdjustments(): Promise<StockAdjustments> {
  * Get effective stock for a wine (original stock + adjustments).
  */
 export async function getEffectiveStock(wineId: string): Promise<number> {
+  const wines = await getCurrentWines();
   const wine = wines.find((w) => w.id === wineId);
   if (!wine) return 0;
   const adjustments = await getAdjustments();
@@ -39,6 +44,7 @@ export async function updateStock(session: Stripe.Checkout.Session): Promise<voi
 
     const adjustments = await getAdjustments();
 
+    const wines = await getCurrentWines();
     for (const item of lineItems.data) {
       // Match line item back to wine by name
       const wine = wines.find((w) => w.name === item.description);
@@ -64,6 +70,7 @@ export async function checkStock(
 ): Promise<string | null> {
   const adjustments = await getAdjustments();
 
+  const wines = await getCurrentWines();
   for (const item of items) {
     const wine = wines.find((w) => w.id === item.wineId);
     if (!wine) continue;
