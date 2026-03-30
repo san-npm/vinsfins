@@ -164,18 +164,17 @@ export default function CheckoutPage() {
                   <span className="text-stone">
                     {deliveryMethod === "pickup"
                       ? (t("checkout.free") || "Gratuit")
-                      : totalPrice >= 100
-                        ? (t("checkout.free") || "Gratuit")
-                        : "5.00€"}
+                      : "Calculé au paiement / Calculated at checkout"}
                   </span>
                 </div>
+                {deliveryMethod === "delivery" && (
+                  <p className="text-xs text-stone/50">
+                    Tarifs POST Luxembourg : LU dès 7€ · EU dès 12€ (selon poids)
+                  </p>
+                )}
                 <div className="flex justify-between text-lg font-playfair pt-2 border-t border-ink/5">
                   <span>{t("checkout.total")}</span>
-                  <span>
-                    {deliveryMethod === "pickup" || totalPrice >= 100
-                      ? totalPrice.toFixed(2)
-                      : (totalPrice + 5).toFixed(2)}€
-                  </span>
+                  <span>{totalPrice.toFixed(2)}€{deliveryMethod === "delivery" ? " + livraison" : ""}</span>
                 </div>
                 <p className="text-xs text-stone/50 mt-2">TVA 17% incluse / VAT 17% included</p>
               </div>
