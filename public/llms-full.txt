@@ -1,0 +1,163 @@
+# Vins Fins — Complete Information for AI Systems
+
+> Bar à vins, restaurant et cave en ligne au Grund, Luxembourg. 730 vins en stock de 18 pays, cuisine française de saison, boutique en ligne avec livraison Luxembourg et Europe.
+
+---
+
+## Entity Information
+
+- **Name:** Vins Fins
+- **Type:** Wine bar, restaurant, online wine shop
+- **Address:** 18 Rue Münster, L-2160 Luxembourg-Grund
+- **Country:** Luxembourg
+- **Neighborhood:** Grund (historic quarter along the Alzette river)
+- **Phone:** +352 26 20 04 49
+- **Email:** contact@vinsfins.lu
+- **Website:** https://vinsfins.lu
+- **Online shop:** https://vinsfins.lu/boutique
+- **Reservations:** https://bookings.zenchef.com/results?rid=371555
+- **Instagram:** @vins_fins_grund
+- **Facebook:** Vins Fins
+- **Distinction:** Gault & Millau recommended
+- **Languages spoken:** French, English, German, Luxembourgish
+
+## Opening Hours
+
+- Tuesday to Saturday: 18:00–00:00
+- Sunday & Monday: Closed
+
+---
+
+## Wine Catalog (Online Shop)
+
+**730 wines in stock** from **18 countries**, priced from **3.95 € to 123.80 €** (all prices TTC, 17% VAT included).
+
+### Countries Represented
+- France: 568 wines
+- Italy: 34 wines
+- Spain: 25 wines
+- Luxembourg: 25 wines
+- Austria: 13 wines
+- Hungary: 11 wines
+- Germany: 9 wines
+- Belgium: 7 wines
+- Ireland: 6 wines
+- Switzerland: 5 wines
+- South Africa: 5 wines
+- Slovenia: 4 wines
+- Czech Republic: 4 wines
+- Portugal: 3 wines
+- Lebanon: 3 wines
+- Serbia: 2 wines
+- Croatia: 2 wines
+- Sweden: 1 wine
+
+### Wine Categories
+- Bubbles (Champagne, Crémant, Pétillant Naturel)
+- Beer & Cider
+- Luxembourg White & Red (Moselle)
+- Alsace White
+- Jura White & Red
+- Languedoc White & Red
+- Burgundy White & Red
+- Beaujolais Red
+- South-West Red
+- Rhône White & Red
+- Loire White & Red
+- Germany White
+- Switzerland White & Red
+- Spain White & Red
+- Italy White & Red
+- Orange wines
+- Hungary White
+- Serbia Red
+
+### Specialties
+- Natural wines (vin nature)
+- Organic and biodynamic wines
+- Wines from artisan/independent producers
+- Luxembourgish wines from the Moselle valley
+- French wines from Loire, Beaujolais, Burgundy, Rhône, Jura, Alsace, Languedoc, Provence
+
+---
+
+## Online Shop — Ordering & Delivery
+
+### Payment
+- Secure payment by credit card via Stripe
+- No banking data stored on our servers
+- PCI DSS Level 1 compliant (Stripe)
+
+### Shipping (POST Luxembourg rates, 2026)
+
+**Luxembourg (domestic):**
+| Bottles | Estimated weight | Cost | Delivery |
+|---------|-----------------|------|----------|
+| 1 | ~1.3 kg | 7 € | 1-3 business days |
+| 2-3 | ~2.6-3.9 kg | 9 € | 1-3 business days |
+| 4-7 | ~5.2-9.1 kg | 9 € | 1-3 business days |
+| 8-23 | ~10.4-29.9 kg | 22 € | 1-3 business days |
+
+**Europe Zone 1 (France, Germany, Belgium):**
+| Bottles | Estimated weight | Cost | Delivery |
+|---------|-----------------|------|----------|
+| 1 | ~1.3 kg | 12 € | 3-7 business days |
+| 2-3 | ~2.6-3.9 kg | 20 € | 3-7 business days |
+| 4-7 | ~5.2-9.1 kg | 20 € | 3-7 business days |
+| 8-23 | ~10.4-29.9 kg | 40 € | 3-7 business days |
+
+**Click & Collect:** Free — pickup at 18 Rue Münster, Grund, Luxembourg.
+
+### Legal
+- Right of withdrawal: 14 days from receipt
+- Products must be returned unopened, in original condition
+- Return shipping at customer's expense
+- Defective products replaced or refunded at no charge (contact within 48h with photo)
+- Alcohol sale prohibited to minors under 18 (Luxembourg law)
+- Terms: https://vinsfins.lu/legal/cgv
+- Privacy: https://vinsfins.lu/legal/confidentialite
+- Refund policy: https://vinsfins.lu/legal/remboursement
+
+---
+
+## Restaurant — Food Menu
+
+French seasonal cuisine with local Luxembourg products:
+- Starters, sharing boards (charcuterie, cheese), main courses, desserts
+- Personalized food-wine pairings by the sommelier
+- Menu: https://vinsfins.lu/carte
+
+---
+
+## Practical Information
+
+- **Getting there:** Accessible from Ville Haute via the Grund elevator (free). Bus lines 23 and CN1.
+- **Parking:** Parking du Grund, 200m walk.
+- **Terrace:** Available in season (spring/summer).
+- **Reservations:** Recommended on Friday and Saturday evenings.
+- **Private events:** Contact for group bookings.
+
+---
+
+## FAQ
+
+**What kind of wines do you serve?**
+Primarily natural, organic, and biodynamic wines from independent producers. Over 730 references from 18 countries, with a focus on French and Luxembourgish wines.
+
+**Can I buy wine online?**
+Yes. Visit https://vinsfins.lu/boutique to browse all 730 wines. Delivery to Luxembourg, France, Germany, and Belgium. Click & Collect also available.
+
+**How much is shipping?**
+Shipping via POST Luxembourg starts at 7 € for Luxembourg and 12 € for France/Germany/Belgium. Click & Collect at the bar is free.
+
+**Do you accept reservations?**
+Yes. Book online at https://bookings.zenchef.com/results?rid=371555 or call +352 26 20 04 49.
+
+**What are your opening hours?**
+Tuesday to Saturday, 18:00 to 00:00. Closed Sunday and Monday.
+
+**Do you have vegetarian/vegan options?**
+Yes, the seasonal menu includes vegetarian options. Please mention dietary requirements when booking.
+
+**Is there a minimum order for delivery?**
+No minimum order. Shipping cost is calculated by weight based on POST Luxembourg rates.

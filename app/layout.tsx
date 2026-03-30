@@ -128,6 +128,57 @@ const restaurantJsonLd = {
   },
 };
 
+const storeJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Store",
+  "@id": `${SITE_URL}/#store`,
+  name: "Vins Fins — Boutique en Ligne",
+  description: "730 vins naturels, bio et biodynamiques de 18 pays. Livraison Luxembourg et Europe (FR/DE/BE).",
+  url: `${SITE_URL}/boutique`,
+  telephone: "+352 26 20 04 49",
+  email: "contact@vinsfins.lu",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "18 Rue Münster",
+    addressLocality: "Luxembourg",
+    postalCode: "L-2160",
+    addressCountry: "LU",
+  },
+  priceRange: "€–€€€",
+  currenciesAccepted: "EUR",
+  paymentAccepted: "Credit Card",
+  areaServed: [
+    { "@type": "Country", name: "Luxembourg" },
+    { "@type": "Country", name: "France" },
+    { "@type": "Country", name: "Germany" },
+    { "@type": "Country", name: "Belgium" },
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Wine Catalog",
+    numberOfItems: 730,
+    itemListElement: [
+      { "@type": "OfferCatalog", name: "Natural Wines" },
+      { "@type": "OfferCatalog", name: "Organic Wines" },
+      { "@type": "OfferCatalog", name: "Biodynamic Wines" },
+    ],
+  },
+  shippingDetails: {
+    "@type": "OfferShippingDetails",
+    shippingDestination: [
+      { "@type": "DefinedRegion", addressCountry: "LU" },
+      { "@type": "DefinedRegion", addressCountry: "FR" },
+      { "@type": "DefinedRegion", addressCountry: "DE" },
+      { "@type": "DefinedRegion", addressCountry: "BE" },
+    ],
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      businessDays: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"] },
+      transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 7, unitCode: "d" },
+    },
+  },
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = getLocale();
 
@@ -138,6 +189,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           id="json-ld-restaurant"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd).replace(/</g, "\\u003c") }}
+        />
+        <Script
+          id="json-ld-store"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body className={`${playfairDisplay.variable} ${sourceSans3.variable}`}>

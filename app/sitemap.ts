@@ -20,6 +20,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/boutique", priority: 0.8, freq: "weekly" as const },
     { path: "/a-propos", priority: 0.6, freq: "monthly" as const },
     { path: "/contact", priority: 0.7, freq: "monthly" as const },
+    { path: "/legal/cgv", priority: 0.3, freq: "yearly" as const },
+    { path: "/legal/confidentialite", priority: 0.3, freq: "yearly" as const },
+    { path: "/legal/remboursement", priority: 0.3, freq: "yearly" as const },
   ];
 
   const pages: MetadataRoute.Sitemap = [];

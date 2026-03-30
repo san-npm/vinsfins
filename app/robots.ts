@@ -34,5 +34,6 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: "https://vinsfins.lu/sitemap.xml",
+    host: "https://vinsfins.lu",
   };
 }
