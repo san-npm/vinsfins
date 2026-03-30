@@ -1,42 +1,55 @@
-# Vins Fins — Bar à Vins & Restaurant
+# Vins Fins — Bar à Vins, Restaurant & Cave en Ligne
 
-> Bar à vins et restaurant au Grund, Luxembourg. Plus de 80 vins naturels et bio de vignerons artisans, accompagnés d'une cuisine française de saison.
+> Bar à vins et restaurant au Grund, Luxembourg. Plus de 730 vins en stock — naturels, bio, biodynamiques — de 18 pays. Cuisine française de saison. Boutique en ligne avec livraison au Luxembourg et en Europe.
 
 ## Informations Essentielles
 - Nom: Vins Fins
-- Type: Bar à vins & restaurant
+- Type: Bar à vins, restaurant & cave en ligne
 - Adresse: 18 Rue Münster, L-2160 Luxembourg-Grund
 - Quartier: Grund (quartier historique le long de l'Alzette)
 - Horaires: Mardi–Samedi, 18h–00h
 - Fermé: Dimanche et lundi
 - Gamme de prix: €€€
 - Réservation: https://bookings.zenchef.com/results?rid=371555
+- Boutique en ligne: https://vinsfins.lu/boutique
 - Instagram: @vins_fins_grund
 - Facebook: Vins Fins
-- Distinction: Recommandé Gault & Millau 2024
+- Contact: contact@vinsfins.lu / +352 26 20 04 49
+- Distinction: Recommandé Gault & Millau
 
 ## Pages
-- [Accueil](https://vinsfins.lu/): Présentation du bar à vins et vins à la une
-- [Carte des Vins](https://vinsfins.lu/vins): Plus de 80 vins naturels — rouges, blancs, rosés, orange, pétillants
-- [La Carte](https://vinsfins.lu/carte): Cuisine française de saison — entrées, planches, plats, desserts
-- [Boutique](https://vinsfins.lu/boutique): Vente de vins en ligne avec livraison au Luxembourg
-- [À Propos](https://vinsfins.lu/a-propos): L'histoire de Vins Fins et l'équipe
-- [Contact](https://vinsfins.lu/contact): Plan d'accès, coordonnées et formulaire de contact
+- [Accueil](https://vinsfins.lu/): Présentation et vins à la une
+- [Carte des Vins](https://vinsfins.lu/vins): 730+ vins — rouges, blancs, rosés, orange, pétillants, bières, cidres
+- [La Carte](https://vinsfins.lu/carte): Cuisine française de saison
+- [Boutique](https://vinsfins.lu/boutique): Achat en ligne avec livraison LU/FR/DE/BE
+- [À Propos](https://vinsfins.lu/a-propos): L'histoire et l'équipe
+- [Contact](https://vinsfins.lu/contact): Plan d'accès et coordonnées
+- [CGV](https://vinsfins.lu/legal/cgv): Conditions générales de vente
+- [Confidentialité](https://vinsfins.lu/legal/confidentialite): Politique de confidentialité
+- [Remboursement](https://vinsfins.lu/legal/remboursement): Politique de remboursement
+
+## Boutique en Ligne
+- 730 vins en stock provenant de 18 pays
+- Paiement sécurisé par Stripe
+- Livraison par POST Luxembourg
+- Livraison Luxembourg: dès 7 € (1-3 jours ouvrables)
+- Livraison Europe (FR/DE/BE): dès 12 € (3-7 jours ouvrables)
+- Click & Collect gratuit au bar
+- TVA 17% incluse dans tous les prix
+- Droit de rétractation 14 jours
 
 ## Spécialités
 - Vins naturels, bio et biodynamiques
-- Vins luxembourgeois de la Moselle (Domaine Krier-Welbes, Poll-Fabaire)
-- Vins français de domaines artisanaux (Loire, Beaujolais, Bourgogne, Provence, Rhône)
-- Cuisine française de saison avec produits locaux luxembourgeois
+- 18 pays représentés (Luxembourg, France, Italie, Espagne, Allemagne, Autriche, Portugal, Géorgie, Grèce, etc.)
+- Vins luxembourgeois de la Moselle
+- Vins français de domaines artisanaux (Loire, Beaujolais, Bourgogne, Rhône, Jura, Alsace, Languedoc)
+- Cuisine française de saison avec produits locaux
 - Planches de charcuterie et fromages artisanaux
-- Accords mets-vins personnalisés par le sommelier
-- Crémant de Luxembourg
-
-## Régions Viticoles Représentées
-Loire Valley, Beaujolais, Bourgogne, Provence, Rhône, Alsace, Jura, Languedoc, Moselle luxembourgeoise
+- Accords mets-vins personnalisés
 
 ## Informations Pratiques
-- Langue du service: Français, anglais, allemand, luxembourgeois
+- Langues: Français, anglais, allemand, luxembourgeois
 - Réservation recommandée le vendredi et samedi soir
 - Terrasse disponible en saison
 - Accessible depuis la Ville Haute par l'ascenseur du Grund
+- Parking: Parking du Grund à 200m
