@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { wines } from "@/data/wines";
+import { wines as staticWines, type Wine } from "@/data/wines";
 import { checkStock } from "@/lib/stock";
+import { loadData } from "@/lib/storage";
 
 interface CartItemPayload {
   wineId: string;
@@ -46,6 +47,9 @@ export async function POST(req: NextRequest) {
     if (!items || !Array.isArray(items) || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
     }
+
+    // Load current wine data (admin-updated from blob, fallback to static)
+    const wines = (await loadData("wines", staticWines)) as Wine[];
 
     // Check stock availability
     const outOfStock = await checkStock(items);
