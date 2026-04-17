@@ -104,9 +104,20 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });
   }
 
+  // Vins Fins and La Grocerie share one Stripe account and each site
+  // registers its own webhook endpoint, so every event lands on both.
+  // La Grocerie tags its sessions/charges with metadata.source='grocerie'.
+  // Ignore those here so the grocerie endpoint is the only one that
+  // fulfils them (prevents duplicate emails and double processing).
+  const ackSkip = () => NextResponse.json({ received: true, skipped: true });
+  const isGrocerieSession = (s: Stripe.Checkout.Session | undefined | null) =>
+    s?.metadata?.source === "grocerie";
+  const isGrocerieCharge = (c: Stripe.Charge) => c.metadata?.source === "grocerie";
+
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
+      if (isGrocerieSession(session)) return ackSkip();
       console.log("Checkout completed:", {
         sessionId: session.id,
         email: session.customer_details?.email,
@@ -123,6 +134,7 @@ export async function POST(req: NextRequest) {
 
     case "checkout.session.async_payment_succeeded": {
       const session = event.data.object as Stripe.Checkout.Session;
+      if (isGrocerieSession(session)) return ackSkip();
       console.log("Async payment succeeded:", session.id);
       await fulfillOrder(session);
       break;
@@ -130,14 +142,15 @@ export async function POST(req: NextRequest) {
 
     case "checkout.session.async_payment_failed": {
       const session = event.data.object as Stripe.Checkout.Session;
+      if (isGrocerieSession(session)) return ackSkip();
       console.log("Async payment failed:", session.id);
       await handlePaymentFailed(session);
       break;
     }
 
     case "checkout.session.expired": {
-      // Session expired without payment — release reserved stock
       const session = event.data.object as Stripe.Checkout.Session;
+      if (isGrocerieSession(session)) return ackSkip();
       console.log("Session expired:", session.id);
       await handlePaymentFailed(session);
       break;
@@ -148,6 +161,7 @@ export async function POST(req: NextRequest) {
       // we do NOT auto-restock because the wine may already have shipped.
       // Admin restores stock manually via the admin panel if warranted.
       const charge = event.data.object as Stripe.Charge;
+      if (isGrocerieCharge(charge)) return ackSkip();
       console.log("Charge refunded:", {
         chargeId: charge.id,
         paymentIntent: charge.payment_intent,
