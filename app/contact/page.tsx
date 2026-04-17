@@ -2,15 +2,18 @@
 
 import { useState } from "react";
 import { useLanguage } from "@/context/LanguageContext";
+import FAQSection from "@/components/FAQSection";
+import { faqByLocale } from "@/data/faq";
 
 export default function ContactPage() {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [mapConsent, setMapConsent] = useState(false);
+  const faq = faqByLocale[locale];
 
   return (
     <main className="relative z-[1]">
       {/* Hero */}
-      <section className="pt-32 pb-16 px-6 text-center">
+      <section className="pt-8 pb-16 px-6 text-center">
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("contact.heroLabel")}
         </p>
@@ -133,6 +136,8 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
+
+      <FAQSection items={faq.items} title={faq.title} label={faq.label} />
     </main>
   );
 }

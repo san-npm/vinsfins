@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { createHmac, timingSafeEqual } from 'crypto';
 import { kv } from '@vercel/kv';
+import { getClientIp } from '@/lib/ratelimit';
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
@@ -9,26 +10,29 @@ const TOKEN_MAX_AGE_MS = 24 * 60 * 60 * 1000; // 24 hours
 const MAX_ATTEMPTS = 5;
 const WINDOW_SECONDS = 15 * 60; // 15 minutes
 
-function getClientIp(request: NextRequest): string {
-  return request.headers.get('x-real-ip')
-    || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-    || 'unknown';
-}
-
-export async function checkRateLimit(request: NextRequest): Promise<boolean> {
+export async function checkRateLimit(request: NextRequest): Promise<{ ok: boolean; unavailable?: boolean }> {
   const ip = getClientIp(request);
   const key = `admin_rate:${ip}`;
-  const attempts = await kv.get<number>(key);
-  return (attempts ?? 0) < MAX_ATTEMPTS;
+  try {
+    const attempts = await kv.get<number>(key);
+    return { ok: (attempts ?? 0) < MAX_ATTEMPTS };
+  } catch {
+    // Fail closed on KV outage — we'd rather 503 admin login than disable
+    // brute-force protection entirely.
+    return { ok: false, unavailable: true };
+  }
 }
 
 export async function recordLoginAttempt(request: NextRequest): Promise<void> {
   const ip = getClientIp(request);
   const key = `admin_rate:${ip}`;
-  const current = await kv.incr(key);
-  if (current === 1) {
-    // First attempt — set TTL
-    await kv.expire(key, WINDOW_SECONDS);
+  try {
+    const current = await kv.incr(key);
+    if (current === 1) {
+      await kv.expire(key, WINDOW_SECONDS);
+    }
+  } catch {
+    // Best-effort — the checkRateLimit side will fail closed on next attempt
   }
 }
 

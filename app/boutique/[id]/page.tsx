@@ -24,7 +24,7 @@ export default function ProductPage() {
   }
 
   return (
-    <main className="relative z-[1] pt-32 pb-24 px-6">
+    <main className="relative z-[1] pt-8 pb-24 px-6">
       <div className="max-w-6xl mx-auto">
         <Link href={localePath("/boutique")} className="text-sm text-stone hover:text-ink transition-colors mb-8 inline-block">
           {t("product.backToShop")}

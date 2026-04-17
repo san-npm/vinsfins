@@ -143,6 +143,21 @@ export async function POST(req: NextRequest) {
       break;
     }
 
+    case "charge.refunded": {
+      // Refund issued from the Stripe dashboard. Log for reconciliation;
+      // we do NOT auto-restock because the wine may already have shipped.
+      // Admin restores stock manually via the admin panel if warranted.
+      const charge = event.data.object as Stripe.Charge;
+      console.log("Charge refunded:", {
+        chargeId: charge.id,
+        paymentIntent: charge.payment_intent,
+        amount: charge.amount_refunded,
+        currency: charge.currency,
+        reason: charge.refunds?.data[0]?.reason,
+      });
+      break;
+    }
+
     default:
       break;
   }

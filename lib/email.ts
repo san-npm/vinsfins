@@ -34,7 +34,7 @@ function buildOrderHtml(
     .map(
       (item) =>
         `<tr>
-          <td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px">${item.description}</td>
+          <td style="padding:8px 0;border-bottom:1px solid #eee;font-size:14px">${esc(item.description)}</td>
           <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:center;font-size:14px">${item.quantity}</td>
           <td style="padding:8px 0;border-bottom:1px solid #eee;text-align:right;font-size:14px">${formatCents(item.amount * item.quantity)}</td>
         </tr>`,
