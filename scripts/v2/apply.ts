@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { readState } from './state';
+import { readState, writeState } from './state';
 import { normalizeToPortrait, fetchImage } from './normalize';
 import { uploadWineImage } from './blob-upload';
 import type { Decision, ClassifiedRecord } from './types';
@@ -8,6 +8,7 @@ import type { Decision, ClassifiedRecord } from './types';
 const WINES_FILE = join(process.cwd(), 'data/wines.ts');
 const CLASSIFIED = 'scripts/v2/state/classified.json';
 const DECISIONS = 'scripts/v2/state/decisions.json';
+const APPLY_STATE = 'scripts/v2/state/applied.json';
 
 export function updateWineImageInSource(src: string, wineId: string, newUrl: string): string {
   const lines = src.split('\n');
@@ -16,7 +17,6 @@ export function updateWineImageInSource(src: string, wineId: string, newUrl: str
   const imageRe = /^(\s*image:\s*)['"][^'"]*['"](.*)$/;
   for (let i = 0; i < lines.length; i++) {
     if (!idRe.test(lines[i])) continue;
-    // scan up to 30 lines forward for the image field
     for (let j = i + 1; j < Math.min(i + 30, lines.length); j++) {
       const m = lines[j].match(imageRe);
       if (m) {
@@ -32,7 +32,7 @@ function placeholderUrlFor(category: string): string {
   return `https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/placeholders/${category}.jpg`;
 }
 
-export async function resolveDecisionToUrl(d: Decision, classifiedById: Map<string, ClassifiedRecord>): Promise<string | null> {
+export async function resolveDecisionToUrl(d: Decision): Promise<string | null> {
   if (d.action === 'skip') return null;
   let sourceUrl: string | null = null;
   if (d.action === 'accept' && d.imageUrl) sourceUrl = d.imageUrl;
@@ -45,37 +45,64 @@ export async function resolveDecisionToUrl(d: Decision, classifiedById: Map<stri
   return uploadWineImage(d.wineId, normalized);
 }
 
-export async function runApply(): Promise<void> {
+interface AppliedRecord { wineId: string; newUrl: string; timestamp: number }
+
+export async function runApply(concurrency = 4): Promise<void> {
   const classified = readState<ClassifiedRecord>(CLASSIFIED);
   const decisions = readState<Decision>(DECISIONS);
-  const classifiedById = new Map(classified.map((c) => [c.wineId, c]));
+  const applied = readState<AppliedRecord>(APPLY_STATE);
+  const doneIds = new Set(applied.map((r) => r.wineId));
 
   const autoAccepts: Decision[] = classified
     .filter((c) => c.decision === 'auto-accept' && c.chosen)
     .filter((c) => !decisions.find((d) => d.wineId === c.wineId))
     .map((c) => ({ wineId: c.wineId, action: 'accept', imageUrl: c.chosen!.imageUrl, timestamp: Date.now() }));
 
-  const allDecisions = [...decisions, ...autoAccepts];
+  const allDecisions = [...decisions, ...autoAccepts].filter((d) => !doneIds.has(d.wineId));
+  console.log(`apply: ${allDecisions.length} decisions to process (${applied.length} already done)`);
 
-  let src = readFileSync(WINES_FILE, 'utf-8');
-  let applied = 0;
+  let completed = 0;
+  const results: AppliedRecord[] = [...applied];
 
-  for (let i = 0; i < allDecisions.length; i++) {
-    const d = allDecisions[i];
-    try {
-      const newUrl = await resolveDecisionToUrl(d, classifiedById);
-      if (!newUrl) continue;
-      const next = updateWineImageInSource(src, d.wineId, newUrl);
-      if (next === src) { console.warn(`[apply] no-op for ${d.wineId} (id not found)`); continue; }
-      src = next;
-      applied++;
-      if (applied % 10 === 0) writeFileSync(WINES_FILE, src);
-      console.log(`apply: ${i + 1}/${allDecisions.length} — ${d.wineId}`);
-    } catch (err) {
-      console.error(`[apply] failed for ${d.wineId}: ${(err as Error).message}`);
+  const writeCheckpoint = () => writeState(APPLY_STATE, results);
+
+  const worker = async (startIdx: number) => {
+    for (let i = startIdx; i < allDecisions.length; i += concurrency) {
+      const d = allDecisions[i];
+      try {
+        const newUrl = await resolveDecisionToUrl(d);
+        if (!newUrl) {
+          completed++;
+          console.log(`apply: ${completed}/${allDecisions.length} — ${d.wineId} [skip]`);
+          continue;
+        }
+        results.push({ wineId: d.wineId, newUrl, timestamp: Date.now() });
+        completed++;
+        if (completed % 10 === 0) writeCheckpoint();
+        console.log(`apply: ${completed}/${allDecisions.length} — ${d.wineId} [uploaded]`);
+      } catch (err) {
+        completed++;
+        console.error(`apply: ${completed}/${allDecisions.length} — ${d.wineId} FAILED: ${(err as Error).message}`);
+      }
     }
-  }
+  };
 
+  await Promise.all(Array.from({ length: concurrency }, (_, i) => worker(i)));
+  writeCheckpoint();
+
+  // Now apply all URL updates sequentially to data/wines.ts
+  console.log(`apply: rewriting data/wines.ts with ${results.length} updates`);
+  let src = readFileSync(WINES_FILE, 'utf-8');
+  let written = 0;
+  for (const r of results) {
+    const next = updateWineImageInSource(src, r.wineId, r.newUrl);
+    if (next === src) {
+      console.warn(`[apply] no-op for ${r.wineId} (id not found in data/wines.ts)`);
+      continue;
+    }
+    src = next;
+    written++;
+  }
   writeFileSync(WINES_FILE, src);
-  console.log(`apply: wrote ${applied} image updates to data/wines.ts`);
+  console.log(`apply: wrote ${written}/${results.length} image updates to data/wines.ts`);
 }
