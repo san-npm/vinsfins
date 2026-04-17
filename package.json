@@ -9,7 +9,12 @@
     "lint": "next lint",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:int": "RUN_INTEGRATION=1 vitest run tests/v2/integration"
+    "test:int": "RUN_INTEGRATION=1 vitest run tests/v2/integration",
+    "rescrape:audit": "tsx scripts/v2/orchestrate.ts --stage=audit",
+    "rescrape:scrape": "tsx scripts/v2/orchestrate.ts --stage=scrape",
+    "rescrape:classify": "tsx scripts/v2/orchestrate.ts --stage=classify",
+    "rescrape:apply": "tsx scripts/v2/orchestrate.ts --stage=apply",
+    "rescrape:all": "tsx scripts/v2/orchestrate.ts --stage=all"
   },
   "dependencies": {
     "@stripe/stripe-js": "^8.11.0",
