@@ -10,11 +10,22 @@ const CLASSIFIED = 'scripts/v2/state/classified.json';
 const DECISIONS = 'scripts/v2/state/decisions.json';
 
 export function updateWineImageInSource(src: string, wineId: string, newUrl: string): string {
-  const blockRe = new RegExp(
-    `(\\{[^{}]*id:\\s*['"]${wineId.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')}['"][^{}]*?image:\\s*)['"][^'"]*['"]`,
-    's'
-  );
-  return src.replace(blockRe, `$1'${newUrl}'`);
+  const lines = src.split('\n');
+  const escapedId = wineId.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
+  const idRe = new RegExp(`id:\\s*['"]${escapedId}['"]`);
+  const imageRe = /^(\s*image:\s*)['"][^'"]*['"](.*)$/;
+  for (let i = 0; i < lines.length; i++) {
+    if (!idRe.test(lines[i])) continue;
+    // scan up to 30 lines forward for the image field
+    for (let j = i + 1; j < Math.min(i + 30, lines.length); j++) {
+      const m = lines[j].match(imageRe);
+      if (m) {
+        lines[j] = `${m[1]}'${newUrl}'${m[2]}`;
+        return lines.join('\n');
+      }
+    }
+  }
+  return src;
 }
 
 function placeholderUrlFor(category: string): string {
