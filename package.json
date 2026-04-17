@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:int": "RUN_INTEGRATION=1 vitest run tests/v2/integration"
   },
   "dependencies": {
     "@stripe/stripe-js": "^8.11.0",
@@ -15,16 +18,21 @@
     "next": "14.2.35",
     "react": "^18",
     "react-dom": "^18",
-    "resend": "^6.9.4",
+    "resend": "^6.12.0",
     "stripe": "^20.4.1"
   },
   "devDependencies": {
+    "@types/cheerio": "^0.22.35",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitest/ui": "^4.1.4",
+    "cheerio": "^1.2.0",
     "postcss": "^8",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "tsx": "^4.21.0",
+    "typescript": "^5",
+    "vitest": "^4.1.4"
   }
 }
