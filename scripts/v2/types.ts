@@ -6,7 +6,7 @@ export interface Wine {
   region: string;
   country: string;
   grape: string;
-  category: 'red' | 'white' | 'orange' | 'sparkling' | 'beer' | 'cider';
+  category: 'red' | 'white' | 'rosé' | 'orange' | 'sparkling' | 'beer' | 'cider';
   image: string;
 }
 
