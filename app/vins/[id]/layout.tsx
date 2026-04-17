@@ -6,9 +6,9 @@ import {
   getLocale,
   SITE_URL,
   localeUrl,
-  locales,
   breadcrumbNames,
   wineCategory,
+  alternateUrls,
   type Locale,
 } from "@/lib/i18n";
 
@@ -42,12 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${wine.name} — ${cat}, ${wine.region}`,
     description: `${desc} ${wine.grape}, ${wine.region}, ${wine.country}. ${wine.priceGlass}€ ${byGlass[locale]}, ${wine.priceBottle}€ ${byBottle[locale]}.`,
-    alternates: {
-      canonical: `${SITE_URL}/vins/${wine.id}`,
-      languages: Object.fromEntries(
-        locales.map((l) => [l, localeUrl(`/vins/${wine.id}`, l)])
-      ),
-    },
+    alternates: alternateUrls(`/vins/${wine.id}`, locale),
     openGraph: {
       title: `${wine.name} | Vins Fins Luxembourg`,
       description: desc,
@@ -98,10 +93,12 @@ function buildWineProductJsonLd(wine: (typeof wines)[number], locale: Locale) {
               availability: "https://schema.org/InStock",
               shippingDetails: {
                 "@type": "OfferShippingDetails",
-                shippingDestination: {
-                  "@type": "DefinedRegion",
-                  addressCountry: "LU",
-                },
+                shippingDestination: [
+                  { "@type": "DefinedRegion", addressCountry: "LU" },
+                  { "@type": "DefinedRegion", addressCountry: "FR" },
+                  { "@type": "DefinedRegion", addressCountry: "DE" },
+                  { "@type": "DefinedRegion", addressCountry: "BE" },
+                ],
                 freeShippingThreshold: {
                   "@type": "MonetaryAmount",
                   value: "100",

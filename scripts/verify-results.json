@@ -112,9 +112,8 @@
     "url": "https://grain.vin/wp-content/uploads/2023/09/Aozina-Boom-2022-2.jpg"
   },
   "aozina-grand-depart-2022": {
-    "status": "fixed",
-    "url": "https://grain.vin/wp-content/uploads/2023/09/Aozina-Grand-Depart-2022.jpg",
-    "oldUrl": "https://grain.vin/wp-content/uploads/2023/09/Aozina-Grand-Depart-2022.jpg"
+    "status": "valid",
+    "url": "https://grain.vin/wp-content/uploads/2023/09/Aozina-Grand-Depart-2022.jpg"
   },
   "de-mena-arc-en-ciel": {
     "status": "valid",
@@ -453,9 +452,8 @@
     "url": "https://sipsberlin.com/cdn/shop/files/cosmic-confianca.jpg?v=1722597199"
   },
   "cosmic-consciencia-22-0-75cl": {
-    "status": "broken",
-    "url": "https://www.buonvino.co.uk/app/uploads/Constel_Lacio_Cosmic-600x900.jpg",
-    "reason": "403"
+    "status": "valid",
+    "url": "https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/cosmic-consciencia-22-0-75cl.jpg"
   },
   "cosmic-el-teu-mar-22-0-75cl": {
     "status": "valid",
@@ -666,9 +664,8 @@
     "url": "https://champagne.guide/wp-content/uploads/Laherte-Freres-Les-Longues-Voyes-Blanc-de-Noirs-2019-scaled.jpg"
   },
   "champagne-laherte-les-vignes-d-autrefois-2019-0-75cl": {
-    "status": "fixed",
-    "url": "https://www.grandsbourgognes.com/40467-large_default/laherte-freres-les-vignes-d-autrefois.jpg",
-    "oldUrl": "https://vinpiu.com/4630-large_default/laherte-freres-champagne-les-vignes-d-autrefois-2019.jpg"
+    "status": "valid",
+    "url": "https://www.grandsbourgognes.com/40467-large_default/laherte-freres-les-vignes-d-autrefois.jpg"
   },
   "champagne-laherte-rose-de-saignee-les-beaudiers-2019-0-75cl": {
     "status": "valid",
@@ -1223,9 +1220,8 @@
     "url": "https://vins-de-lieux.com/cdn/shop/files/hardyponceau2023_1200x1200.png?v=1741796670"
   },
   "hardy-l-aubier-chardonnay-0-75cl": {
-    "status": "broken",
-    "url": "https://nyc.flatiron-wines.com/cdn/shop/files/Jean-Baptiste-Hardy-Muscadet-LAubier-2023-White-Wine-Flatiron-Wines-Spirits-New-York_1200x1200.jpg?v=1758292804",
-    "reason": "404"
+    "status": "valid",
+    "url": "https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/hardy-l-aubier-chardonnay-0-75cl.jpg"
   },
   "hardy-eclats-melon-bourgogne-0-75cl": {
     "status": "valid",
@@ -1336,9 +1332,8 @@
     "url": "http://symbolicwines.com/cdn/shop/files/TarlantArgiliteAmphorae2014_1200x1200.jpg?v=1682797284"
   },
   "tarlant-le-triumvirat-2009-0-75cl": {
-    "status": "broken",
-    "url": "https://locosporlasburbujas.com/wp-content/uploads/2024/05/Tarlant-Le-Triumvirat-Millesime-2009-1-2500x2500.jpg",
-    "reason": "403"
+    "status": "valid",
+    "url": "https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/tarlant-le-triumvirat-2009-0-75cl.jpg"
   },
   "tarlant-zero-brut-nature-0-75cl": {
     "status": "valid",
@@ -1505,9 +1500,8 @@
     "url": "https://www.leclosjordanne.com/globalassets/lcj/our-wines/cremant/dlcj_product_lifestyle-cremant.jpg"
   },
   "auxerrois-clos-jangli-0-75cl": {
-    "status": "fixed",
-    "url": "https://images.vivino.com/thumbs/OvKjp1VaQ3ifyZ9OX8jwPQ_375x500.jpg",
-    "oldUrl": "https://cave-cleebourg.fr/wp-content/uploads/2020/11/Auxerrois-tradition-2018-100cl-verre-944x1500.png"
+    "status": "valid",
+    "url": "https://images.vivino.com/thumbs/OvKjp1VaQ3ifyZ9OX8jwPQ_375x500.jpg"
   },
   "vin-orange-clos-jangli-0-75cl": {
     "status": "valid",
@@ -1694,9 +1688,8 @@
     "url": "https://emilewines.co.uk/cdn/shop/products/Maison-Romane-Manoir-du-Bais-Cidre-Primeur-2022-Bottle-Maison-Romane-Bottle_photo_1024x1024.jpg?v=1698250115"
   },
   "mousses-sauvages-mirabelle-0-75cl": {
-    "status": "broken",
-    "url": "https://vinewineltd.com/wp-content/uploads/2024/10/La-Maison-Romane-Mousses-Sauvages-22Mirabelle22-2022.png",
-    "reason": "403"
+    "status": "valid",
+    "url": "https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/mousses-sauvages-mirabelle-0-75cl.png"
   },
   "mousses-sauvages-gamay-0-75cl": {
     "status": "valid",
@@ -2111,9 +2104,8 @@
     "url": "https://cdn.ct-static.com/labels/79180f94-b343-4655-8ca0-8c49d418c4d5.jpg"
   },
   "la-biancara-sassaia-2023-igt-veneto-0-75cl": {
-    "status": "broken",
-    "url": "https://www.rollingwine.com/1893-extralarge_default/sassaia-2023-veneto-igt.jpg",
-    "reason": "403"
+    "status": "valid",
+    "url": "https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/la-biancara-sassaia-2023-igt-veneto-0-75cl.jpg"
   },
   "t-dipietra-tempesta-22-igt-verones-0-75cl": {
     "status": "valid",
@@ -2556,9 +2548,8 @@
     "url": "https://champagnerschorle.de/wp-content/uploads/2021/02/2021-01-30_Georges-Laval-1341x1536.jpg"
   },
   "champagne-nowack-terre-bleues-2022-0-75cl": {
-    "status": "fixed",
-    "url": "https://vinnouveau.fr/11846-thickbox_default/flavien-nowack-champagne-extra-brut-les-terres-bleues-2022.jpg",
-    "oldUrl": "https://nyc.flatiron-wines.com/cdn/shop/files/Flavien-Nowack-Champagne-Les-Terres-Bleues-Blanc-de-Meunier-Extra-Brut-2021-Sparkling-Wine-Flatiron-Wines-Spirits-New-York_1024x1024.jpg?v=1763650229"
+    "status": "valid",
+    "url": "https://vinnouveau.fr/11846-thickbox_default/flavien-nowack-champagne-extra-brut-les-terres-bleues-2022.jpg"
   },
   "champagne-nowack-sa-magnum-0-75cl": {
     "status": "valid",
@@ -2633,9 +2624,8 @@
     "url": "http://parcellewine.com/cdn/shop/files/AliceetOlivierdeMoor_Chablis_CoteaudeRosette_2020_grande.jpg?v=1689370433"
   },
   "de-moor-chablis-mont-de-milieu-2022-0-75cl": {
-    "status": "fixed",
-    "url": "https://anotherbottle.com.au/wp-content/uploads/2025/08/Untitled-design-68.png",
-    "oldUrl": "https://smallwineshop.com/wp-content/uploads/2023/08/Alice-et-Oliver-de-Moor-Chablis-1er-Cru-Mont-de-Mileu-2020-600x600.jpg"
+    "status": "valid",
+    "url": "https://anotherbottle.com.au/wp-content/uploads/2025/08/Untitled-design-68.png"
   },
   "maison-stephan-condrieu-le-tinel-0-75cl": {
     "status": "valid",
@@ -2698,9 +2688,8 @@
     "url": "https://keyassets.timeincuk.net/inspirewp/live/wp-content/uploads/sites/34/2023/07/Riesling_Bottles-920x609.jpg"
   },
   "fleurie-domaine-chamonard": {
-    "status": "fixed",
-    "url": "https://cdn.ct-static.com/labels/f6cd6771-2729-44c3-841b-94eb7430c32b.jpg",
-    "oldUrl": "http://pjwine.com/cdn/shop/files/ChamonardFleurie_1200x1200.jpg?v=1752431787"
+    "status": "valid",
+    "url": "https://cdn.ct-static.com/labels/f6cd6771-2729-44c3-841b-94eb7430c32b.jpg"
   },
   "cubi-10l-cevennes": {
     "status": "valid",
@@ -2743,9 +2732,8 @@
     "url": "https://www.vigneronsdexception.com/17318-large_default/domaine-francois-chidaine-vin-de-france-baudoin-blanc-sec-2022.jpg"
   },
   "cidre-vulcain-trois-pepins-2022-0-75cl": {
-    "status": "fixed",
-    "url": "https://www.vinsetmillesimes.com/140413-thickbox_default/vulcain-cidre-3-pepins.jpg",
-    "oldUrl": "https://www.buonvino.co.uk/app/uploads/Vulcain-Trois-Pepins-800x1200.jpg"
+    "status": "valid",
+    "url": "https://www.vinsetmillesimes.com/140413-thickbox_default/vulcain-cidre-3-pepins.jpg"
   },
   "domaine-de-la-belliviere-les-rosiers-jasnieres-2022-0-75cl": {
     "status": "valid",
@@ -2832,9 +2820,8 @@
     "url": "https://wicklowwineco.ie/wp-content/uploads/2019/03/chateau_musar_musar_jeune_blanc-768x922.jpg"
   },
   "pouillon-les-chataigniers-champagne-0-75cl": {
-    "status": "fixed",
-    "url": "https://leonandsonwine.com/cdn/shop/files/2018R.Pouillon_Fils_LesChataigniers_ExtraBrutChampagne_France.jpg?v=1700583523",
-    "oldUrl": "http://nyc.flatiron-wines.com/cdn/shop/files/R-Pouillon-et-Fils-Les-Chataigniers-Champagne-Extra-Brut-2019-Sparkling-Wine-Flatiron-Wines-Spirits-New-York_1200x1200.jpg?v=1744382394"
+    "status": "valid",
+    "url": "https://leonandsonwine.com/cdn/shop/files/2018R.Pouillon_Fils_LesChataigniers_ExtraBrutChampagne_France.jpg?v=1700583523"
   },
   "pouillon-les-blanchiens-champagne-0-75cl": {
     "status": "valid",

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
@@ -9,6 +9,13 @@ import { DataProvider } from "@/context/DataContext";
 import Script from "next/script";
 import { getLocale, pageMeta, SITE_URL, localeUrl, locales } from "@/lib/i18n";
 import { playfairDisplay, sourceSans3 } from "@/lib/fonts";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#1a1a1a",
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = getLocale();
@@ -28,8 +35,11 @@ export async function generateMetadata(): Promise<Metadata> {
     publisher: "Vins Fins",
     formatDetection: { telephone: true, email: true, address: true },
     alternates: {
-      canonical: SITE_URL,
-      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/", l)])),
+      canonical: localeUrl("/", locale),
+      languages: {
+        ...Object.fromEntries(locales.map((l) => [l, localeUrl("/", l)])),
+        "x-default": SITE_URL,
+      },
     },
     openGraph: {
       title: meta.ogTitle,
@@ -108,6 +118,12 @@ const restaurantJsonLd = {
   priceRange: "€€€",
   servesCuisine: ["French", "Wine Bar"],
   acceptsReservations: true,
+  areaServed: [
+    { "@type": "Country", name: "Luxembourg" },
+    { "@type": "Country", name: "France" },
+    { "@type": "Country", name: "Germany" },
+    { "@type": "Country", name: "Belgium" },
+  ],
   menu: `${SITE_URL}/carte`,
   hasMenu: { "@type": "Menu", url: `${SITE_URL}/carte` },
   image: `${SITE_URL}/og-image.jpg`,

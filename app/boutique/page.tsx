@@ -24,7 +24,7 @@ export default function BoutiquePage() {
 
   return (
     <main className="relative z-[1]">
-      <section className="pt-32 pb-8 px-6 text-center">
+      <section className="pt-8 pb-8 px-6 text-center">
         <p className="text-[10px] tracking-luxury uppercase text-gold mb-4">
           {t("shop.heroLabel")}
         </p>

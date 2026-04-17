@@ -21,12 +21,17 @@ export function localeUrl(path: string, locale: Locale): string {
   return `${SITE_URL}${localePath(path, locale)}`;
 }
 
-export function alternateUrls(path: string) {
+export function alternateUrls(path: string, locale: Locale = defaultLocale) {
   const languages: Record<string, string> = {};
   for (const l of locales) {
     languages[l] = localeUrl(path, l);
   }
-  return { canonical: localeUrl(path, "fr"), languages };
+  // x-default points at the default locale for search engines to show when
+  // no language preference matches.
+  languages["x-default"] = localeUrl(path, defaultLocale);
+  // Self-referential canonical per locale so translated pages don't collapse
+  // into the French version. Each hreflang cluster stays independent.
+  return { canonical: localeUrl(path, locale), languages };
 }
 
 /* ──────────────────────────────

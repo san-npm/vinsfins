@@ -7,8 +7,8 @@ import {
   pageMeta,
   SITE_URL,
   localeUrl,
-  locales,
   breadcrumbNames,
+  alternateUrls,
 } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,10 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: meta.title,
     description: meta.description,
-    alternates: {
-      canonical: `${SITE_URL}/carte`,
-      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/carte", l)])),
-    },
+    alternates: alternateUrls("/carte", locale),
     openGraph: {
       title: meta.ogTitle,
       description: meta.ogDescription,

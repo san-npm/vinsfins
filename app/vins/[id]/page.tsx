@@ -23,7 +23,7 @@ export default function WinePage() {
 
   if (!wine) {
     return (
-      <main className="relative z-[1] pt-32 pb-24 px-6 text-center">
+      <main className="relative z-[1] pt-8 pb-24 px-6 text-center">
         <h1 className="font-playfair text-4xl text-ink mb-4">{t("wines.notFound")}</h1>
         <Link href={localePath("/vins")} className="btn-outline">
           {t("wines.backToWines")}
@@ -99,27 +99,8 @@ export default function WinePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
 
-      {/* Breadcrumb */}
-      <nav className="pt-28 px-6 max-w-5xl mx-auto">
-        <ol className="flex items-center gap-2 text-xs text-stone/60">
-          <li>
-            <Link href={localePath("/")} className="hover:text-ink transition-colors">
-              {t("wines.home")}
-            </Link>
-          </li>
-          <li>/</li>
-          <li>
-            <Link href={localePath("/vins")} className="hover:text-ink transition-colors">
-              {t("wines.wineList")}
-            </Link>
-          </li>
-          <li>/</li>
-          <li className="text-ink">{wine.name}</li>
-        </ol>
-      </nav>
-
-      {/* Wine Detail */}
-      <section className="py-12 px-6">
+      {/* Wine Detail — breadcrumb rendered by layout */}
+      <section className="pt-4 py-12 px-6">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Image */}
           <div className="relative aspect-[3/4] overflow-hidden">

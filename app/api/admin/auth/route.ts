@@ -5,8 +5,12 @@ const COOKIE_NAME = 'admin_token';
 const COOKIE_MAX_AGE = 24 * 60 * 60; // 24 hours in seconds
 
 export async function POST(request: NextRequest) {
-  if (!(await checkRateLimit(request))) {
-    return NextResponse.json({ error: 'Too many attempts' }, { status: 429 });
+  const rl = await checkRateLimit(request);
+  if (!rl.ok) {
+    return NextResponse.json(
+      { error: rl.unavailable ? 'Service temporarily unavailable' : 'Too many attempts' },
+      { status: rl.unavailable ? 503 : 429 },
+    );
   }
 
   let body: { password?: string };

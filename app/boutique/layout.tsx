@@ -6,8 +6,8 @@ import {
   pageMeta,
   SITE_URL,
   localeUrl,
-  locales,
   breadcrumbNames,
+  alternateUrls,
 } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -17,10 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: meta.title,
     description: meta.description,
-    alternates: {
-      canonical: `${SITE_URL}/boutique`,
-      languages: Object.fromEntries(locales.map((l) => [l, localeUrl("/boutique", l)])),
-    },
+    alternates: alternateUrls("/boutique", locale),
     openGraph: {
       title: meta.ogTitle,
       description: meta.ogDescription,
@@ -39,7 +36,12 @@ const jsonLd = {
   url: `${SITE_URL}/boutique`,
   currenciesAccepted: "EUR",
   paymentAccepted: "Credit Card",
-  areaServed: { "@type": "Country", name: "Luxembourg" },
+  areaServed: [
+    { "@type": "Country", name: "Luxembourg" },
+    { "@type": "Country", name: "France" },
+    { "@type": "Country", name: "Germany" },
+    { "@type": "Country", name: "Belgium" },
+  ],
   potentialAction: { "@type": "BuyAction", target: `${SITE_URL}/boutique` },
 };
 
