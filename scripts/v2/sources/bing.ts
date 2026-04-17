@@ -2,9 +2,17 @@ import type { Wine, Candidate } from '../types';
 
 export function parseBingResults(html: string): Candidate[] {
   const out: Candidate[] = [];
-  const re = /"murl":"([^"]+)","turl":"[^"]*","t":"([^"]*)"/g;
-  let m;
-  while ((m = re.exec(html)) !== null) {
+  const seen = new Set<string>();
+
+  // Real Bing embeds JSON in HTML attributes with entity-encoded quotes.
+  // Pattern: murl="URL" ...other fields... t="TITLE"
+  // Fields between murl and t vary (turl, md5, shkey, etc.), so use a
+  // bounded lazy match to tolerate them without crossing into the next entry.
+  const entityRe = /murl&quot;:&quot;([^&]+)&quot;[\s\S]{0,600}?t&quot;:&quot;([^&]*)&quot;/g;
+  let m: RegExpExecArray | null;
+  while ((m = entityRe.exec(html)) !== null) {
+    if (seen.has(m[1])) continue;
+    seen.add(m[1]);
     out.push({
       imageUrl: m[1],
       sourcePageUrl: '',
@@ -12,6 +20,20 @@ export function parseBingResults(html: string): Candidate[] {
       source: 'bing',
     });
   }
+
+  // Fallback: handle raw JSON form used by older fixtures and some response variants.
+  const rawRe = /"murl":"([^"]+)","turl":"[^"]*","t":"([^"]*)"/g;
+  while ((m = rawRe.exec(html)) !== null) {
+    if (seen.has(m[1])) continue;
+    seen.add(m[1]);
+    out.push({
+      imageUrl: m[1],
+      sourcePageUrl: '',
+      sourcePageTitle: m[2].replace(/\\"/g, '"'),
+      source: 'bing',
+    });
+  }
+
   return out;
 }
 
