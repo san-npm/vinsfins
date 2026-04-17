@@ -15,9 +15,15 @@ export const BLOCKED_DOMAINS = [
   'shutterstock', 'getty', 'alamy', 'dreamstime', 'istock',
 ];
 
+const WINE_KEYWORD_RE = /(wine|vin|vino|vini|cellar|cellier|winery|vineyard|cave|caviste|enoteca|weinhandel|weine|champagne|bier|beer)/;
+
 function hostOf(url: string): string {
   try { return new URL(url).hostname.toLowerCase(); }
   catch { return ''; }
+}
+
+function hostLooksWineRelated(host: string): boolean {
+  return WINE_KEYWORD_RE.test(host);
 }
 
 export function scoreCandidate(
@@ -37,7 +43,9 @@ export function scoreCandidate(
   const wineTokenCount = wineTokens.filter((t) => haystack.includes(t)).length;
 
   const host = hostOf(cand.imageUrl);
-  const domainAllowed = WINE_RETAILER_DOMAINS.some((d) => host.endsWith(d));
+  const domainAllowed =
+    WINE_RETAILER_DOMAINS.some((d) => host.endsWith(d)) ||
+    hostLooksWineRelated(host);
   const domainBlocked = BLOCKED_DOMAINS.some((d) => host.includes(d));
 
   const metrics = { aspectRatio, minSide, producerTokenHit, wineTokenCount, domainAllowed, domainBlocked, cornerVariance: cornerVar };
