@@ -11,7 +11,7 @@ const stage = (process.argv.find((a) => a.startsWith('--stage='))?.split('=')[1]
 
 const limitArg = process.argv.find((a) => a.startsWith('--limit='));
 const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : Infinity;
-const wines = (allWines as unknown as Wine[]).slice(0, limit);
+const wines = (allWines as Wine[]).slice(0, limit);
 
 async function main() {
   if (stage === 'audit' || stage === 'all') {
