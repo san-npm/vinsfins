@@ -4,7 +4,7 @@ import { readState } from './state';
 import { runAudit } from './audit';
 import { runWaterfall } from './waterfall';
 import { runClassify } from './classify';
-import { runApply } from './apply';
+import { runApply, type MinConfidence } from './apply';
 
 const stage = (process.argv.find((a) => a.startsWith('--stage='))?.split('=')[1] ?? 'all') as
   | 'audit' | 'scrape' | 'classify' | 'review' | 'apply' | 'all';
@@ -12,6 +12,9 @@ const stage = (process.argv.find((a) => a.startsWith('--stage='))?.split('=')[1]
 const limitArg = process.argv.find((a) => a.startsWith('--limit='));
 const limit = limitArg ? parseInt(limitArg.split('=')[1], 10) : Infinity;
 const wines = (allWines as Wine[]).slice(0, limit);
+
+const minConfidenceArg = process.argv.find((a) => a.startsWith('--min-confidence='));
+const minConfidence = (minConfidenceArg?.split('=')[1]?.toUpperCase() ?? 'HIGH') as MinConfidence;
 
 async function main() {
   if (stage === 'audit' || stage === 'all') {
@@ -52,8 +55,8 @@ async function main() {
       console.error('BLOB_READ_WRITE_TOKEN required. Run: vercel env pull .env.local');
       process.exit(1);
     }
-    console.log('=== APPLY ===');
-    await runApply();
+    console.log(`=== APPLY === (min-confidence=${minConfidence})`);
+    await runApply(4, minConfidence);
   }
 
   console.log('\n=== SUMMARY ===');
