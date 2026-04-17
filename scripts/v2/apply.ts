@@ -47,19 +47,32 @@ export async function resolveDecisionToUrl(d: Decision): Promise<string | null> 
 
 interface AppliedRecord { wineId: string; newUrl: string; timestamp: number }
 
-export async function runApply(concurrency = 4): Promise<void> {
+export type MinConfidence = 'HIGH' | 'MEDIUM' | 'LOW';
+
+export async function runApply(concurrency = 4, minConfidence: MinConfidence = 'HIGH'): Promise<void> {
   const classified = readState<ClassifiedRecord>(CLASSIFIED);
   const decisions = readState<Decision>(DECISIONS);
   const applied = readState<AppliedRecord>(APPLY_STATE);
   const doneIds = new Set(applied.map((r) => r.wineId));
 
+  const rank = (c: string) => ({ HIGH: 3, MEDIUM: 2, LOW: 1, NONE: 0 }[c as 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE'] ?? 0);
+  const minRank = rank(minConfidence);
+
   const autoAccepts: Decision[] = classified
-    .filter((c) => c.decision === 'auto-accept' && c.chosen)
     .filter((c) => !decisions.find((d) => d.wineId === c.wineId))
-    .map((c) => ({ wineId: c.wineId, action: 'accept', imageUrl: c.chosen!.imageUrl, timestamp: Date.now() }));
+    .map((c) => {
+      // Use explicit chosen (HIGH auto-accept) if present, else the top-ranked candidate from flag
+      const best = c.chosen ?? c.candidates[0];
+      if (!best) return null;
+      if (rank(best.validation.confidence) < minRank) return null;
+      // Require producer-token match to prevent wrong-product decisions
+      if (!best.validation.metrics.producerTokenHit) return null;
+      return { wineId: c.wineId, action: 'accept' as const, imageUrl: best.imageUrl, timestamp: Date.now() };
+    })
+    .filter((d): d is Decision => d !== null);
 
   const allDecisions = [...decisions, ...autoAccepts].filter((d) => !doneIds.has(d.wineId));
-  console.log(`apply: ${allDecisions.length} decisions to process (${applied.length} already done)`);
+  console.log(`apply: ${allDecisions.length} decisions to process (minConfidence=${minConfidence}; ${applied.length} already done)`);
 
   let completed = 0;
   const results: AppliedRecord[] = [...applied];
