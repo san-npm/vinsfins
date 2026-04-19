@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { wines, type Wine } from "@/data/wines";
 import { loadData } from "@/lib/storage";
 
+// KV is the source of truth; admin edits must be visible without a redeploy.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 // Strip internal fields before sending to client
 function sanitizeWine(w: Wine) {
   return {
