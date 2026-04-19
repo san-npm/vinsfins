@@ -58,18 +58,15 @@ export async function runApply(concurrency = 4, minConfidence: MinConfidence = '
   const rank = (c: string) => ({ HIGH: 3, MEDIUM: 2, LOW: 1, NONE: 0 }[c as 'HIGH' | 'MEDIUM' | 'LOW' | 'NONE'] ?? 0);
   const minRank = rank(minConfidence);
 
-  const autoAccepts: Decision[] = classified
-    .filter((c) => !decisions.find((d) => d.wineId === c.wineId))
-    .map((c) => {
-      // Use explicit chosen (HIGH auto-accept) if present, else the top-ranked candidate from flag
-      const best = c.chosen ?? c.candidates[0];
-      if (!best) return null;
-      if (rank(best.validation.confidence) < minRank) return null;
-      // Require producer-token match to prevent wrong-product decisions
-      if (!best.validation.metrics.producerTokenHit) return null;
-      return { wineId: c.wineId, action: 'accept' as const, imageUrl: best.imageUrl, timestamp: Date.now() };
-    })
-    .filter((d): d is Decision => d !== null);
+  const autoAccepts: Decision[] = [];
+  for (const c of classified) {
+    if (decisions.find((d) => d.wineId === c.wineId)) continue;
+    const best = c.chosen ?? c.candidates[0];
+    if (!best) continue;
+    if (rank(best.validation.confidence) < minRank) continue;
+    if (!best.validation.metrics.producerTokenHit) continue;
+    autoAccepts.push({ wineId: c.wineId, action: 'accept', imageUrl: best.imageUrl, timestamp: Date.now() });
+  }
 
   const allDecisions = [...decisions, ...autoAccepts].filter((d) => !doneIds.has(d.wineId));
   console.log(`apply: ${allDecisions.length} decisions to process (minConfidence=${minConfidence}; ${applied.length} already done)`);
