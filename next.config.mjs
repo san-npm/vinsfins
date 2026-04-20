@@ -3,6 +3,8 @@ const nextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "cmbsxh7oipaip57r.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "*.public.blob.vercel-storage.com" },
+      { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "www.bodeboca.com" },
       { protocol: "https", hostname: "hungarianwines.eu" },
       { protocol: "https", hostname: "wine-amazing.com" },
