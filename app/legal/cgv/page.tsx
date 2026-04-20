@@ -6,7 +6,7 @@ const content: Record<string, { title: string; sections: { heading: string; body
   fr: {
     title: "Conditions Générales de Vente",
     sections: [
-      { heading: "1. Exploitant", body: "Vins Fins, 18 Rue Münster, L-2160 Luxembourg (Grund). Numéro d'autorisation d'établissement délivré par le Ministère de l'Économie du Grand-Duché de Luxembourg. TVA LU [à compléter]. Contact : contact@vinsfins.lu." },
+      { heading: "1. Exploitant", body: "Vins Fins, 18 Rue Münster, L-2160 Luxembourg (Grund). Numéro d'autorisation d'établissement délivré par le Ministère de l'Économie du Grand-Duché de Luxembourg. RCS Luxembourg B178343. TVA LU26247110. Contact : contact@vinsfins.lu." },
       { heading: "2. Objet", body: "Les présentes conditions régissent la vente de vins, bières, cidres et spiritueux via le site vinsfins.lu. Toute commande implique l'acceptation des présentes CGV." },
       { heading: "3. Produits", body: "Les produits proposés sont décrits avec la plus grande exactitude possible. Les photographies n'ont pas de valeur contractuelle. La vente d'alcool est interdite aux mineurs de moins de 18 ans conformément à la législation luxembourgeoise." },
       { heading: "4. Prix", body: "Les prix sont indiqués en euros, toutes taxes comprises (TVA 17% incluse). Ils sont valables au moment de la commande et susceptibles de modification sans préavis." },
@@ -21,7 +21,7 @@ const content: Record<string, { title: string; sections: { heading: string; body
   en: {
     title: "Terms and Conditions of Sale",
     sections: [
-      { heading: "1. Operator", body: "Vins Fins, 18 Rue Münster, L-2160 Luxembourg (Grund). Business authorization number issued by the Ministry of Economy of the Grand Duchy of Luxembourg. VAT LU [to complete]. Contact: contact@vinsfins.lu." },
+      { heading: "1. Operator", body: "Vins Fins, 18 Rue Münster, L-2160 Luxembourg (Grund). Business authorization number issued by the Ministry of Economy of the Grand Duchy of Luxembourg. Luxembourg Trade and Companies Register B178343. VAT LU26247110. Contact: contact@vinsfins.lu." },
       { heading: "2. Purpose", body: "These terms govern the sale of wines, beers, ciders and spirits via vinsfins.lu. Any order implies acceptance of these T&Cs." },
       { heading: "3. Products", body: "Products are described as accurately as possible. Photographs are not contractually binding. The sale of alcohol to minors under 18 is prohibited under Luxembourg law." },
       { heading: "4. Prices", body: "Prices are in euros, all taxes included (17% VAT included). They are valid at the time of order and subject to change without notice." },
@@ -51,7 +51,7 @@ export default function CGVPage() {
             </div>
           ))}
         </div>
-        <p className="text-xs text-stone/50 mt-12">Dernière mise à jour / Last updated: 30 mars 2026</p>
+        <p className="text-xs text-stone/50 mt-12">Dernière mise à jour / Last updated: 20 avril 2026</p>
       </div>
     </main>
   );
