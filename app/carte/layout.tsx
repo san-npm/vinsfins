@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { menuItems } from "@/data/menu";
 import {
   getLocale,
+  getNonce,
   pageMeta,
   SITE_URL,
   localeUrl,
@@ -13,6 +14,7 @@ import {
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const meta = pageMeta.carte[locale];
 
   return {
@@ -70,6 +72,7 @@ function buildMenuJsonLd() {
 
 export default async function CarteLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const jsonLd = buildMenuJsonLd();
 
   return (
@@ -77,6 +80,7 @@ export default async function CarteLayout({ children }: { children: React.ReactN
       <Script
         id="json-ld-menu"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <Breadcrumbs

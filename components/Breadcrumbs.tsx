@@ -1,12 +1,14 @@
 import Link from "next/link";
 import Script from "next/script";
+import { getNonce } from "@/lib/i18n";
 
 type BreadcrumbItem = {
   name: string;
   url: string;
 };
 
-export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+export default async function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+  const nonce = await getNonce();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -26,6 +28,7 @@ export default function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
       <Script
         id={scriptId}
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <nav
