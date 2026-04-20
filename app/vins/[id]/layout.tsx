@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { wines } from "@/data/wines";
 import {
   getLocale,
+  getNonce,
   SITE_URL,
   localeUrl,
   breadcrumbNames,
@@ -20,6 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const { id } = await params;
   const wine = wines.find((w) => w.id === id);
   if (!wine) return { title: "Wine not found" };
@@ -129,6 +131,7 @@ export default async function WineLayout({
   params: Promise<{ id: string }>;
 }) {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const { id } = await params;
   const wine = wines.find((w) => w.id === id);
 
@@ -139,6 +142,7 @@ export default async function WineLayout({
           <Script
             id={`json-ld-wine-${id}`}
             type="application/ld+json"
+        nonce={nonce}
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(buildWineProductJsonLd(wine, locale)).replace(/</g, "\\u003c"),
             }}

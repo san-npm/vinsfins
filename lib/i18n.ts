@@ -12,6 +12,16 @@ export async function getLocale(): Promise<Locale> {
   return defaultLocale;
 }
 
+/**
+ * Per-request nonce set by middleware for the Content-Security-Policy
+ * `script-src 'nonce-...'` directive. Every inline <script> (JSON-LD,
+ * Zenchef SDK loader, etc.) must pass this nonce; otherwise modern
+ * browsers honouring `'strict-dynamic'` will block execution.
+ */
+export async function getNonce(): Promise<string | undefined> {
+  return (await headers()).get("x-nonce") ?? undefined;
+}
+
 export function localePath(path: string, locale: Locale): string {
   if (locale === defaultLocale) return path;
   return `/${locale}${path}`;

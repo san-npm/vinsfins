@@ -41,18 +41,10 @@ const nextConfig = {
             key: "Strict-Transport-Security",
             value: "max-age=63072000; includeSubDomains; preload",
           },
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://sdk.zenchef.com https://*.zenchef.com https://www.googletagmanager.com https://js.stripe.com",
-              "style-src 'self' 'unsafe-inline' https://*.zenchef.com",
-              "font-src 'self' https://*.zenchef.com",
-              "img-src 'self' data: blob: https: https://*.public.blob.vercel-storage.com https://*.zenchef.com https://*.stripe.com",
-              "frame-src https://www.google.com https://*.google.com https://*.zenchef.com https://js.stripe.com https://hooks.stripe.com",
-              "connect-src 'self' https://*.public.blob.vercel-storage.com https://sdk.zenchef.com https://*.zenchef.com https://api.stripe.com",
-            ].join("; "),
-          },
+          // CSP is now set per-request by middleware.ts so we can
+          // rotate the `script-src` nonce on every response. Keeping
+          // a static policy here would force us back to
+          // `'unsafe-inline'` which defeats XSS mitigation.
         ],
       },
     ];

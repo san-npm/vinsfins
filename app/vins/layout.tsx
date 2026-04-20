@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { wines } from "@/data/wines";
 import {
   getLocale,
+  getNonce,
   pageMeta,
   SITE_URL,
   localeUrl,
@@ -13,6 +14,7 @@ import {
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const meta = pageMeta.vins[locale];
 
   return {
@@ -59,6 +61,7 @@ function buildWineListJsonLd() {
 
 export default async function VinsLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const jsonLd = buildWineListJsonLd();
 
   return (
@@ -66,6 +69,7 @@ export default async function VinsLayout({ children }: { children: React.ReactNo
       <Script
         id="json-ld-wines"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <Breadcrumbs
