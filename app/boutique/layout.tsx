@@ -11,7 +11,7 @@ import {
 } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getLocale();
+  const locale = await getLocale();
   const meta = pageMeta.boutique[locale];
 
   return {
@@ -45,8 +45,8 @@ const jsonLd = {
   potentialAction: { "@type": "BuyAction", target: `${SITE_URL}/boutique` },
 };
 
-export default function BoutiqueLayout({ children }: { children: React.ReactNode }) {
-  const locale = getLocale();
+export default async function BoutiqueLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
 
   return (
     <>

@@ -6,8 +6,8 @@ export const locales: Locale[] = ["fr", "en", "de", "lb"];
 export const defaultLocale: Locale = "fr";
 export const SITE_URL = "https://vinsfins.lu";
 
-export function getLocale(): Locale {
-  const locale = headers().get("x-locale");
+export async function getLocale(): Promise<Locale> {
+  const locale = (await headers()).get("x-locale");
   if (locale && locales.includes(locale as Locale)) return locale as Locale;
   return defaultLocale;
 }

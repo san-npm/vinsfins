@@ -12,7 +12,7 @@ import {
 } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getLocale();
+  const locale = await getLocale();
   const meta = pageMeta.carte[locale];
 
   return {
@@ -68,8 +68,8 @@ function buildMenuJsonLd() {
   };
 }
 
-export default function CarteLayout({ children }: { children: React.ReactNode }) {
-  const locale = getLocale();
+export default async function CarteLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   const jsonLd = buildMenuJsonLd();
 
   return (

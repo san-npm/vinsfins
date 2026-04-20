@@ -12,15 +12,16 @@ import {
   type Locale,
 } from "@/lib/i18n";
 
-type Props = { params: { id: string } };
+type Props = { params: Promise<{ id: string }> };
 
 export async function generateStaticParams() {
   return wines.filter((w) => w.priceShop > 0 && w.isAvailable).map((wine) => ({ id: wine.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const locale = getLocale();
-  const wine = wines.find((w) => w.id === params.id);
+  const locale = await getLocale();
+  const { id } = await params;
+  const wine = wines.find((w) => w.id === id);
   if (!wine) return { title: "Product not found" };
 
   const buyLabel: Record<Locale, string> = {
@@ -93,22 +94,23 @@ function buildProductJsonLd(wine: (typeof wines)[number], locale: Locale) {
   };
 }
 
-export default function BoutiqueProductLayout({
+export default async function BoutiqueProductLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const locale = getLocale();
-  const wine = wines.find((w) => w.id === params.id);
+  const locale = await getLocale();
+  const { id } = await params;
+  const wine = wines.find((w) => w.id === id);
 
   return (
     <>
       {wine && (
         <>
           <Script
-            id={`json-ld-product-${params.id}`}
+            id={`json-ld-product-${id}`}
             type="application/ld+json"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(buildProductJsonLd(wine, locale)).replace(/</g, "\\u003c"),

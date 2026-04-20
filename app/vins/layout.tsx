@@ -12,7 +12,7 @@ import {
 } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getLocale();
+  const locale = await getLocale();
   const meta = pageMeta.vins[locale];
 
   return {
@@ -57,8 +57,8 @@ function buildWineListJsonLd() {
   };
 }
 
-export default function VinsLayout({ children }: { children: React.ReactNode }) {
-  const locale = getLocale();
+export default async function VinsLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
   const jsonLd = buildWineListJsonLd();
 
   return (
