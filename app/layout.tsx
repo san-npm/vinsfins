@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getLocale();
+  const locale = await getLocale();
   const meta = pageMeta.home[locale];
 
   return {
@@ -272,8 +272,8 @@ const faqJsonLd = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale = getLocale();
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
 
   return (
     <html lang={locale}>
