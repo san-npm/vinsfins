@@ -7,7 +7,7 @@ import { CartProvider } from "@/context/CartContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
 import Script from "next/script";
-import { getLocale, pageMeta, SITE_URL, localeUrl, locales } from "@/lib/i18n";
+import { getLocale, getNonce, pageMeta, SITE_URL, localeUrl, locales } from "@/lib/i18n";
 import { playfairDisplay, sourceSans3 } from "@/lib/fonts";
 
 export const viewport: Viewport = {
@@ -274,6 +274,7 @@ const faqJsonLd = {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const nonce = await getNonce();
 
   return (
     <html lang={locale}>
@@ -281,21 +282,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Script
           id="json-ld-restaurant"
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(restaurantJsonLd).replace(/</g, "\\u003c") }}
         />
         <Script
           id="json-ld-store"
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd).replace(/</g, "\\u003c") }}
         />
         <Script
           id="json-ld-website"
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c") }}
         />
         <Script
           id="json-ld-faq"
           type="application/ld+json"
+          nonce={nonce}
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
@@ -311,7 +316,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </DataProvider>
         </LanguageProvider>
         <div className="zc-widget-config" data-restaurant="371555" data-open="2000" />
-        <Script id="zenchef-loader" strategy="afterInteractive">{`
+        <Script id="zenchef-loader" strategy="afterInteractive" nonce={nonce}>{`
           ;(function (d, s, id) {
             var el = d.getElementsByTagName(s)[0];
             if (d.getElementById(id) || !el || !el.parentNode) return;

@@ -3,6 +3,7 @@ import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   getLocale,
+  getNonce,
   pageMeta,
   SITE_URL,
   localeUrl,
@@ -12,6 +13,7 @@ import {
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
+  const nonce = await getNonce();
   const meta = pageMeta.contact[locale];
 
   return {
@@ -63,12 +65,14 @@ const jsonLd = {
 
 export default async function ContactLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const nonce = await getNonce();
 
   return (
     <>
       <Script
         id="json-ld-contact"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <Breadcrumbs

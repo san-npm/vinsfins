@@ -3,6 +3,7 @@ import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import {
   getLocale,
+  getNonce,
   pageMeta,
   SITE_URL,
   localeUrl,
@@ -61,12 +62,14 @@ const jsonLd = {
 
 export default async function AProposLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
+  const nonce = await getNonce();
 
   return (
     <>
       <Script
         id="json-ld-about"
         type="application/ld+json"
+        nonce={nonce}
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
       <Breadcrumbs
