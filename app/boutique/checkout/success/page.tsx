@@ -99,7 +99,7 @@ export default function CheckoutSuccessPage() {
 
         {!loading && !order && (
           <p className="text-sm text-stone/60 mb-8">
-            {t("checkout.successNote") || "Pour toute question, contactez-nous à contact@vinsfins.lu"}
+            {t("checkout.successNote") || "Pour toute question, contactez-nous à info@vinsfins.lu"}
           </p>
         )}
 

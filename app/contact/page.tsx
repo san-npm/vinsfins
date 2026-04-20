@@ -41,7 +41,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-[10px] tracking-luxury uppercase text-gold mb-1">{t("contact.emailLabel")}</p>
-                    <a href="mailto:contact@vinsfins.lu" className="hover:text-ink transition-colors">contact@vinsfins.lu</a>
+                    <a href="mailto:info@vinsfins.lu" className="hover:text-ink transition-colors">info@vinsfins.lu</a>
                   </div>
                   <div>
                     <p className="text-[10px] tracking-luxury uppercase text-gold mb-1">{t("contact.hoursLabel")}</p>

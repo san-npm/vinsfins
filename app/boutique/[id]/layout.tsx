@@ -15,7 +15,7 @@ import {
 type Props = { params: { id: string } };
 
 export async function generateStaticParams() {
-  return wines.filter((w) => w.priceShop > 0).map((wine) => ({ id: wine.id }));
+  return wines.filter((w) => w.priceShop > 0 && w.isAvailable).map((wine) => ({ id: wine.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

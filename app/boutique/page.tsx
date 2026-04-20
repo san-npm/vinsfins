@@ -15,7 +15,7 @@ export default function BoutiquePage() {
   const { wines } = useData();
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
-  const shopWines = wines.filter((w) => w.priceShop > 0);
+  const shopWines = wines.filter((w) => w.priceShop > 0 && w.isAvailable);
 
   const visibleSections = WINE_SECTIONS.filter((sec) => {
     if (activeFilter !== "all" && sectionCategory[sec] !== activeFilter) return false;
