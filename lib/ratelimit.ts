@@ -2,18 +2,15 @@ import { kv } from "@vercel/kv";
 import type { NextRequest } from "next/server";
 
 /**
- * Extract the client IP. On Vercel, `x-real-ip` is always set by the edge
- * to the authenticated client IP and cannot be spoofed by the client.
- * `x-forwarded-for` is only honoured as a fallback for local dev because
- * a client-supplied value would allow bypassing the rate limiter.
+ * Extract the client IP. On Vercel, `x-real-ip` is edge-signed and cannot
+ * be spoofed by the client. Anything else (including `x-forwarded-for`)
+ * is client-controllable and would let attackers bypass the rate limiter
+ * by rotating arbitrary IPs per request — so we fail closed to a shared
+ * "unknown" bucket instead of trusting it.
  */
 export function getClientIp(req: NextRequest): string {
   const real = req.headers.get("x-real-ip");
-  if (real) return real.trim();
-  // Fallback for local development / test runs only.
-  const xff = req.headers.get("x-forwarded-for");
-  if (xff) return xff.split(",")[0].trim();
-  return "unknown";
+  return real?.trim() || "unknown";
 }
 
 /**
