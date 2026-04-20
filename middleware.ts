@@ -23,7 +23,13 @@ export function middleware(request: NextRequest) {
   if (locales.includes(maybeLocale)) {
     const locale = maybeLocale;
     const restPath = "/" + segments.slice(2).join("/");
-    const cleanPath = restPath === "/" ? "/" : restPath.replace(/\/$/, "");
+    // Collapse any repeated slashes so `/en//evil.com` can never be
+    // interpreted as an absolute URL (with `evil.com` as host) when
+    // passed to `new URL(cleanPath, request.url)`. Without this, an
+    // attacker-controlled path becomes an open redirect for the
+    // default locale or an external rewrite for the others.
+    const safePath = restPath.replace(/\/+/g, "/");
+    const cleanPath = safePath === "/" ? "/" : safePath.replace(/\/$/, "");
 
     if (locale === defaultLocale) {
       // /fr/carte → 301 redirect to /carte (French is canonical, no prefix)
