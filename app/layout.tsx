@@ -88,6 +88,10 @@ const restaurantJsonLd = {
   "@context": "https://schema.org",
   "@type": ["Restaurant", "WineBar"],
   "@id": `${SITE_URL}/#restaurant`,
+  speakable: {
+    "@type": "SpeakableSpecification",
+    cssSelector: ["h1", ".hero-description", ".opening-hours"],
+  },
   name: "Vins Fins",
   description:
     "Bar à vins & restaurant au Grund, Luxembourg. Plus de 80 vins naturels et bio de vignerons artisans, accompagnés d'une cuisine française de saison.",
@@ -195,6 +199,79 @@ const storeJsonLd = {
   },
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: "Vins Fins",
+  inLanguage: ["fr-FR", "en-US", "de-DE", "lb-LU"],
+  publisher: { "@id": `${SITE_URL}/#restaurant` },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: `${SITE_URL}/boutique?q={search_term_string}`,
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
+const faqJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: "Quels sont les horaires d'ouverture de Vins Fins ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Vins Fins est ouvert du mardi au samedi de 18h00 à minuit, au 18 Rue Münster à Luxembourg-Grund. Fermé le dimanche et le lundi.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Comment réserver une table à Vins Fins ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Les réservations sont recommandées et peuvent se faire en ligne via le widget Zenchef sur notre site, ou par téléphone au +352 26 20 04 49.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Combien de vins naturels avez-vous en cave ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Plus de 730 références de vins naturels, bio et biodynamiques de 18 pays, sélectionnés chez des vignerons artisans européens.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Livrez-vous du vin à l'étranger ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Oui — la boutique en ligne Vins Fins livre au Luxembourg, en France, en Belgique et en Allemagne. Frais de livraison 5€ en dessous de 100€ d'achat, gratuits au-delà. Retrait en boutique (Click & Collect) gratuit.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Proposez-vous des vins vegan, bio ou biodynamiques ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Oui, la majorité de notre cave est certifiée bio ou biodynamique, avec de nombreuses cuvées vegan et sans sulfites ajoutés. Chaque fiche vin indique la certification.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Où se trouve Vins Fins au Luxembourg ?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Au 18 Rue Münster, dans le quartier historique du Grund à Luxembourg-Ville (L-2160), à quelques minutes à pied de la vieille ville.",
+      },
+    },
+  ],
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = getLocale();
 
@@ -210,6 +287,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           id="json-ld-store"
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(storeJsonLd).replace(/</g, "\\u003c") }}
+        />
+        <Script
+          id="json-ld-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c") }}
+        />
+        <Script
+          id="json-ld-faq"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body className={`${playfairDisplay.variable} ${sourceSans3.variable}`}>
