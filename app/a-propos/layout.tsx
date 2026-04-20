@@ -11,7 +11,7 @@ import {
 } from "@/lib/i18n";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const locale = getLocale();
+  const locale = await getLocale();
   const meta = pageMeta["a-propos"][locale];
 
   return {
@@ -59,8 +59,8 @@ const jsonLd = {
   },
 };
 
-export default function AProposLayout({ children }: { children: React.ReactNode }) {
-  const locale = getLocale();
+export default async function AProposLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
 
   return (
     <>
