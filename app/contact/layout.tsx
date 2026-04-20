@@ -56,7 +56,7 @@ const jsonLd = {
       },
     ],
     telephone: "+352 26 20 04 49",
-    email: "contact@vinsfins.lu",
+    email: "info@vinsfins.lu",
     hasMap: "https://maps.google.com/?q=18+Rue+Münster,+Luxembourg",
   },
 };
