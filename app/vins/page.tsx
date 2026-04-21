@@ -73,6 +73,7 @@ export default function VinsPage() {
                     <Link key={wine.id} href={localePath(`/vins/${wine.id}`)} className="group block">
                       <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
                         <Image
+              unoptimized
                           src={wine.image}
                           alt={wine.name}
                           fill

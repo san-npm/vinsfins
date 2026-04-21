@@ -34,6 +34,7 @@ export default function ProductPage() {
           {/* Image */}
           <div className="relative aspect-[3/4] bg-parchment overflow-hidden">
             <Image
+              unoptimized
               src={wine.image}
               alt={wine.name}
               fill

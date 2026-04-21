@@ -91,6 +91,7 @@ export default function HomePage() {
               <div key={wine.id} className="group">
                 <div className="relative aspect-[3/4] overflow-hidden mb-4">
                   <Image
+              unoptimized
                     src={wine.image}
                     alt={wine.name}
                     fill
