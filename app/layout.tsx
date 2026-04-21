@@ -326,6 +326,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             el.parentNode.insertBefore(js, el);
           })(document, 'script', 'zenchef-sdk');
         `}</Script>
+        <Script
+          id="gtag-loader"
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-5HP3962G9E"
+          nonce={nonce}
+        />
+        <Script id="gtag-config" strategy="afterInteractive" nonce={nonce}>{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-5HP3962G9E');
+        `}</Script>
       </body>
     </html>
   );
