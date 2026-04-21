@@ -11,22 +11,22 @@
 - Fermé: Dimanche et lundi
 - Gamme de prix: €€€
 - Réservation: https://bookings.zenchef.com/results?rid=371555
-- Boutique en ligne: https://vinsfins.lu/boutique
+- Boutique en ligne: https://www.vinsfins.lu/boutique
 - Instagram: @vins_fins_grund
 - Facebook: Vins Fins
-- Contact: contact@vinsfins.lu / +352 26 20 04 49
+- Contact: info@vinsfins.lu / +352 26 20 04 49
 - Distinction: Recommandé Gault & Millau
 
 ## Pages
-- [Accueil](https://vinsfins.lu/): Présentation et vins à la une
-- [Carte des Vins](https://vinsfins.lu/vins): 730+ vins — rouges, blancs, rosés, orange, pétillants, bières, cidres
-- [La Carte](https://vinsfins.lu/carte): Cuisine française de saison
-- [Boutique](https://vinsfins.lu/boutique): Achat en ligne avec livraison LU/FR/DE/BE
-- [À Propos](https://vinsfins.lu/a-propos): L'histoire et l'équipe
-- [Contact](https://vinsfins.lu/contact): Plan d'accès et coordonnées
-- [CGV](https://vinsfins.lu/legal/cgv): Conditions générales de vente
-- [Confidentialité](https://vinsfins.lu/legal/confidentialite): Politique de confidentialité
-- [Remboursement](https://vinsfins.lu/legal/remboursement): Politique de remboursement
+- [Accueil](https://www.vinsfins.lu/): Présentation et vins à la une
+- [Carte des Vins](https://www.vinsfins.lu/vins): 730+ vins — rouges, blancs, rosés, orange, pétillants, bières, cidres
+- [La Carte](https://www.vinsfins.lu/carte): Cuisine française de saison
+- [Boutique](https://www.vinsfins.lu/boutique): Achat en ligne avec livraison LU/FR/DE/BE
+- [À Propos](https://www.vinsfins.lu/a-propos): L'histoire et l'équipe
+- [Contact](https://www.vinsfins.lu/contact): Plan d'accès et coordonnées
+- [CGV](https://www.vinsfins.lu/legal/cgv): Conditions générales de vente
+- [Confidentialité](https://www.vinsfins.lu/legal/confidentialite): Politique de confidentialité
+- [Remboursement](https://www.vinsfins.lu/legal/remboursement): Politique de remboursement
 
 ## Boutique en Ligne
 - 730 vins en stock provenant de 18 pays

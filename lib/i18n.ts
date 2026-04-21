@@ -4,7 +4,7 @@ export type Locale = "fr" | "en" | "de" | "lb";
 
 export const locales: Locale[] = ["fr", "en", "de", "lb"];
 export const defaultLocale: Locale = "fr";
-export const SITE_URL = "https://vinsfins.lu";
+export const SITE_URL = "https://www.vinsfins.lu";
 
 export async function getLocale(): Promise<Locale> {
   const locale = (await headers()).get("x-locale");

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { wines } from "@/data/wines";
 
-const SITE_URL = "https://vinsfins.lu";
+const SITE_URL = "https://www.vinsfins.lu";
 const locales = ["fr", "en", "de", "lb"] as const;
 
 function localeUrls(path: string) {
@@ -51,7 +51,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  for (const wine of wines) {
+  // Only emit wine URLs that actually render — `/vins/[id]` pages are
+  // static-param'd on wines with `priceShop > 0 && isAvailable`, so any
+  // URL outside that set 301-redirects to a locale prefix and 404s.
+  // Emitting them wastes crawl budget and creates soft-404 warnings in
+  // Google Search Console.
+  const indexableWines = wines.filter((w) => w.isAvailable && w.priceShop > 0);
+
+  for (const wine of indexableWines) {
     for (const l of locales) {
       pages.push({
         url: l === "fr" ? `${SITE_URL}/vins/${wine.id}` : `${SITE_URL}/${l}/vins/${wine.id}`,
@@ -59,6 +66,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
         changeFrequency: "monthly",
         priority: 0.7,
         alternates: { languages: localeUrls(`/vins/${wine.id}`) },
+      });
+      pages.push({
+        url: l === "fr" ? `${SITE_URL}/boutique/${wine.id}` : `${SITE_URL}/${l}/boutique/${wine.id}`,
+        lastModified: LAST_MODIFIED.shop,
+        changeFrequency: "weekly",
+        priority: 0.7,
+        alternates: { languages: localeUrls(`/boutique/${wine.id}`) },
       });
     }
   }
