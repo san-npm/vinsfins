@@ -88,6 +88,7 @@ export default function BoutiquePage() {
                       <Link href={localePath(`/boutique/${wine.id}`)}>
                         <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
                           <Image
+              unoptimized
                             src={wine.image}
                             alt={wine.name}
                             fill
