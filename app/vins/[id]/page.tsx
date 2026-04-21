@@ -105,6 +105,7 @@ export default function WinePage() {
           {/* Image */}
           <div className="relative aspect-[3/4] overflow-hidden">
             <Image
+              unoptimized
               src={wine.image}
               alt={wine.name}
               fill
@@ -219,6 +220,7 @@ export default function WinePage() {
                 >
                   <div className="relative aspect-[3/4] overflow-hidden mb-3">
                     <Image
+              unoptimized
                       src={w.image}
                       alt={w.name}
                       fill
