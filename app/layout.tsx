@@ -3,6 +3,7 @@ import "./globals.css";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import CartSidebar from "@/components/CartSidebar";
+import ConsentBanner from "@/components/ConsentBanner";
 import { CartProvider } from "@/context/CartContext";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { DataProvider } from "@/context/DataContext";
@@ -312,6 +313,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               {children}
               <Footer />
               <CartSidebar />
+              <ConsentBanner />
             </CartProvider>
           </DataProvider>
         </LanguageProvider>
@@ -326,6 +328,23 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             el.parentNode.insertBefore(js, el);
           })(document, 'script', 'zenchef-sdk');
         `}</Script>
+        <Script id="gtag-default-consent" strategy="beforeInteractive" nonce={nonce}>{`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          // Advanced Consent Mode v2: deny everything by default until
+          // the visitor makes a choice via the ConsentBanner. The CMP
+          // fires gtag('consent', 'update', ...) to flip signals.
+          gtag('consent', 'default', {
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+            analytics_storage: 'denied',
+            functionality_storage: 'granted',
+            security_storage: 'granted',
+            wait_for_update: 500,
+          });
+          gtag('js', new Date());
+        `}</Script>
         <Script
           id="gtag-loader"
           strategy="afterInteractive"
@@ -333,9 +352,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           nonce={nonce}
         />
         <Script id="gtag-config" strategy="afterInteractive" nonce={nonce}>{`
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
           gtag('config', 'G-5HP3962G9E');
         `}</Script>
       </body>

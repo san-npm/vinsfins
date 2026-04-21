@@ -241,5 +241,12 @@
     "message": "Wir verwenden Cookies, um Ihr Erlebnis zu verbessern. Durch den weiteren Besuch dieser Website stimmen Sie unserer Verwendung von Cookies zu.",
     "accept": "Akzeptieren",
     "decline": "Ablehnen"
+  },
+  "consent": {
+    "label": "Einwilligungsbanner",
+    "text": "Diese Website verwendet Cookies für Analysezwecke (Google Analytics). Es werden keine Daten erhoben, solange Sie nicht zustimmen. Weitere Informationen finden Sie in unserer",
+    "privacyLink": "Datenschutzerklärung",
+    "accept": "Alle akzeptieren",
+    "reject": "Alle ablehnen"
   }
 }

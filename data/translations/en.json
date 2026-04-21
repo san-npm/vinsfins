@@ -241,5 +241,12 @@
     "message": "We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.",
     "accept": "Accept",
     "decline": "Decline"
+  },
+  "consent": {
+    "label": "Consent banner",
+    "text": "This site uses cookies for analytics (Google Analytics). No data is collected until you accept. More information in our",
+    "privacyLink": "privacy policy",
+    "accept": "Accept all",
+    "reject": "Reject all"
   }
 }
