@@ -241,5 +241,12 @@
     "message": "Mir benotzen Cookies fir Äert Erliefnis ze verbesseren. Wann Dir dës Säit weider besicht, stëmmt Dir eiser Notzung vu Cookies zou.",
     "accept": "Akzeptéieren",
     "decline": "Refuséieren"
+  },
+  "consent": {
+    "label": "Consenter Bänner",
+    "text": "Dës Säit benotzt Cookien fir Analyses-Zwecker (Google Analytics). Keng Donnéeën ginn gesammelt, bis Dir akzeptéiert. Méi Informatiounen an eiser",
+    "privacyLink": "Dateschutzpolitik",
+    "accept": "All akzeptéieren",
+    "reject": "All refuséieren"
   }
 }
