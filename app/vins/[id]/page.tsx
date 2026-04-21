@@ -59,7 +59,7 @@ export default function WinePage() {
         seller: {
           "@type": "Restaurant",
           name: "Vins Fins",
-          url: "https://vinsfins.lu",
+          url: "https://www.vinsfins.lu",
         },
       },
       ...(wine.priceShop > 0
@@ -73,7 +73,7 @@ export default function WinePage() {
               seller: {
                 "@type": "Store",
                 name: "Vins Fins — Boutique",
-                url: "https://vinsfins.lu/boutique",
+                url: "https://www.vinsfins.lu/boutique",
               },
             },
           ]
