@@ -16,7 +16,7 @@ function buildCsp(nonce: string): string {
     "font-src 'self' https://*.zenchef.com",
     "img-src 'self' data: blob: https: https://*.public.blob.vercel-storage.com https://*.zenchef.com https://*.stripe.com",
     "frame-src https://www.google.com https://*.google.com https://*.zenchef.com https://js.stripe.com https://hooks.stripe.com",
-    "connect-src 'self' https://*.public.blob.vercel-storage.com https://sdk.zenchef.com https://*.zenchef.com https://api.stripe.com",
+    "connect-src 'self' https://*.public.blob.vercel-storage.com https://sdk.zenchef.com https://*.zenchef.com https://api.stripe.com https://www.google-analytics.com https://*.analytics.google.com https://*.google-analytics.com https://www.googletagmanager.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self' https://checkout.stripe.com",
