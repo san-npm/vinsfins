@@ -218,64 +218,59 @@ const websiteJsonLd = {
   },
 };
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: [
-    {
-      "@type": "Question",
-      name: "Quels sont les horaires d'ouverture de Vins Fins ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Vins Fins est ouvert du mardi au samedi de 18h00 à minuit, au 18 Rue Münster à Luxembourg-Grund. Fermé le dimanche et le lundi.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Comment réserver une table à Vins Fins ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Les réservations sont recommandées et peuvent se faire en ligne via le widget Zenchef sur notre site, ou par téléphone au +352 26 20 04 49.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Combien de vins naturels avez-vous en cave ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Plus de 730 références de vins naturels, bio et biodynamiques de 18 pays, sélectionnés chez des vignerons artisans européens.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Livrez-vous du vin à l'étranger ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Oui — la boutique en ligne Vins Fins livre au Luxembourg, en France, en Belgique et en Allemagne. Frais de livraison 5€ en dessous de 100€ d'achat, gratuits au-delà. Retrait en boutique (Click & Collect) gratuit.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Proposez-vous des vins vegan, bio ou biodynamiques ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Oui, la majorité de notre cave est certifiée bio ou biodynamique, avec de nombreuses cuvées vegan et sans sulfites ajoutés. Chaque fiche vin indique la certification.",
-      },
-    },
-    {
-      "@type": "Question",
-      name: "Où se trouve Vins Fins au Luxembourg ?",
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: "Au 18 Rue Münster, dans le quartier historique du Grund à Luxembourg-Ville (L-2160), à quelques minutes à pied de la vieille ville.",
-      },
-    },
+type FaqEntry = { q: string; a: string };
+const faqByLocale: Record<"fr" | "en" | "de" | "lb", FaqEntry[]> = {
+  fr: [
+    { q: "Quels sont les horaires d'ouverture de Vins Fins ?", a: "Vins Fins est ouvert du mardi au samedi de 18h00 à minuit, au 18 Rue Münster à Luxembourg-Grund. Fermé le dimanche et le lundi." },
+    { q: "Comment réserver une table à Vins Fins ?", a: "Les réservations sont recommandées et peuvent se faire en ligne via le widget Zenchef sur notre site, ou par téléphone au +352 26 20 04 49." },
+    { q: "Combien de vins naturels avez-vous en cave ?", a: "Plus de 730 références de vins naturels, bio et biodynamiques de 18 pays, sélectionnés chez des vignerons artisans européens." },
+    { q: "Livrez-vous du vin à l'étranger ?", a: "Oui — la boutique en ligne Vins Fins livre au Luxembourg, en France, en Belgique et en Allemagne. Frais de livraison 5€ en dessous de 100€ d'achat, gratuits au-delà. Retrait en boutique (Click & Collect) gratuit." },
+    { q: "Proposez-vous des vins vegan, bio ou biodynamiques ?", a: "Oui, la majorité de notre cave est certifiée bio ou biodynamique, avec de nombreuses cuvées vegan et sans sulfites ajoutés. Chaque fiche vin indique la certification." },
+    { q: "Où se trouve Vins Fins au Luxembourg ?", a: "Au 18 Rue Münster, dans le quartier historique du Grund à Luxembourg-Ville (L-2160), à quelques minutes à pied de la vieille ville." },
+  ],
+  en: [
+    { q: "What are the opening hours of Vins Fins?", a: "Vins Fins is open Tuesday to Saturday from 18:00 to midnight, at 18 Rue Münster in Luxembourg-Grund. Closed on Sunday and Monday." },
+    { q: "How do I book a table at Vins Fins?", a: "Reservations are recommended and can be made online via the Zenchef widget on our site, or by phone at +352 26 20 04 49." },
+    { q: "How many natural wines do you carry?", a: "More than 730 references of natural, organic and biodynamic wines from 18 countries, sourced from independent European producers." },
+    { q: "Do you ship wine internationally?", a: "Yes — the Vins Fins online shop delivers to Luxembourg, France, Belgium and Germany. €5 shipping under €100 of purchase, free above. Free in-store pickup (Click & Collect)." },
+    { q: "Do you offer vegan, organic or biodynamic wines?", a: "Yes, most of our cellar is certified organic or biodynamic, with many vegan and no-sulfite-added cuvées. Each wine page lists the certification." },
+    { q: "Where is Vins Fins located in Luxembourg?", a: "At 18 Rue Münster in the historic Grund quarter of Luxembourg City (L-2160), a few minutes' walk from the old town." },
+  ],
+  de: [
+    { q: "Wie sind die Öffnungszeiten von Vins Fins?", a: "Vins Fins ist Dienstag bis Samstag von 18:00 bis Mitternacht geöffnet, in der 18 Rue Münster in Luxemburg-Grund. Sonntags und montags geschlossen." },
+    { q: "Wie kann ich einen Tisch bei Vins Fins reservieren?", a: "Reservierungen werden empfohlen und sind online über das Zenchef-Widget auf unserer Website oder telefonisch unter +352 26 20 04 49 möglich." },
+    { q: "Wie viele Naturweine führt ihr?", a: "Über 730 Referenzen an Natur-, Bio- und biodynamischen Weinen aus 18 Ländern, ausgewählt bei handwerklich arbeitenden europäischen Winzern." },
+    { q: "Versendet ihr Wein ins Ausland?", a: "Ja — der Vins Fins Online-Shop liefert nach Luxemburg, Frankreich, Belgien und Deutschland. Versandkosten 5€ unter 100€ Bestellwert, kostenlos darüber. Kostenlose Abholung im Geschäft (Click & Collect)." },
+    { q: "Bietet ihr vegane, Bio- oder biodynamische Weine an?", a: "Ja, der Großteil unseres Weinkellers ist bio- oder biodynamisch zertifiziert, mit vielen veganen und ohne Sulfitzugabe abgefüllten Cuvées. Jede Weinseite nennt die Zertifizierung." },
+    { q: "Wo befindet sich Vins Fins in Luxemburg?", a: "In der 18 Rue Münster im historischen Grund-Viertel in Luxemburg-Stadt (L-2160), wenige Minuten zu Fuß von der Altstadt entfernt." },
+  ],
+  lb: [
+    { q: "Wat sinn d'Ouverture-Zäiten vu Vins Fins?", a: "Vins Fins ass Dënschden bis Samschden vun 18:00 bis Mëtternuecht op, an der 18 Rue Münster zu Lëtzebuerg-Gronn. Sonndes a méindes zou." },
+    { q: "Wéi reservéieren ech en Dësch bei Vins Fins?", a: "Reservatiounen si recommandéiert a kënnen online iwwert de Zenchef-Widget op eiser Säit oder telefonesch ënner +352 26 20 04 49 gemaach ginn." },
+    { q: "Wéi vill natierlech Wäiner hutt dir?", a: "Méi wéi 730 Referenzen u Natur-, Bio- a biodynamesche Wäiner aus 18 Länner, bei handwierklech schaffende europäesche Winzer ausgewielt." },
+    { q: "Verschéckt dir Wäin an d'Ausland?", a: "Jo — d'Online-Boutique vu Vins Fins liwwert op Lëtzebuerg, Frankräich, Belsch an Däitschland. 5€ Versandkäschten ënner 100€ Akaaf, gratis driwwer. Gratis Ofholung am Geschäft (Click & Collect)." },
+    { q: "Bitt dir vegan, Bio- oder biodynamesch Wäiner un?", a: "Jo, déi meescht vun eiser Cave sinn Bio- oder biodynamesch zertifizéiert, mat vill vegane Cuvéeë a Wäiner ouni Sulfit-Zousaz. All Wäiseit weist d'Zertifizéierung." },
+    { q: "Wou läit Vins Fins zu Lëtzebuerg?", a: "An der 18 Rue Münster am historesche Gronn-Quartier vu Lëtzebuerg-Stad (L-2160), e puer Minutten zu Fouss vun der Alstad." },
   ],
 };
+
+function buildFaqJsonLd(locale: "fr" | "en" | "de" | "lb") {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: locale === "fr" ? "fr-FR" : locale === "de" ? "de-DE" : locale === "lb" ? "lb-LU" : "en-US",
+    mainEntity: faqByLocale[locale].map((e) => ({
+      "@type": "Question",
+      name: e.q,
+      acceptedAnswer: { "@type": "Answer", text: e.a },
+    })),
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
   const nonce = await getNonce();
+  const faqJsonLd = buildFaqJsonLd(locale as "fr" | "en" | "de" | "lb");
 
   return (
     <html lang={locale}>
