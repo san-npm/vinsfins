@@ -85,10 +85,32 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
+/**
+ * AggregateRating from the live Google Business Profile (Vins Fins, Grund,
+ * Luxembourg). Numbers must reflect reality — Google penalises Product /
+ * LocalBusiness Rich Results when the in-page value disagrees with what
+ * Google itself has on file. Update these when you pull fresh counts.
+ */
+const GOOGLE_RATING = {
+  value: 4.6 as number | null,
+  count: 0 as number,
+};
+
 const restaurantJsonLd = {
   "@context": "https://schema.org",
   "@type": ["Restaurant", "WineBar"],
   "@id": `${SITE_URL}/#restaurant`,
+  ...(GOOGLE_RATING.value !== null && GOOGLE_RATING.count > 0
+    ? {
+        aggregateRating: {
+          "@type": "AggregateRating",
+          ratingValue: GOOGLE_RATING.value.toFixed(1),
+          reviewCount: GOOGLE_RATING.count,
+          bestRating: "5",
+          worstRating: "1",
+        },
+      }
+    : {}),
   speakable: {
     "@type": "SpeakableSpecification",
     cssSelector: ["h1", ".hero-description", ".opening-hours"],

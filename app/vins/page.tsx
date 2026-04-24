@@ -31,6 +31,24 @@ export default function VinsPage() {
         </h1>
       </section>
 
+      {/* Collections (hub links for SEO intent surfaces) */}
+      <section className="px-6 mb-8">
+        <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-3">
+          <Link
+            href={localePath("/vins/luxembourg")}
+            className="text-[10px] tracking-luxury uppercase px-5 py-2 border border-gold/40 text-gold hover:bg-gold hover:text-cream transition-all"
+          >
+            {locale === "fr"
+              ? "Vins du Luxembourg"
+              : locale === "en"
+                ? "Luxembourg Wines"
+                : locale === "de"
+                  ? "Luxemburger Weine"
+                  : "Lëtzebuerger Wäiner"}
+          </Link>
+        </div>
+      </section>
+
       {/* Filters */}
       <section className="px-6 mb-12">
         <div className="max-w-7xl mx-auto flex flex-wrap justify-center gap-3">
