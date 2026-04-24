@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     { path: "/", priority: 1.0, freq: "weekly" as const, lm: LAST_MODIFIED.home },
     { path: "/vins", priority: 0.9, freq: "weekly" as const, lm: LAST_MODIFIED.wines },
+    { path: "/vins/luxembourg", priority: 0.85, freq: "weekly" as const, lm: LAST_MODIFIED.wines },
     { path: "/carte", priority: 0.9, freq: "weekly" as const, lm: LAST_MODIFIED.menu },
     { path: "/boutique", priority: 0.8, freq: "weekly" as const, lm: LAST_MODIFIED.shop },
     { path: "/a-propos", priority: 0.6, freq: "monthly" as const, lm: LAST_MODIFIED.about },
