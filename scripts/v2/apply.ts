@@ -29,7 +29,7 @@ export function updateWineImageInSource(src: string, wineId: string, newUrl: str
 }
 
 function placeholderUrlFor(category: string): string {
-  return `https://cmbsxh7oipaip57r.public.blob.vercel-storage.com/vinsfins/images/placeholders/${category}.jpg`;
+  return `/images/wines/placeholders/${category}.jpg`;
 }
 
 export async function resolveDecisionToUrl(d: Decision): Promise<string | null> {
