@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { sendOrderConfirmation } from "@/lib/email";
 import { releaseStock } from "@/lib/stock";
 import { kv } from "@vercel/kv";
@@ -40,6 +40,8 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
     console.log("Session already processed, skipping:", session.id);
     return;
   }
+
+  const stripe = getStripe();
 
   // Retrieve line items for the email
   const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, {
@@ -98,7 +100,7 @@ export async function POST(req: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    event = getStripe().webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err) {
     console.error("Webhook signature verification failed:", err);
     return NextResponse.json({ error: "Invalid signature" }, { status: 400 });

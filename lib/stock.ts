@@ -1,5 +1,5 @@
 import Stripe from "stripe";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
 import { loadData } from "@/lib/storage";
 import { kv } from "@vercel/kv";
@@ -52,7 +52,7 @@ export async function getEffectiveStock(wineId: string): Promise<number> {
  */
 export async function updateStock(session: Stripe.Checkout.Session): Promise<void> {
   try {
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+    const lineItems = await getStripe().checkout.sessions.listLineItems(session.id, {
       limit: 100,
     });
 

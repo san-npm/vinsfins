@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createHash, randomBytes } from "crypto";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
 import { reserveStock, releaseStock } from "@/lib/stock";
 import { loadData } from "@/lib/storage";
@@ -208,7 +208,7 @@ export async function POST(req: NextRequest) {
     const nonce = randomBytes(24).toString("base64url");
     const nonceHash = createHash("sha256").update(nonce).digest("hex");
 
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       mode: "payment",
       line_items: lineItems,
       shipping_options: shippingOptions,
