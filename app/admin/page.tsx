@@ -11,7 +11,18 @@ const LANG_LABELS: Record<Lang, string> = { fr: "Français", en: "English", de: 
 const WINE_CATS = ["red", "white", "rosé", "orange", "sparkling"] as const;
 const MENU_CATS = ["starters", "platters", "carpaccios", "mains", "desserts", "specials"] as const;
 
-type Tab = "menu" | "wines" | "content";
+type Tab = "menu" | "wines" | "content" | "emails";
+
+interface FailedEmailSummary {
+  id: string;
+  to: string;
+  subject: string;
+  sessionId: string;
+  errorMessage: string;
+  createdAt: number;
+  attempts: number;
+  lastAttemptAt: number;
+}
 
 function emptyLR(): Record<Lang, string> {
   return { fr: "", en: "", de: "", lb: "" };
@@ -35,6 +46,8 @@ export default function AdminPage() {
   const [content, setContent] = useState<SiteContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState("");
+  const [failedEmails, setFailedEmails] = useState<FailedEmailSummary[]>([]);
+  const [emailBusy, setEmailBusy] = useState<string | null>(null);
 
   const loadData = useCallback(async () => {
     if (!authenticated) return;
@@ -47,6 +60,36 @@ export default function AdminPage() {
     if (w) setWines(w);
     if (c) setContent(c);
   }, [authenticated]);
+
+  const loadFailedEmails = useCallback(async () => {
+    if (!authenticated) return;
+    const res = await fetch("/api/admin/failed-emails");
+    if (!res.ok) {
+      if (res.status === 401) setAuthenticated(false);
+      return;
+    }
+    const json: { items: FailedEmailSummary[] } = await res.json();
+    setFailedEmails(json.items ?? []);
+  }, [authenticated]);
+
+  useEffect(() => {
+    if (tab === "emails") loadFailedEmails();
+  }, [tab, loadFailedEmails]);
+
+  const failedEmailAction = async (id: string, action: "retry" | "delete") => {
+    setEmailBusy(id);
+    try {
+      const res = await fetch("/api/admin/failed-emails", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, action }),
+      });
+      if (res.status === 401) setAuthenticated(false);
+      await loadFailedEmails();
+    } finally {
+      setEmailBusy(null);
+    }
+  };
 
   useEffect(() => { loadData(); }, [loadData]);
 
@@ -105,13 +148,13 @@ export default function AdminPage() {
         </div>
 
         <div className="flex gap-1 mb-6 border-b border-cream/10">
-          {(["menu", "wines", "content"] as Tab[]).map(t => (
+          {(["menu", "wines", "content", "emails"] as Tab[]).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`px-4 py-2 text-sm font-medium transition border-b-2 -mb-px ${tab === t ? "border-wine text-wine" : "border-transparent text-stone hover:text-ink"}`}
             >
-              {t === "menu" ? "🍽 Carte" : t === "wines" ? "🍷 Vins" : "📝 Contenu"}
+              {t === "menu" ? "🍽 Carte" : t === "wines" ? "🍷 Vins" : t === "content" ? "📝 Contenu" : `✉ Emails échoués${failedEmails.length ? ` (${failedEmails.length})` : ""}`}
             </button>
           ))}
         </div>
@@ -256,6 +299,50 @@ export default function AdminPage() {
             </fieldset>
 
             <button onClick={() => save("content", content)} className="bg-wine text-cream px-6 py-2 rounded hover:bg-wine/90 transition font-medium">Sauvegarder le Contenu</button>
+          </div>
+        )}
+
+        {tab === "emails" && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-stone text-sm">
+                Confirmations de commande qui n&apos;ont pas pu être envoyées via Resend. Cliquez sur Renvoyer pour réessayer.
+              </p>
+              <button onClick={loadFailedEmails} className="text-stone hover:text-wine text-sm">↻ Rafraîchir</button>
+            </div>
+            {failedEmails.length === 0 && (
+              <div className="bg-dark-card/70 backdrop-blur rounded-lg p-6 border border-cream/10 text-stone text-sm text-center">
+                Aucun email en échec.
+              </div>
+            )}
+            {failedEmails.map((f) => (
+              <div key={f.id} className="bg-dark-card/70 backdrop-blur rounded-lg p-4 border border-cream/10 text-sm">
+                <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
+                  <div><span className="text-stone">À:</span> <span className="text-cream">{f.to}</span></div>
+                  <div><span className="text-stone">Commande:</span> <span className="text-cream font-mono text-xs">{f.sessionId.slice(-8).toUpperCase()}</span></div>
+                  <div><span className="text-stone">Tentatives:</span> <span className="text-cream">{f.attempts}</span></div>
+                  <div><span className="text-stone">Dernière:</span> <span className="text-cream">{new Date(f.lastAttemptAt).toLocaleString("fr-FR")}</span></div>
+                </div>
+                <div className="text-cream mb-1">{f.subject}</div>
+                <div className="text-red-400 text-xs mb-3 break-all">{f.errorMessage}</div>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => failedEmailAction(f.id, "retry")}
+                    disabled={emailBusy === f.id}
+                    className="bg-wine text-cream px-3 py-1.5 rounded text-xs hover:bg-wine/90 transition disabled:opacity-50"
+                  >
+                    {emailBusy === f.id ? "..." : "Renvoyer"}
+                  </button>
+                  <button
+                    onClick={() => failedEmailAction(f.id, "delete")}
+                    disabled={emailBusy === f.id}
+                    className="text-stone hover:text-red-400 text-xs px-3 py-1.5 transition disabled:opacity-50"
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
       </div>

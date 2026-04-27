@@ -12,6 +12,7 @@ import {
   alternateUrls,
   type Locale,
 } from "@/lib/i18n";
+import { buildWineProduct, jsonLdToScript } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -21,7 +22,6 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getLocale();
-  const nonce = await getNonce();
   const { id } = await params;
   const wine = wines.find((w) => w.id === id);
   if (!wine) return { title: "Wine not found" };
@@ -55,74 +55,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function buildWineProductJsonLd(wine: (typeof wines)[number], locale: Locale) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: wine.name,
-    description: wine.description[locale] || wine.description.fr,
-    image: wine.image,
-    url: `${SITE_URL}/vins/${wine.id}`,
-    brand: { "@type": "Brand", name: wine.region },
-    category: wineCategory[wine.category]?.[locale] || wine.category,
-    material: wine.grape,
-    countryOfOrigin: { "@type": "Country", name: wine.country },
-    offers: [
-      {
-        "@type": "Offer",
-        name: "Au verre",
-        price: wine.priceGlass.toString(),
-        priceCurrency: "EUR",
-        availability: wine.isAvailable
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-      },
-      {
-        "@type": "Offer",
-        name: "Bouteille (restaurant)",
-        price: wine.priceBottle.toString(),
-        priceCurrency: "EUR",
-        availability: wine.isAvailable
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-      },
-      ...(wine.priceShop > 0
-        ? [
-            {
-              "@type": "Offer",
-              name: "Boutique en ligne",
-              price: wine.priceShop.toString(),
-              priceCurrency: "EUR",
-              availability: "https://schema.org/InStock",
-              shippingDetails: {
-                "@type": "OfferShippingDetails",
-                shippingDestination: [
-                  { "@type": "DefinedRegion", addressCountry: "LU" },
-                  { "@type": "DefinedRegion", addressCountry: "FR" },
-                  { "@type": "DefinedRegion", addressCountry: "DE" },
-                  { "@type": "DefinedRegion", addressCountry: "BE" },
-                ],
-                freeShippingThreshold: {
-                  "@type": "MonetaryAmount",
-                  value: "100",
-                  currency: "EUR",
-                },
-              },
-            },
-          ]
-        : []),
-    ],
-    additionalProperty: [
-      ...(wine.isOrganic
-        ? [{ "@type": "PropertyValue", name: "Certification", value: "Bio" }]
-        : []),
-      ...(wine.isBiodynamic
-        ? [{ "@type": "PropertyValue", name: "Certification", value: "Biodynamie" }]
-        : []),
-    ],
-  };
-}
-
 export default async function WineLayout({
   children,
   params,
@@ -142,9 +74,16 @@ export default async function WineLayout({
           <Script
             id={`json-ld-wine-${id}`}
             type="application/ld+json"
-        nonce={nonce}
+            nonce={nonce}
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify(buildWineProductJsonLd(wine, locale)).replace(/</g, "\\u003c"),
+              __html: jsonLdToScript(
+                buildWineProduct({
+                  wine,
+                  locale,
+                  url: `${SITE_URL}/vins/${wine.id}`,
+                  variant: "menu",
+                }),
+              ),
             }}
           />
           <Breadcrumbs

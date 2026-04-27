@@ -1,9 +1,124 @@
 import { NextRequest, NextResponse } from "next/server";
+import "@/lib/env";
 import { stripe } from "@/lib/stripe";
-import { sendOrderConfirmation } from "@/lib/email";
+import { sendOrderConfirmation, retrySendEmail } from "@/lib/email";
 import { releaseStock } from "@/lib/stock";
 import { kv } from "@vercel/kv";
 import Stripe from "stripe";
+
+const ALLOWED_DELIVERY_COUNTRIES = new Set(["LU", "FR", "DE", "BE"]);
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@vinsfins.lu";
+
+const MAX_NAME_LEN = 200;
+const MAX_LINE_LEN = 200;
+const MAX_CITY_LEN = 100;
+const MAX_POSTAL_LEN = 20;
+const POSTAL_RE = /^[A-Za-z0-9 \-]{2,20}$/;
+
+type DeliveryCheck =
+  | { ok: true }
+  | {
+      ok: false;
+      reason:
+        | "missing-shipping-country"
+        | "country-not-allowed"
+        | "missing-shipping-name"
+        | "missing-shipping-line1"
+        | "missing-shipping-postal-code"
+        | "missing-shipping-city"
+        | "address-field-too-long"
+        | "invalid-postal-code";
+      country?: string;
+    };
+
+function tooLong(value: string | null | undefined, max: number): boolean {
+  return typeof value === "string" && value.length > max;
+}
+
+// Stripe SDK types omit `shipping_details` on Session in this version.
+type SessionWithShipping = Stripe.Checkout.Session & {
+  shipping_details?: {
+    name?: string | null;
+    address?: {
+      line1?: string | null;
+      line2?: string | null;
+      city?: string | null;
+      postal_code?: string | null;
+      country?: string | null;
+    } | null;
+  } | null;
+};
+
+function checkDeliveryAddress(session: Stripe.Checkout.Session): DeliveryCheck {
+  if (session.metadata?.deliveryMethod !== "delivery") return { ok: true };
+
+  const shipping = (session as SessionWithShipping).shipping_details ?? null;
+  const address = shipping?.address ?? null;
+  const country = address?.country?.toUpperCase();
+
+  if (!country) return { ok: false, reason: "missing-shipping-country" };
+  if (!ALLOWED_DELIVERY_COUNTRIES.has(country)) {
+    return { ok: false, reason: "country-not-allowed", country };
+  }
+  if (!shipping?.name) return { ok: false, reason: "missing-shipping-name", country };
+  if (!address?.line1) return { ok: false, reason: "missing-shipping-line1", country };
+  if (!address?.city) return { ok: false, reason: "missing-shipping-city", country };
+  if (!address?.postal_code) return { ok: false, reason: "missing-shipping-postal-code", country };
+  if (
+    tooLong(shipping.name, MAX_NAME_LEN) ||
+    tooLong(address.line1, MAX_LINE_LEN) ||
+    tooLong(address.line2, MAX_LINE_LEN) ||
+    tooLong(address.city, MAX_CITY_LEN) ||
+    tooLong(address.postal_code, MAX_POSTAL_LEN)
+  ) {
+    return { ok: false, reason: "address-field-too-long", country };
+  }
+  if (!POSTAL_RE.test(address.postal_code)) {
+    return { ok: false, reason: "invalid-postal-code", country };
+  }
+  return { ok: true };
+}
+
+async function flagOrderForReview(
+  session: Stripe.Checkout.Session,
+  reason: string,
+  country: string | undefined,
+): Promise<void> {
+  const orderRef = session.id.slice(-8).toUpperCase();
+  const customerEmail = session.customer_details?.email ?? "(none)";
+  const amount = session.amount_total ?? 0;
+  const html = `
+    <div style="font-family:Helvetica,Arial,sans-serif;color:#333;max-width:600px">
+      <h2 style="color:#8B0000">Order flagged for manual review</h2>
+      <p>An order was paid but failed backend address validation and was <strong>not</strong> auto-confirmed.</p>
+      <ul>
+        <li><strong>Order:</strong> #${orderRef}</li>
+        <li><strong>Session:</strong> ${session.id}</li>
+        <li><strong>Reason:</strong> ${reason}</li>
+        <li><strong>Country received:</strong> ${country ?? "(none)"}</li>
+        <li><strong>Customer email:</strong> ${customerEmail}</li>
+        <li><strong>Amount:</strong> ${(amount / 100).toFixed(2)} €</li>
+        <li><strong>Delivery method:</strong> ${session.metadata?.deliveryMethod ?? "(none)"}</li>
+      </ul>
+      <p>Action: contact the customer, then either ship manually or refund via Stripe dashboard.</p>
+    </div>
+  `;
+  // Persist a flag for admin visibility (24h TTL is enough — admin should act fast).
+  await kv.set(`flagged_order:${session.id}`, {
+    sessionId: session.id,
+    reason,
+    country: country ?? null,
+    customerEmail,
+    amount,
+    createdAt: Date.now(),
+  }, { ex: 30 * 24 * 60 * 60 }).catch(() => { /* best effort */ });
+
+  await retrySendEmail({
+    to: ADMIN_EMAIL,
+    subject: `[REVIEW] Order #${orderRef} — ${reason}${country ? ` (${country})` : ""}`,
+    html,
+  });
+}
 
 /**
  * Atomic idempotency via Redis SETNX.
@@ -57,14 +172,26 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
     expand: ["shipping_details"],
   });
 
+  const verdict = checkDeliveryAddress(fullSession);
+  if (!verdict.ok) {
+    await flagOrderForReview(fullSession, verdict.reason, verdict.country);
+    // The order can't ship to this address. Release the reservation so
+    // the inventory isn't permanently understated when admin refunds.
+    // If admin negotiates a valid address with the customer, they will
+    // re-place the order and the new reservation will decrement again.
+    const items = parseSessionItems(fullSession);
+    if (items.length > 0) {
+      await releaseStock(items);
+    }
+    console.warn(`[vinsfins webhook] flagged ${session.id.slice(-8).toUpperCase()} reason=${verdict.reason}${verdict.country ? ` country=${verdict.country}` : ""}`);
+    return;
+  }
+
   // Send confirmation email (customer + admin)
   await sendOrderConfirmation(fullSession, orderItems);
 
   // Stock was already reserved atomically at checkout creation (DECRBY).
-  // Nothing to do here — stock is already decremented.
   // Idempotency already marked via SETNX in isAlreadyProcessed().
-
-  console.log("Order fulfilled:", session.id);
 }
 
 /**
@@ -114,18 +241,13 @@ export async function POST(req: NextRequest) {
     s?.metadata?.source === "grocerie";
   const isGrocerieCharge = (c: Stripe.Charge) => c.metadata?.source === "grocerie";
 
+  const ref = (id: string) => id.slice(-8).toUpperCase();
+
   switch (event.type) {
     case "checkout.session.completed": {
       const session = event.data.object as Stripe.Checkout.Session;
       if (isGrocerieSession(session)) return ackSkip();
-      console.log("Checkout completed:", {
-        sessionId: session.id,
-        email: session.customer_details?.email,
-        amount: session.amount_total,
-        paymentStatus: session.payment_status,
-        deliveryMethod: session.metadata?.deliveryMethod,
-      });
-
+      console.log(`[vinsfins webhook] checkout.completed ${ref(session.id)} status=${session.payment_status}`);
       if (session.payment_status === "paid") {
         await fulfillOrder(session);
       }
@@ -135,7 +257,7 @@ export async function POST(req: NextRequest) {
     case "checkout.session.async_payment_succeeded": {
       const session = event.data.object as Stripe.Checkout.Session;
       if (isGrocerieSession(session)) return ackSkip();
-      console.log("Async payment succeeded:", session.id);
+      console.log(`[vinsfins webhook] async_payment.succeeded ${ref(session.id)}`);
       await fulfillOrder(session);
       break;
     }
@@ -143,7 +265,7 @@ export async function POST(req: NextRequest) {
     case "checkout.session.async_payment_failed": {
       const session = event.data.object as Stripe.Checkout.Session;
       if (isGrocerieSession(session)) return ackSkip();
-      console.log("Async payment failed:", session.id);
+      console.log(`[vinsfins webhook] async_payment.failed ${ref(session.id)}`);
       await handlePaymentFailed(session);
       break;
     }
@@ -151,24 +273,15 @@ export async function POST(req: NextRequest) {
     case "checkout.session.expired": {
       const session = event.data.object as Stripe.Checkout.Session;
       if (isGrocerieSession(session)) return ackSkip();
-      console.log("Session expired:", session.id);
+      console.log(`[vinsfins webhook] session.expired ${ref(session.id)}`);
       await handlePaymentFailed(session);
       break;
     }
 
     case "charge.refunded": {
-      // Refund issued from the Stripe dashboard. Log for reconciliation;
-      // we do NOT auto-restock because the wine may already have shipped.
-      // Admin restores stock manually via the admin panel if warranted.
       const charge = event.data.object as Stripe.Charge;
       if (isGrocerieCharge(charge)) return ackSkip();
-      console.log("Charge refunded:", {
-        chargeId: charge.id,
-        paymentIntent: charge.payment_intent,
-        amount: charge.amount_refunded,
-        currency: charge.currency,
-        reason: charge.refunds?.data[0]?.reason,
-      });
+      console.log(`[vinsfins webhook] charge.refunded ${charge.id.slice(-8)} amount=${charge.amount_refunded}${charge.currency}`);
       break;
     }
 

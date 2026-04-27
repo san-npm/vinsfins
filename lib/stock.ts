@@ -1,5 +1,3 @@
-import Stripe from "stripe";
-import { stripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
 import { loadData } from "@/lib/storage";
 import { kv } from "@vercel/kv";
@@ -18,7 +16,6 @@ async function getCurrentWines(): Promise<Wine[]> {
  */
 
 const STOCK_PREFIX = "stock:";
-const STOCK_INITIALIZED_KEY = "stock:__initialized__";
 
 /**
  * Ensure stock is initialized in KV for a wine.
@@ -47,31 +44,6 @@ export async function getEffectiveStock(wineId: string): Promise<number> {
 }
 
 /**
- * Atomically decrement stock for all items in a completed checkout session.
- * Uses Redis DECRBY — no read-then-write race condition.
- */
-export async function updateStock(session: Stripe.Checkout.Session): Promise<void> {
-  try {
-    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
-      limit: 100,
-    });
-
-    const wines = await getCurrentWines();
-
-    for (const item of lineItems.data) {
-      const wine = wines.find((w) => w.name === item.description);
-      if (wine && item.quantity) {
-        await ensureStockInitialized(wine);
-        const newStock = await kv.decrby(`${STOCK_PREFIX}${wine.id}`, item.quantity);
-        console.log(`Stock decremented: ${wine.name} -${item.quantity} (now: ${newStock})`);
-      }
-    }
-  } catch (err) {
-    console.error("Failed to update stock:", err);
-  }
-}
-
-/**
  * Check if all items in a cart are in stock.
  * Returns null if OK, or the first out-of-stock wine name.
  */
@@ -93,6 +65,27 @@ export async function checkStock(
   return null;
 }
 
+// Atomic compare-and-decrement via Redis Lua scripting (kv.eval is the
+// Upstash/Redis EVAL command — Lua executed server-side, NOT JS eval).
+// Only decrements if the current value is >= qty. Returns the new value
+// on success, -1 on insufficient stock. Avoids the rollback race where
+// two concurrent reserves both see negative and incr-back the stock twice.
+const DECREMENT_IF_AVAILABLE = `
+local current = tonumber(redis.call('GET', KEYS[1]) or '0')
+local qty = tonumber(ARGV[1])
+if current >= qty then
+  redis.call('DECRBY', KEYS[1], qty)
+  return current - qty
+end
+return -1
+`;
+
+async function tryDecrement(key: string, qty: number): Promise<number> {
+  const runScript = (kv as unknown as { eval: (s: string, k: string[], a: string[]) => Promise<unknown> })["eval"];
+  const result = (await runScript.call(kv, DECREMENT_IF_AVAILABLE, [key], [String(qty)])) as number;
+  return result;
+}
+
 /**
  * Reserve stock atomically during checkout.
  * Decrements immediately — if payment fails, stock is restored via releaseStock.
@@ -109,12 +102,11 @@ export async function reserveStock(
     if (!wine) continue;
 
     await ensureStockInitialized(wine);
-    const newStock = await kv.decrby(`${STOCK_PREFIX}${wine.id}`, item.quantity);
+    const newStock = await tryDecrement(`${STOCK_PREFIX}${wine.id}`, item.quantity);
 
     if (newStock < 0) {
-      // Went negative — restore and fail
-      await kv.incrby(`${STOCK_PREFIX}${wine.id}`, item.quantity);
-      // Restore all previously decremented items
+      // Insufficient stock — Lua script left the key untouched. Roll back
+      // any earlier successful decrements in this same call.
       for (const prev of decremented) {
         await kv.incrby(`${STOCK_PREFIX}${prev.wineId}`, prev.quantity);
       }

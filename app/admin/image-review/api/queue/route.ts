@@ -2,12 +2,12 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 import { wines } from '@/data/wines';
-import { isDevRequest } from '../../_lib/devOnly';
+import { verifyToken } from '@/lib/admin-auth';
 
 const CLASSIFIED = join(process.cwd(), 'scripts/v2/state/classified.json');
 
 export async function GET(req: NextRequest) {
-  if (!isDevRequest(req)) return NextResponse.json({ error: 'forbidden' }, { status: 403 });
+  if (!verifyToken(req)) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   if (!existsSync(CLASSIFIED)) return NextResponse.json([]);
   const classified = JSON.parse(readFileSync(CLASSIFIED, 'utf-8'));
   const byId = new Map(wines.map((w: any) => [w.id, w]));

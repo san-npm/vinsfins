@@ -1,5 +1,23 @@
 import { Resend } from "resend";
 import Stripe from "stripe";
+import { enqueueFailedEmail } from "@/lib/email-queue";
+
+// The installed @stripe/stripe-node types omit `shipping_details` on
+// Checkout.Session even though the Stripe API returns it. Augment the type
+// locally so we don't need an `any` cast at the call sites.
+type SessionWithShipping = Stripe.Checkout.Session & {
+  shipping_details?: {
+    name?: string | null;
+    address?: {
+      line1?: string | null;
+      line2?: string | null;
+      city?: string | null;
+      postal_code?: string | null;
+      country?: string | null;
+      state?: string | null;
+    } | null;
+  } | null;
+};
 
 const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
@@ -27,8 +45,7 @@ function buildOrderHtml(
   lineItems: OrderItem[],
 ): string {
   const isPickup = session.metadata?.deliveryMethod === "pickup";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const shipping = (session as any).shipping_details as { name?: string; address?: { line1?: string; line2?: string; city?: string; postal_code?: string; country?: string } } | undefined;
+  const shipping = (session as SessionWithShipping).shipping_details ?? null;
 
   const itemsHtml = lineItems
     .map(
@@ -125,26 +142,72 @@ export async function sendOrderConfirmation(
 
   const html = buildOrderHtml(session, lineItems);
   const orderRef = session.id.slice(-8).toUpperCase();
+  const customerSubject = `Vins Fins — Confirmation de commande #${orderRef}`;
+  const adminSubject = `Nouvelle commande #${orderRef} — ${customerEmail}`;
 
+  await sendOrSpool({
+    sessionId: session.id,
+    kind: "customer",
+    to: customerEmail,
+    subject: customerSubject,
+    html,
+  });
+
+  await sendOrSpool({
+    sessionId: session.id,
+    kind: "admin",
+    to: ADMIN_EMAIL,
+    subject: adminSubject,
+    html,
+  });
+}
+
+async function sendOrSpool(input: {
+  sessionId: string;
+  kind: "customer" | "admin";
+  to: string;
+  subject: string;
+  html: string;
+}): Promise<void> {
+  if (!resend) return;
   try {
-    // Send to customer
     await resend.emails.send({
       from: FROM_EMAIL,
-      to: customerEmail,
-      subject: `Vins Fins — Confirmation de commande #${orderRef}`,
-      html,
+      to: input.to,
+      subject: input.subject,
+      html: input.html,
     });
-
-    // Send copy to admin
-    await resend.emails.send({
-      from: FROM_EMAIL,
-      to: ADMIN_EMAIL,
-      subject: `Nouvelle commande #${orderRef} — ${customerEmail}`,
-      html,
-    });
-
-    console.log("Order confirmation emails sent to:", customerEmail, "and", ADMIN_EMAIL);
   } catch (err) {
-    console.error("Failed to send order confirmation email:", err);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    await enqueueFailedEmail({
+      to: input.to,
+      from: FROM_EMAIL,
+      subject: input.subject,
+      html: input.html,
+      sessionId: input.sessionId,
+      kind: input.kind,
+      errorMessage,
+    }).catch(() => {
+      // Last resort: nothing more we can do here
+    });
+  }
+}
+
+export async function retrySendEmail(input: {
+  to: string;
+  subject: string;
+  html: string;
+}): Promise<{ ok: boolean; error?: string }> {
+  if (!resend) return { ok: false, error: "RESEND_API_KEY not configured" };
+  try {
+    await resend.emails.send({
+      from: FROM_EMAIL,
+      to: input.to,
+      subject: input.subject,
+      html: input.html,
+    });
+    return { ok: true };
+  } catch (err) {
+    return { ok: false, error: err instanceof Error ? err.message : String(err) };
   }
 }
