@@ -10,11 +10,12 @@ import {
   localeUrl,
   breadcrumbNames,
   alternateUrls,
+  type Locale,
 } from "@/lib/i18n";
+import { buildListProduct, jsonLdToScript } from "@/lib/structured-data";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  const nonce = await getNonce();
   const meta = pageMeta.vins[locale];
 
   return {
@@ -29,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function buildWineListJsonLd() {
+function buildWineListJsonLd(locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -41,20 +42,11 @@ function buildWineListJsonLd() {
     itemListElement: wines.slice(0, 10).map((wine, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: {
-        "@type": "Product",
-        name: wine.name,
-        description: `${wine.description.fr} ${wine.grape}, ${wine.region}, ${wine.country}.`,
+      item: buildListProduct({
+        wine,
+        locale,
         url: `${SITE_URL}/vins/${wine.id}`,
-        offers: {
-          "@type": "Offer",
-          price: wine.priceBottle.toString(),
-          priceCurrency: "EUR",
-          availability: wine.isAvailable
-            ? "https://schema.org/InStock"
-            : "https://schema.org/OutOfStock",
-        },
-      },
+      }),
     })),
   };
 }
@@ -62,7 +54,7 @@ function buildWineListJsonLd() {
 export default async function VinsLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
   const nonce = await getNonce();
-  const jsonLd = buildWineListJsonLd();
+  const jsonLd = buildWineListJsonLd(locale);
 
   return (
     <>
@@ -70,7 +62,7 @@ export default async function VinsLayout({ children }: { children: React.ReactNo
         id="json-ld-wines"
         type="application/ld+json"
         nonce={nonce}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: jsonLdToScript(jsonLd) }}
       />
       <Breadcrumbs
         items={[

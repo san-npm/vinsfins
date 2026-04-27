@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import Script from "next/script";
 import { useData } from "@/context/DataContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useParams } from "next/navigation";
@@ -32,72 +31,9 @@ export default function WinePage() {
     );
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: wine.name,
-    description: wine.description?.fr || "",
-    image: wine.image,
-    brand: {
-      "@type": "Brand",
-      name: wine.name.split(" ").slice(0, 2).join(" "),
-    },
-    category: `Vin ${categoryLabels[wine.category]?.fr || wine.category}`,
-    countryOfOrigin: {
-      "@type": "Country",
-      name: wine.country,
-    },
-    offers: [
-      {
-        "@type": "Offer",
-        name: "Bouteille",
-        price: wine.priceBottle.toString(),
-        priceCurrency: "EUR",
-        availability: wine.isAvailable
-          ? "https://schema.org/InStock"
-          : "https://schema.org/OutOfStock",
-        seller: {
-          "@type": "Restaurant",
-          name: "Vins Fins",
-          url: "https://www.vinsfins.lu",
-        },
-      },
-      ...(wine.priceShop > 0
-        ? [
-            {
-              "@type": "Offer",
-              name: "Boutique en ligne",
-              price: wine.priceShop.toString(),
-              priceCurrency: "EUR",
-              availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "Store",
-                name: "Vins Fins — Boutique",
-                url: "https://www.vinsfins.lu/boutique",
-              },
-            },
-          ]
-        : []),
-    ],
-    additionalProperty: [
-      { "@type": "PropertyValue", name: "Région", value: wine.region },
-      { "@type": "PropertyValue", name: "Cépage", value: wine.grape },
-      ...(wine.isOrganic
-        ? [{ "@type": "PropertyValue", name: "Agriculture", value: "Bio" }]
-        : []),
-      ...(wine.isBiodynamic
-        ? [{ "@type": "PropertyValue", name: "Agriculture", value: "Biodynamique" }]
-        : []),
-    ],
-  };
-
   return (
     <main className="relative z-[1]">
-      <Script
-        id={`wine-jsonld-${wine.id}`}
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
-      />
+      {/* Product JSON-LD emitted server-side in layout.tsx — single source of truth */}
 
       {/* Wine Detail — breadcrumb rendered by layout */}
       <section className="pt-4 py-12 px-6">

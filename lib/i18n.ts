@@ -53,36 +53,36 @@ type PageMeta = { title: string; description: string; ogTitle: string; ogDescrip
 export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
   home: {
     fr: {
-      title: "Vins Fins — Bar à Vins & Restaurant | Grund, Luxembourg",
+      title: "Bar à Vin & Restaurant à Luxembourg | Vins Fins, Grund",
       description:
-        "Vins d'exception et cuisine raffinée au cœur du Grund. Carte des vins naturels et bio, cuisine française de saison. Réservez votre table.",
-      ogTitle: "Vins Fins — Bar à Vins & Restaurant | Grund, Luxembourg",
+        "Bar à vins naturels au Grund, Luxembourg-ville. Ouvert mar-sam 18h-minuit. 80+ vins bio & artisans, cuisine française de saison. Réservation en ligne.",
+      ogTitle: "Bar à Vin & Restaurant à Luxembourg | Vins Fins, Grund",
       ogDescription:
-        "Vins d'exception & cuisine raffinée au Grund, Luxembourg. Plus de 80 vins naturels, cuisine française de saison.",
+        "Bar à vins naturels au Grund, Luxembourg. 80+ vins bio, cuisine française de saison. Mar-sam 18h-minuit.",
     },
     en: {
-      title: "Vins Fins — Wine Bar & Restaurant | Grund, Luxembourg",
+      title: "Wine Bar & Restaurant in Luxembourg | Vins Fins, Grund",
       description:
-        "Exceptional wines and refined cuisine in the heart of Grund. Natural and organic wine list, seasonal French cuisine. Book your table.",
-      ogTitle: "Vins Fins — Wine Bar & Restaurant | Grund, Luxembourg",
+        "Natural wine bar in Grund, Luxembourg City. Open Tue-Sat 6pm-midnight. 80+ organic & artisan wines, seasonal French cuisine. Online reservations.",
+      ogTitle: "Wine Bar & Restaurant in Luxembourg | Vins Fins, Grund",
       ogDescription:
-        "Exceptional wines & refined cuisine in Grund, Luxembourg. Over 80 natural wines, seasonal French cuisine.",
+        "Natural wine bar in Grund, Luxembourg. 80+ organic wines, seasonal French cuisine. Tue-Sat 6pm-midnight.",
     },
     de: {
-      title: "Vins Fins — Weinbar & Restaurant | Grund, Luxemburg",
+      title: "Weinbar & Restaurant in Luxemburg | Vins Fins, Grund",
       description:
-        "Außergewöhnliche Weine und raffinierte Küche im Herzen des Grund. Naturweine und Bio-Weine, saisonale französische Küche. Reservieren Sie Ihren Tisch.",
-      ogTitle: "Vins Fins — Weinbar & Restaurant | Grund, Luxemburg",
+        "Naturwein-Bar im Grund, Luxemburg-Stadt. Di-Sa 18-24 Uhr. 80+ Bio- & Winzerweine, saisonale französische Küche. Online-Reservierung.",
+      ogTitle: "Weinbar & Restaurant in Luxemburg | Vins Fins, Grund",
       ogDescription:
-        "Außergewöhnliche Weine & raffinierte Küche im Grund, Luxemburg. Über 80 Naturweine, saisonale französische Küche.",
+        "Naturwein-Bar im Grund, Luxemburg. 80+ Bio-Weine, saisonale französische Küche. Di-Sa 18-24 Uhr.",
     },
     lb: {
-      title: "Vins Fins — Wäibistro & Restaurant | Gronn, Lëtzebuerg",
+      title: "Wäibistro & Restaurant zu Lëtzebuerg | Vins Fins, Gronn",
       description:
-        "Aussergewéinlech Wäiner an raffinéiert Kichen am Häerz vum Gronn. Naturwäiner a Bio-Wäiner, saisonal franséisch Kichen. Reservéiert Ären Dësch.",
-      ogTitle: "Vins Fins — Wäibistro & Restaurant | Gronn, Lëtzebuerg",
+        "Naturwäin-Bar am Gronn, Lëtzebuerg-Stad. Dë-Sa 18-24 Auer. 80+ Bio- a Handwierker-Wäiner, saisonal franséisch Kichen. Online reservéieren.",
+      ogTitle: "Wäibistro & Restaurant zu Lëtzebuerg | Vins Fins, Gronn",
       ogDescription:
-        "Aussergewéinlech Wäiner & raffinéiert Kichen am Gronn, Lëtzebuerg. Iwwer 80 Naturwäiner, saisonal franséisch Kichen.",
+        "Naturwäin-Bar am Gronn, Lëtzebuerg. 80+ Bio-Wäiner, saisonal franséisch Kichen. Dë-Sa 18-24 Auer.",
     },
   },
   vins: {

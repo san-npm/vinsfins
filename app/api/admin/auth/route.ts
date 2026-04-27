@@ -33,7 +33,10 @@ export async function POST(request: NextRequest) {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      path: '/api/admin',
+      // Path must cover both `/api/admin/*` (auth, data, etc.) and the
+      // `/admin/image-review/api/*` tools, so the cookie is sent to all
+      // admin endpoints once the user logs in.
+      path: '/',
       maxAge: COOKIE_MAX_AGE,
     });
     return response;
