@@ -11,16 +11,16 @@ function localeUrls(path: string) {
   return { ...byLocale, "x-default": `${SITE_URL}${path}` };
 }
 
-// Stable lastModified dates per section. Bump these when the underlying
-// content actually changes so crawlers don't waste crawl budget re-fetching
-// pages that haven't moved.
+// Build-time freshness for non-legal sections (every deploy refreshes the
+// catalog and content). Legal pages stay pinned to their last review date.
+const BUILD_DATE = new Date().toISOString().slice(0, 10);
 const LAST_MODIFIED = {
-  home: "2026-04-01",
-  wines: "2026-04-01",
-  menu: "2026-04-01",
-  shop: "2026-04-01",
-  about: "2026-03-01",
-  contact: "2026-03-01",
+  home: BUILD_DATE,
+  wines: BUILD_DATE,
+  menu: BUILD_DATE,
+  shop: BUILD_DATE,
+  about: BUILD_DATE,
+  contact: BUILD_DATE,
   legal: "2026-01-01",
 };
 
