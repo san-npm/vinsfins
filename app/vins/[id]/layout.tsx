@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { wines } from "@/data/wines";
+import { wines as staticWines, type Wine } from "@/data/wines";
+import { loadData } from "@/lib/storage";
 import {
   getLocale,
   getNonce,
@@ -16,15 +18,30 @@ import { buildWineProduct, jsonLdToScript } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ id: string }> };
 
+// `loadData` hits KV first and falls back to the static bundle when KV is
+// empty or unreachable. We need that here (not just `staticWines.find`) so
+// that wines added in KV after the build are recognised on dynamic SSR
+// paths instead of returning a hard 404 for IDs the page itself can render
+// from `useData()`. Prerendered IDs are still frozen at build time — admin
+// edits to existing wines propagate through the client fetch, not here.
+async function findWine(id: string): Promise<Wine | null> {
+  try {
+    const all = (await loadData("wines", staticWines)) as Wine[];
+    return all.find((w) => w.id === id) ?? null;
+  } catch {
+    return staticWines.find((w) => w.id === id) ?? null;
+  }
+}
+
 export async function generateStaticParams() {
-  return wines.map((wine) => ({ id: wine.id }));
+  return staticWines.map((wine) => ({ id: wine.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getLocale();
   const { id } = await params;
-  const wine = wines.find((w) => w.id === id);
-  if (!wine) return { title: "Wine not found" };
+  const wine = await findWine(id);
+  if (!wine) return { title: "Wine not found", robots: { index: false, follow: false } };
 
   const cat = wineCategory[wine.category]?.[locale] || wine.category;
   const desc = wine.description[locale] || wine.description.fr;
@@ -65,7 +82,8 @@ export default async function WineLayout({
   const locale = await getLocale();
   const nonce = await getNonce();
   const { id } = await params;
-  const wine = wines.find((w) => w.id === id);
+  const wine = await findWine(id);
+  if (!wine) notFound();
 
   return (
     <>

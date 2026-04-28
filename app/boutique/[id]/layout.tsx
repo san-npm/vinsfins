@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { wines } from "@/data/wines";
+import { wines as staticWines, type Wine } from "@/data/wines";
+import { loadData } from "@/lib/storage";
 import {
   getLocale,
   getNonce,
@@ -15,15 +17,37 @@ import { buildWineProduct, jsonLdToScript } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ id: string }> };
 
+// `loadData` hits KV first and falls back to the static bundle when KV is
+// empty or unreachable. We need that here (not just `staticWines.find`) so
+// that wines added in KV after the build are recognised on dynamic SSR
+// paths instead of returning a hard 404. Apply the same shippable filter as
+// `generateStaticParams` and the sitemap so a delisted product stops
+// returning an indexable page on dynamic SSR (existing prerendered pages
+// stay until next deploy).
+function isShippable(w: Wine): boolean {
+  return w.isAvailable && w.priceShop > 0;
+}
+
+async function findWine(id: string): Promise<Wine | null> {
+  try {
+    const all = (await loadData("wines", staticWines)) as Wine[];
+    const match = all.find((w) => w.id === id);
+    return match && isShippable(match) ? match : null;
+  } catch {
+    const match = staticWines.find((w) => w.id === id);
+    return match && isShippable(match) ? match : null;
+  }
+}
+
 export async function generateStaticParams() {
-  return wines.filter((w) => w.priceShop > 0 && w.isAvailable).map((wine) => ({ id: wine.id }));
+  return staticWines.filter(isShippable).map((wine) => ({ id: wine.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getLocale();
   const { id } = await params;
-  const wine = wines.find((w) => w.id === id);
-  if (!wine) return { title: "Product not found" };
+  const wine = await findWine(id);
+  if (!wine) return { title: "Product not found", robots: { index: false, follow: false } };
 
   const buyLabel: Record<Locale, string> = {
     fr: "Acheter",
@@ -56,7 +80,8 @@ export default async function BoutiqueProductLayout({
   const locale = await getLocale();
   const nonce = await getNonce();
   const { id } = await params;
-  const wine = wines.find((w) => w.id === id);
+  const wine = await findWine(id);
+  if (!wine) notFound();
 
   return (
     <>
