@@ -1,7 +1,18 @@
 import type { Locale } from "@/lib/i18n";
+import { businessProfile } from "@/data/content";
 
 export type FAQItem = { question: string; answer: string };
 
+const tel = businessProfile.telephone;
+const shopUrl = businessProfile.shopUrlDisplay;
+const addrFr = `${businessProfile.streetAddress}, ${businessProfile.postalCode} ${businessProfile.localityByLocale.fr}`;
+const addrEn = `${businessProfile.streetAddress}, ${businessProfile.postalCode} ${businessProfile.localityByLocale.en}`;
+const addrDe = `${businessProfile.streetAddress}, ${businessProfile.postalCode} ${businessProfile.localityByLocale.de}`;
+const addrLb = `${businessProfile.streetAddress}, ${businessProfile.postalCode} ${businessProfile.localityByLocale.lb}`;
+
+// FAQ answer prose interpolates the canonical business facts (phone, address,
+// shop URL) from `businessProfile`, so updating the address or phone in one
+// place propagates through visible HTML, FAQPage JSON-LD, and answer engines.
 export const faqByLocale: Record<Locale, { title: string; label: string; items: FAQItem[] }> = {
   fr: {
     label: "FAQ",
@@ -9,18 +20,15 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
     items: [
       {
         question: "Où se trouve Vins Fins ?",
-        answer:
-          "Vins Fins est situé au 18 Rue Münster, L-2160 Luxembourg-Grund, au cœur du quartier historique du Grund. L'ascenseur gratuit depuis le Plateau du Saint-Esprit vous amène à proximité en quelques secondes.",
+        answer: `Vins Fins est situé au ${addrFr}, au cœur du quartier historique du Grund. L'ascenseur gratuit depuis le Plateau du Saint-Esprit vous amène à proximité en quelques secondes.`,
       },
       {
         question: "Quels sont vos horaires d'ouverture ?",
-        answer:
-          "Nous ouvrons du mardi au samedi, de 18h à minuit. Fermé le dimanche et le lundi.",
+        answer: "Nous ouvrons du mardi au samedi, de 18h à minuit. Fermé le dimanche et le lundi.",
       },
       {
         question: "Comment réserver une table ?",
-        answer:
-          "Vous pouvez réserver en ligne via notre système ZenChef sur la page Contact, ou par téléphone au +352 26 20 04 49.",
+        answer: `Vous pouvez réserver en ligne via notre système ZenChef sur la page Contact, ou par téléphone au ${tel}.`,
       },
       {
         question: "Servez-vous des vins naturels ?",
@@ -39,8 +47,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       },
       {
         question: "Puis-je acheter les vins en ligne ?",
-        answer:
-          "Oui, toute notre cave est disponible sur vinsfins.lu/boutique. Paiement sécurisé via Stripe, livraison Europe ou retrait en boutique.",
+        answer: `Oui, toute notre cave est disponible sur ${shopUrl}. Paiement sécurisé via Stripe, livraison Europe ou retrait en boutique.`,
       },
     ],
   },
@@ -50,18 +57,15 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
     items: [
       {
         question: "Where is Vins Fins located?",
-        answer:
-          "Vins Fins is at 18 Rue Münster, L-2160 Luxembourg-Grund, in the heart of the historic Grund quarter. The free lift from Plateau du Saint-Esprit brings you nearby in seconds.",
+        answer: `Vins Fins is at ${addrEn}, in the heart of the historic Grund quarter. The free lift from Plateau du Saint-Esprit brings you nearby in seconds.`,
       },
       {
         question: "What are your opening hours?",
-        answer:
-          "We're open Tuesday to Saturday, from 6pm to midnight. Closed Sunday and Monday.",
+        answer: "We're open Tuesday to Saturday, from 6pm to midnight. Closed Sunday and Monday.",
       },
       {
         question: "How do I book a table?",
-        answer:
-          "Book online via our ZenChef system on the Contact page, or call us at +352 26 20 04 49.",
+        answer: `Book online via our ZenChef system on the Contact page, or call us at ${tel}.`,
       },
       {
         question: "Do you serve natural wines?",
@@ -80,8 +84,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       },
       {
         question: "Can I buy wines online?",
-        answer:
-          "Yes, the full cellar is available at vinsfins.lu/boutique. Secure payment via Stripe, Europe-wide shipping or in-store pickup.",
+        answer: `Yes, the full cellar is available at ${shopUrl}. Secure payment via Stripe, Europe-wide shipping or in-store pickup.`,
       },
     ],
   },
@@ -91,18 +94,15 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
     items: [
       {
         question: "Wo befindet sich Vins Fins?",
-        answer:
-          "Vins Fins liegt in der 18 Rue Münster, L-2160 Luxemburg-Grund, im Herzen des historischen Grund-Viertels. Der kostenlose Aufzug vom Plateau du Saint-Esprit bringt Sie in wenigen Sekunden in die Nähe.",
+        answer: `Vins Fins liegt in der ${addrDe}, im Herzen des historischen Grund-Viertels. Der kostenlose Aufzug vom Plateau du Saint-Esprit bringt Sie in wenigen Sekunden in die Nähe.`,
       },
       {
         question: "Was sind Ihre Öffnungszeiten?",
-        answer:
-          "Wir sind Dienstag bis Samstag von 18 bis 24 Uhr geöffnet. Sonntag und Montag geschlossen.",
+        answer: "Wir sind Dienstag bis Samstag von 18 bis 24 Uhr geöffnet. Sonntag und Montag geschlossen.",
       },
       {
         question: "Wie reserviere ich einen Tisch?",
-        answer:
-          "Online über unser ZenChef-System auf der Kontaktseite oder telefonisch unter +352 26 20 04 49.",
+        answer: `Online über unser ZenChef-System auf der Kontaktseite oder telefonisch unter ${tel}.`,
       },
       {
         question: "Servieren Sie Naturweine?",
@@ -121,8 +121,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       },
       {
         question: "Kann ich Weine online kaufen?",
-        answer:
-          "Ja, der gesamte Keller ist auf vinsfins.lu/boutique verfügbar. Sichere Zahlung via Stripe, europaweiter Versand oder Abholung im Laden.",
+        answer: `Ja, der gesamte Keller ist auf ${shopUrl} verfügbar. Sichere Zahlung via Stripe, europaweiter Versand oder Abholung im Laden.`,
       },
     ],
   },
@@ -132,18 +131,15 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
     items: [
       {
         question: "Wou fënnt een Vins Fins?",
-        answer:
-          "Vins Fins läit op der 18 Rue Münster, L-2160 Lëtzebuerg-Gronn, am Häerz vum historeschen Gronn-Quartier. De gratis Lift vum Plateau du Saint-Esprit bréngt Iech an e puer Sekonnen an d'Géigend.",
+        answer: `Vins Fins läit op der ${addrLb}, am Häerz vum historeschen Gronn-Quartier. De gratis Lift vum Plateau du Saint-Esprit bréngt Iech an e puer Sekonnen an d'Géigend.`,
       },
       {
         question: "Wéini sidd Dir op?",
-        answer:
-          "Mir sinn Dënschdeg bis Samschdeg vun 18 bis 24 Auer op. Sonndes a méindes zou.",
+        answer: "Mir sinn Dënschdeg bis Samschdeg vun 18 bis 24 Auer op. Sonndes a méindes zou.",
       },
       {
         question: "Wéi reservéieren ech en Dësch?",
-        answer:
-          "Online iwwer eist ZenChef-System op der Kontaktsäit oder per Telefon op +352 26 20 04 49.",
+        answer: `Online iwwer eist ZenChef-System op der Kontaktsäit oder per Telefon op ${tel}.`,
       },
       {
         question: "Hutt Dir Naturwäiner?",
@@ -162,8 +158,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       },
       {
         question: "Kann ech Wäiner online kafen?",
-        answer:
-          "Jo, déi ganz Keller ass op vinsfins.lu/boutique verfügbar. Sécher Bezuelung iwwer Stripe, europawäit Liwwerung oder Ofhuelung am Buttek.",
+        answer: `Jo, déi ganz Keller ass op ${shopUrl} verfügbar. Sécher Bezuelung iwwer Stripe, europawäit Liwwerung oder Ofhuelung am Buttek.`,
       },
     ],
   },

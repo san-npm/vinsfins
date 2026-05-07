@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
@@ -15,12 +15,7 @@ export default function ProductPage() {
   const wine = wines.find((w) => w.id === params.id);
 
   if (!wine) {
-    return (
-      <main className="relative z-[1] pt-32 pb-24 px-6 text-center">
-        <h1 className="font-playfair text-3xl text-ink mb-6">{t("product.notFound")}</h1>
-        <Link href={localePath("/boutique")} className="btn-outline">{t("product.backToShopBtn")}</Link>
-      </main>
-    );
+    notFound();
   }
 
   return (

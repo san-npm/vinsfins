@@ -9,11 +9,13 @@ import {
   localeUrl,
   breadcrumbNames,
   alternateUrls,
+  type Locale,
 } from "@/lib/i18n";
+import { businessProfile } from "@/data/content";
+import { faqByLocale } from "@/data/faq";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
-  const nonce = await getNonce();
   const meta = pageMeta.contact[locale];
 
   return {
@@ -28,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-const jsonLd = {
+const contactJsonLd = {
   "@context": "https://schema.org",
   "@type": "ContactPage",
   name: "Contact — Vins Fins",
@@ -36,36 +38,49 @@ const jsonLd = {
   mainEntity: {
     "@type": "LocalBusiness",
     "@id": `${SITE_URL}/#restaurant`,
-    name: "Vins Fins",
+    name: businessProfile.name,
     address: {
       "@type": "PostalAddress",
-      streetAddress: "18 Rue Münster",
-      addressLocality: "Luxembourg",
-      postalCode: "L-2160",
-      addressCountry: "LU",
+      streetAddress: businessProfile.streetAddress,
+      addressLocality: businessProfile.addressLocality,
+      postalCode: businessProfile.postalCode,
+      addressCountry: businessProfile.addressCountry,
     },
     geo: {
       "@type": "GeoCoordinates",
-      latitude: 49.60563,
-      longitude: 6.13015,
+      latitude: businessProfile.geo.latitude,
+      longitude: businessProfile.geo.longitude,
     },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-        opens: "18:00",
-        closes: "00:00",
-      },
-    ],
-    telephone: "+352 26 20 04 49",
-    email: "info@vinsfins.lu",
-    hasMap: "https://maps.google.com/?q=18+Rue+Münster,+Luxembourg",
+    openingHoursSpecification: businessProfile.openingHours.map((slot) => ({
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: slot.dayOfWeek,
+      opens: slot.opens,
+      closes: slot.closes,
+    })),
+    telephone: businessProfile.telephone,
+    email: businessProfile.email,
+    hasMap: businessProfile.mapUrl,
   },
 };
+
+function buildFaqJsonLd(locale: Locale) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage:
+      locale === "fr" ? "fr-FR" : locale === "de" ? "de-DE" : locale === "lb" ? "lb-LU" : "en-US",
+    mainEntity: faqByLocale[locale].items.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: { "@type": "Answer", text: item.answer },
+    })),
+  };
+}
 
 export default async function ContactLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
   const nonce = await getNonce();
+  const faqJsonLd = buildFaqJsonLd(locale);
 
   return (
     <>
@@ -73,7 +88,13 @@ export default async function ContactLayout({ children }: { children: React.Reac
         id="json-ld-contact"
         type="application/ld+json"
         nonce={nonce}
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactJsonLd).replace(/</g, "\\u003c") }}
+      />
+      <Script
+        id="json-ld-faq"
+        type="application/ld+json"
+        nonce={nonce}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
       />
       <Breadcrumbs
         items={[
