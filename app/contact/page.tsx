@@ -43,7 +43,7 @@ export default function ContactPage() {
                     <p className="text-[10px] tracking-luxury uppercase text-gold mb-1">{t("contact.emailLabel")}</p>
                     <a href="mailto:info@vinsfins.lu" className="hover:text-ink transition-colors">info@vinsfins.lu</a>
                   </div>
-                  <div>
+                  <div className="opening-hours">
                     <p className="text-[10px] tracking-luxury uppercase text-gold mb-1">{t("contact.hoursLabel")}</p>
                     <p>Mardi – Samedi : 18h – 00h</p>
                     <p>Dimanche &amp; Lundi : Fermé</p>
