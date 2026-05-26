@@ -11,6 +11,7 @@ import {
 } from "@/lib/i18n";
 import { buildListProduct } from "@/lib/structured-data";
 import { HUBS, type HubSlug, winesForHub } from "@/lib/wine-hubs";
+import { SHOP_ENABLED } from "@/lib/flags";
 
 /**
  * Shared layout for /vins/{luxembourg,naturel,bio}. Emits per-locale
@@ -74,7 +75,7 @@ export default async function HubLayout({
 
   return (
     <>
-      <JsonLdScript id={`json-ld-hub-${slug}`} data={jsonLd} nonce={nonce} />
+      {SHOP_ENABLED && <JsonLdScript id={`json-ld-hub-${slug}`} data={jsonLd} nonce={nonce} />}
       <Breadcrumbs
         items={[
           { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },
