@@ -20,8 +20,12 @@ export default function JsonLdScript({ id, data, nonce }: Props) {
       id={id}
       type="application/ld+json"
       nonce={nonce}
-      // Inline JSON-LD is plain JSON serialised with < escaped; the payload
-      // cannot tokenise as HTML, so this cannot XSS.
+      // Inline JSON-LD is plain JSON with `<` escaped to `<` in
+      // jsonLdToScript() (see lib/structured-data.ts). The wrapper is a
+      // `type="application/ld+json"` script — the browser does NOT execute
+      // it as JavaScript — so the next line cannot XSS even with
+      // attacker-shaped data values.
+      // nosemgrep: typescript.react.security.audit.react-dangerouslysetinnerhtml.react-dangerouslysetinnerhtml
       dangerouslySetInnerHTML={{ __html: html }}
     />
   );

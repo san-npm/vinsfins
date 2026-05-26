@@ -1,11 +1,13 @@
 "use client";
 
 import { useParams, notFound } from "next/navigation";
-import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 import { useData } from "@/context/DataContext";
+import WineImage from "@/components/WineImage";
+import WineBadges from "@/components/WineBadges";
+import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
 
 export default function ProductPage() {
   const { t, locale, localePath } = useLanguage();
@@ -25,18 +27,16 @@ export default function ProductPage() {
           {t("product.backToShop")}
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
+        <div className={WINE_IMAGES_ENABLED ? "grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8" : "max-w-2xl mx-auto mt-8"}>
           {/* Image */}
-          <div className="relative aspect-[3/4] bg-parchment overflow-hidden">
-            <Image
-              unoptimized
-              src={wine.image}
-              alt={wine.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority
-            />
+          <WineImage
+            src={wine.image}
+            alt={wine.name}
+            wrapperClassName="relative aspect-[3/4] bg-parchment overflow-hidden"
+            imageClassName="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            priority
+          >
             <div className="absolute top-4 left-4 flex gap-2">
               {wine.isOrganic && (
                 <span className="bg-white/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-ink">
@@ -49,7 +49,7 @@ export default function ProductPage() {
                 </span>
               )}
             </div>
-          </div>
+          </WineImage>
 
           {/* Details */}
           <div className="flex flex-col justify-center">
@@ -58,6 +58,8 @@ export default function ProductPage() {
             </p>
             <h1 className="font-playfair text-3xl md:text-4xl text-ink mb-2">{wine.name}</h1>
             <p className="text-sm text-stone mb-6">{wine.grape}</p>
+
+            <WineBadges wine={wine} />
 
             <div className="mb-8">
               <p className="text-[10px] tracking-luxury uppercase text-stone mb-3">
@@ -68,20 +70,8 @@ export default function ProductPage() {
               </p>
             </div>
 
-            {/* Prices */}
-            <div className="border-t border-b border-ink/5 py-6 mb-8 space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-stone">{t("product.byTheGlass")}</span>
-                <span className="text-ink">{wine.priceGlass}€</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-stone">{t("product.atRestaurant")}</span>
-                <span className="text-ink">{wine.priceBottle}€</span>
-              </div>
-            </div>
-
             {/* Shop price + Add to cart */}
-            {wine.priceShop > 0 && (
+            {SHOP_ENABLED && wine.priceShop > 0 && (
               <div>
                 <p className="text-3xl text-ink mb-4">{wine.priceShop}€</p>
                 <button

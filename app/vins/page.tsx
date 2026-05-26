@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
 import { WINE_SECTIONS, sectionLabels, sectionCategory } from "@/data/wines";
 import { WINE_FILTERS as filters, filterLabels } from "@/lib/wine-filters";
+import WineImage from "@/components/WineImage";
+import WineBadges from "@/components/WineBadges";
+import { SHOP_ENABLED } from "@/lib/flags";
 
 export default function VinsPage() {
   const { t, locale, localePath } = useLanguage();
@@ -89,14 +91,11 @@ export default function VinsPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                   {sectionWines.map((wine) => (
                     <Link key={wine.id} href={localePath(`/vins/${wine.id}`)} className="group block">
-                      <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
-                        <Image
-              unoptimized
-                          src={wine.image}
-                          alt={wine.name}
-                          fill
-                          className="object-cover transition-transform duration-700 group-hover:scale-105"
-                        />
+                      <WineImage
+                        src={wine.image}
+                        alt={wine.name}
+                        wrapperClassName="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment"
+                      >
                         <div className="absolute top-3 left-3 flex gap-1.5">
                           {wine.isNatural && (
                             <span className="bg-emerald-700/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-white">
@@ -114,24 +113,20 @@ export default function VinsPage() {
                             </span>
                           )}
                         </div>
-                      </div>
+                      </WineImage>
                       <h3 className="font-playfair text-base text-ink mb-1">{wine.name}</h3>
                       <p className="text-xs text-stone mb-1">{wine.region}, {wine.country}</p>
                       <p className="text-xs text-stone/60 mb-2">{wine.grape}</p>
+                      <WineBadges wine={wine} />
                       <p className="text-xs text-stone/80 leading-relaxed mb-3">
                         {wine.description[locale]}
                       </p>
-                      <div className="flex items-baseline gap-3 text-sm">
-                        {wine.priceGlass > 0 && (
-                          <>
-                            <span className="text-ink">{wine.priceGlass}€</span>
-                            <span className="text-stone/50 text-xs">{t("wines.glass")}</span>
-                            <span className="text-stone/30">·</span>
-                          </>
-                        )}
-                        <span className="text-ink">{wine.priceBottle}€</span>
-                        <span className="text-stone/50 text-xs">{t("wines.bottle")}</span>
-                      </div>
+                      {SHOP_ENABLED && wine.priceShop > 0 && (
+                        <div className="flex items-baseline gap-2 text-sm">
+                          <span className="text-ink">{wine.priceShop}€</span>
+                          <span className="text-stone/50 text-xs">{t("wines.bottle")}</span>
+                        </div>
+                      )}
                     </Link>
                   ))}
                 </div>

@@ -5,6 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 import { useData } from "@/context/DataContext";
+import WineImage from "@/components/WineImage";
+import WineBadges from "@/components/WineBadges";
+import { SHOP_ENABLED } from "@/lib/flags";
 export default function HomePage() {
   const { t, locale, localePath } = useLanguage();
   const { wines } = useData();
@@ -91,32 +94,26 @@ export default function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredWines.slice(0, 6).map((wine) => (
               <div key={wine.id} className="group">
-                <div className="relative aspect-[3/4] overflow-hidden mb-4">
-                  <Image
-              unoptimized
-                    src={wine.image}
-                    alt={wine.name}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
+                <WineImage
+                  src={wine.image}
+                  alt={wine.name}
+                  wrapperClassName="relative aspect-[3/4] overflow-hidden mb-4"
+                >
                   {wine.isOrganic && (
                     <span className="absolute top-3 left-3 bg-white/90 text-ink text-[9px] tracking-luxury uppercase px-3 py-1">
                       Bio
                     </span>
                   )}
-                </div>
+                </WineImage>
                 <h3 className="font-playfair text-lg text-ink mb-1">{wine.name}</h3>
                 <p className="text-sm text-stone mb-1">{wine.region}, {wine.country}</p>
                 <p className="text-xs text-stone/70 mb-2">{wine.grape}</p>
-                <p className="text-sm text-stone">
-                  {wine.priceGlass > 0 && (
-                    <>
-                      {wine.priceGlass}€ <span className="text-stone/50">{t("home.glass")}</span>
-                      {" · "}
-                    </>
-                  )}
-                  {wine.priceBottle}€ <span className="text-stone/50">{t("home.bottle")}</span>
-                </p>
+                <WineBadges wine={wine} />
+                {SHOP_ENABLED && wine.priceShop > 0 && (
+                  <p className="text-sm text-stone">
+                    {wine.priceShop}€ <span className="text-stone/50">{t("home.bottle")}</span>
+                  </p>
+                )}
               </div>
             ))}
           </div>

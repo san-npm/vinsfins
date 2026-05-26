@@ -1,10 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useData } from "@/context/DataContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { useParams, notFound } from "next/navigation";
+import WineImage from "@/components/WineImage";
+import WineBadges from "@/components/WineBadges";
+import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
 
 const categoryLabels: Record<string, Record<string, string>> = {
   red: { fr: "Rouge", en: "Red", de: "Rot", lb: "Rout" },
@@ -32,18 +34,16 @@ export default function WinePage() {
 
       {/* Wine Detail — breadcrumb rendered by layout */}
       <section className="pt-4 py-12 px-6">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className={WINE_IMAGES_ENABLED ? "max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12" : "max-w-3xl mx-auto"}>
           {/* Image */}
-          <div className="relative aspect-[3/4] overflow-hidden">
-            <Image
-              unoptimized
-              src={wine.image}
-              alt={wine.name}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority
-            />
+          <WineImage
+            src={wine.image}
+            alt={wine.name}
+            wrapperClassName="relative aspect-[3/4] overflow-hidden"
+            imageClassName="object-cover"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            priority
+          >
             <div className="absolute top-4 left-4 flex gap-2">
               {wine.isOrganic && (
                 <span className="bg-white/90 text-[9px] tracking-luxury uppercase px-3 py-1 text-ink">
@@ -56,7 +56,7 @@ export default function WinePage() {
                 </span>
               )}
             </div>
-          </div>
+          </WineImage>
 
           {/* Info */}
           <div className="flex flex-col justify-center">
@@ -66,6 +66,8 @@ export default function WinePage() {
             <h1 className="font-playfair text-3xl md:text-4xl text-ink mb-4">
               {wine.name}
             </h1>
+
+            <WineBadges wine={wine} />
 
             <div className="space-y-2 mb-6">
               <p className="text-sm text-stone">
@@ -82,44 +84,22 @@ export default function WinePage() {
               {wine.description?.[locale] || wine.description?.fr}
             </p>
 
-            <div className="space-y-3 mb-8 p-6 bg-parchment">
-              {wine.priceGlass > 0 && (
-                <>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-stone">{t("wines.byTheGlass")}</span>
-                    <span className="font-playfair text-lg text-ink">
-                      {wine.priceGlass}€
-                    </span>
-                  </div>
-                  <div className="border-t border-ink/5" />
-                </>
-              )}
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-stone">{t("wines.byTheBottle")}</span>
-                <span className="font-playfair text-lg text-ink">
-                  {wine.priceBottle}€
-                </span>
+            {SHOP_ENABLED && wine.priceShop > 0 && (
+              <div className="mb-8 p-6 bg-parchment">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-stone">{t("wines.byTheBottle")}</span>
+                  <span className="font-playfair text-lg text-ink">
+                    {wine.priceShop}€
+                  </span>
+                </div>
               </div>
-              {wine.priceShop > 0 && (
-                <>
-                  <div className="border-t border-ink/5" />
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-stone">
-                      {t("wines.onlineShop")}
-                    </span>
-                    <span className="font-playfair text-lg text-ink">
-                      {wine.priceShop}€
-                    </span>
-                  </div>
-                </>
-              )}
-            </div>
+            )}
 
             <div className="flex flex-col sm:flex-row gap-3">
               <a href="https://bookings.zenchef.com/results?rid=371555" data-zc-action="open" target="_blank" rel="noopener noreferrer" className="btn-wine text-center">
                 {t("wines.reserveToTaste")}
               </a>
-              {wine.priceShop > 0 && (
+              {SHOP_ENABLED && wine.priceShop > 0 && (
                 <Link href={localePath(`/boutique/${wine.id}`)} className="btn-outline text-center">
                   {t("wines.buyOnline")}
                 </Link>
@@ -149,16 +129,12 @@ export default function WinePage() {
                   href={localePath(`/vins/${w.id}`)}
                   className="group"
                 >
-                  <div className="relative aspect-[3/4] overflow-hidden mb-3">
-                    <Image
-              unoptimized
-                      src={w.image}
-                      alt={w.name}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="33vw"
-                    />
-                  </div>
+                  <WineImage
+                    src={w.image}
+                    alt={w.name}
+                    wrapperClassName="relative aspect-[3/4] overflow-hidden mb-3"
+                    sizes="33vw"
+                  />
                   <h3 className="font-playfair text-sm text-ink mb-1">
                     {w.name}
                   </h3>

@@ -55,68 +55,68 @@ export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
     fr: {
       title: "Bar à Vin & Restaurant à Luxembourg | Vins Fins, Grund",
       description:
-        "Bar à vins naturels au Grund, Luxembourg-ville. Ouvert mar-sam 18h-minuit. 80+ vins bio & artisans, cuisine française de saison. Réservation en ligne.",
+        "Bar à vins naturels au Grund, Luxembourg-ville. 730 vins naturels, bio & biodynamiques de 18 pays. Cuisine française de saison. Ouvert mar-sam 18h-minuit. Réservation en ligne.",
       ogTitle: "Bar à Vin & Restaurant à Luxembourg | Vins Fins, Grund",
       ogDescription:
-        "Bar à vins naturels au Grund, Luxembourg. 80+ vins bio, cuisine française de saison. Mar-sam 18h-minuit.",
+        "Bar à vins naturels au Grund, Luxembourg. 730 vins bio & biodynamiques, cuisine française de saison. Mar-sam 18h-minuit.",
     },
     en: {
       title: "Wine Bar & Restaurant in Luxembourg | Vins Fins, Grund",
       description:
-        "Natural wine bar in Grund, Luxembourg City. Open Tue-Sat 6pm-midnight. 80+ organic & artisan wines, seasonal French cuisine. Online reservations.",
+        "Natural wine bar in Grund, Luxembourg City. 730 natural, organic & biodynamic wines from 18 countries. Seasonal French cuisine. Open Tue-Sat 6pm-midnight. Online reservations.",
       ogTitle: "Wine Bar & Restaurant in Luxembourg | Vins Fins, Grund",
       ogDescription:
-        "Natural wine bar in Grund, Luxembourg. 80+ organic wines, seasonal French cuisine. Tue-Sat 6pm-midnight.",
+        "Natural wine bar in Grund, Luxembourg. 730 organic & biodynamic wines, seasonal French cuisine. Tue-Sat 6pm-midnight.",
     },
     de: {
       title: "Weinbar & Restaurant in Luxemburg | Vins Fins, Grund",
       description:
-        "Naturwein-Bar im Grund, Luxemburg-Stadt. Di-Sa 18-24 Uhr. 80+ Bio- & Winzerweine, saisonale französische Küche. Online-Reservierung.",
+        "Naturwein-Bar im Grund, Luxemburg-Stadt. 730 Natur-, Bio- und biodynamische Weine aus 18 Ländern. Saisonale französische Küche. Di-Sa 18-24 Uhr. Online-Reservierung.",
       ogTitle: "Weinbar & Restaurant in Luxemburg | Vins Fins, Grund",
       ogDescription:
-        "Naturwein-Bar im Grund, Luxemburg. 80+ Bio-Weine, saisonale französische Küche. Di-Sa 18-24 Uhr.",
+        "Naturwein-Bar im Grund, Luxemburg. 730 Bio- und biodynamische Weine, saisonale französische Küche. Di-Sa 18-24 Uhr.",
     },
     lb: {
       title: "Wäibistro & Restaurant zu Lëtzebuerg | Vins Fins, Gronn",
       description:
-        "Naturwäin-Bar am Gronn, Lëtzebuerg-Stad. Dë-Sa 18-24 Auer. 80+ Bio- a Handwierker-Wäiner, saisonal franséisch Kichen. Online reservéieren.",
+        "Naturwäin-Bar am Gronn, Lëtzebuerg-Stad. 730 Natur-, Bio- a biodynamesch Wäiner aus 18 Länner. Saisonal franséisch Kichen. Dë-Sa 18-24 Auer. Online reservéieren.",
       ogTitle: "Wäibistro & Restaurant zu Lëtzebuerg | Vins Fins, Gronn",
       ogDescription:
-        "Naturwäin-Bar am Gronn, Lëtzebuerg. 80+ Bio-Wäiner, saisonal franséisch Kichen. Dë-Sa 18-24 Auer.",
+        "Naturwäin-Bar am Gronn, Lëtzebuerg. 730 Bio- a biodynamesch Wäiner, saisonal franséisch Kichen. Dë-Sa 18-24 Auer.",
     },
   },
   vins: {
     fr: {
       title: "Carte des Vins — Vins Naturels & Bio",
       description:
-        "Plus de 80 vins naturels et bio sélectionnés auprès de vignerons artisans. Loire, Bourgogne, Beaujolais, Moselle luxembourgeoise. Vins au verre et en bouteille.",
+        "730 vins naturels, bio et biodynamiques de 18 pays, sélectionnés auprès de vignerons artisans. Loire, Bourgogne, Beaujolais, Moselle luxembourgeoise. Vins au verre et en bouteille.",
       ogTitle: "Carte des Vins — Vins Naturels & Bio | Vins Fins Luxembourg",
       ogDescription:
-        "Plus de 80 vins naturels et bio. Loire, Bourgogne, Moselle luxembourgeoise. Au verre et en bouteille.",
+        "730 vins naturels, bio et biodynamiques de 18 pays. Loire, Bourgogne, Moselle luxembourgeoise. Au verre et en bouteille.",
     },
     en: {
       title: "Wine List — Natural & Organic Wines",
       description:
-        "Over 80 natural and organic wines from artisan winemakers. Loire, Burgundy, Beaujolais, Luxembourg Moselle. By the glass and bottle.",
+        "730 natural, organic and biodynamic wines from 18 countries, hand-picked from artisan winemakers. Loire, Burgundy, Beaujolais, Luxembourg Moselle. By the glass and bottle.",
       ogTitle: "Wine List — Natural & Organic Wines | Vins Fins Luxembourg",
       ogDescription:
-        "Over 80 natural and organic wines. Loire, Burgundy, Luxembourg Moselle. By the glass and bottle.",
+        "730 natural, organic and biodynamic wines from 18 countries. Loire, Burgundy, Luxembourg Moselle. By the glass and bottle.",
     },
     de: {
       title: "Weinkarte — Naturweine & Bio-Weine",
       description:
-        "Über 80 Naturweine und Bio-Weine von handwerklichen Winzern. Loire, Burgund, Beaujolais, Luxemburger Mosel. Im Glas und als Flasche.",
+        "730 Natur-, Bio- und biodynamische Weine aus 18 Ländern, von handwerklichen Winzern. Loire, Burgund, Beaujolais, Luxemburger Mosel. Im Glas und als Flasche.",
       ogTitle: "Weinkarte — Naturweine & Bio-Weine | Vins Fins Luxemburg",
       ogDescription:
-        "Über 80 Naturweine und Bio-Weine. Loire, Burgund, Luxemburger Mosel. Im Glas und als Flasche.",
+        "730 Natur-, Bio- und biodynamische Weine aus 18 Ländern. Loire, Burgund, Luxemburger Mosel. Im Glas und als Flasche.",
     },
     lb: {
       title: "Wäikaart — Naturwäiner & Bio-Wäiner",
       description:
-        "Iwwer 80 Naturwäiner a Bio-Wäiner vu Handwierker-Wënzer. Loire, Burgund, Beaujolais, Lëtzebuerger Musel. Am Glas an als Fläsch.",
+        "730 Natur-, Bio- a biodynamesch Wäiner aus 18 Länner, vu Handwierker-Wënzer. Loire, Burgund, Beaujolais, Lëtzebuerger Musel. Am Glas an als Fläsch.",
       ogTitle: "Wäikaart — Naturwäiner & Bio-Wäiner | Vins Fins Lëtzebuerg",
       ogDescription:
-        "Iwwer 80 Naturwäiner a Bio-Wäiner. Loire, Burgund, Lëtzebuerger Musel. Am Glas an als Fläsch.",
+        "730 Natur-, Bio- a biodynamesch Wäiner aus 18 Länner. Loire, Burgund, Lëtzebuerger Musel. Am Glas an als Fläsch.",
     },
   },
   carte: {
