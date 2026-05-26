@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useData } from "@/context/DataContext";
 import { useLanguage } from "@/context/LanguageContext";
-import { useParams } from "next/navigation";
+import { useParams, notFound } from "next/navigation";
 import WineImage from "@/components/WineImage";
 import WineBadges from "@/components/WineBadges";
 import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
@@ -23,14 +23,9 @@ export default function WinePage() {
   const wine = wines.find((w) => w.id === id);
 
   if (!wine) {
-    return (
-      <main className="relative z-[1] pt-8 pb-24 px-6 text-center">
-        <h1 className="font-playfair text-4xl text-ink mb-4">{t("wines.notFound")}</h1>
-        <Link href={localePath("/vins")} className="btn-outline">
-          {t("wines.backToWines")}
-        </Link>
-      </main>
-    );
+    // notFound() routes to app/not-found.tsx so search engines see a real
+    // 404 boundary instead of a soft "not found" UI returned with status 200.
+    notFound();
   }
 
   return (

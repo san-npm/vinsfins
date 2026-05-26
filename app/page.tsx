@@ -39,20 +39,19 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
         </div>
         <div className="relative z-10 text-center px-6">
-          <h1 className="mb-4">
-            <Image
-              src="/vinsfins-logo.png"
-              alt="Vins Fins"
-              width={600}
-              height={600}
-              className="h-40 md:h-64 w-auto mx-auto brightness-0 invert"
-              priority
-            />
+          <Image
+            src="/vinsfins-logo.png"
+            alt=""
+            aria-hidden="true"
+            width={600}
+            height={600}
+            className="h-40 md:h-64 w-auto mx-auto brightness-0 invert mb-4"
+            priority
+          />
+          <h1 className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2">
+            {t("home.heroH1")}
           </h1>
-          <p className="text-white text-base md:text-lg tracking-luxury uppercase font-semibold mb-2">
-            {t("home.heroSubtitle")}
-          </p>
-          <p className="text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed">
+          <p className="hero-description text-white/80 text-sm md:text-base max-w-lg mx-auto mb-10 font-medium leading-relaxed">
             {t("home.heroDescription")}
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -66,11 +65,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Intro */}
+      {/* Intro — fact-first paragraph above prose so answer engines extract it verbatim. */}
       <section className="py-24 md:py-32 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <p className="text-[10px] tracking-luxury uppercase text-gold mb-6">
             {t("home.introTitle")}
+          </p>
+          <p className="text-base md:text-lg text-ink font-medium mb-6">
+            {t("home.factual")}
           </p>
           <p className="text-lg md:text-xl text-stone leading-relaxed font-light">
             {t("home.introText")}
@@ -164,7 +166,7 @@ export default function HomePage() {
           </h2>
           <p className="text-stone font-light mb-2">18, Rue Münster</p>
           <p className="text-stone font-light mb-2">L-2160 Luxembourg-Grund</p>
-          <p className="text-stone font-light mb-8">Mardi – Samedi · 18h – 00h</p>
+          <p className="opening-hours text-stone font-light mb-8">Mardi – Samedi · 18h – 00h</p>
           <Link href={localePath("/contact")} className="btn-outline">
             {t("home.findUs")}
           </Link>
