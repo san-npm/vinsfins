@@ -1,5 +1,15 @@
+import { fileURLToPath } from "node:url";
+import { dirname } from "node:path";
+
+// Lock Turbopack's workspace root to this directory so a stray
+// package-lock.json in a parent folder (e.g. ~/package-lock.json)
+// doesn't trick Next into inferring the wrong root and shifting
+// dependency resolution at build time.
+const projectRoot = dirname(fileURLToPath(import.meta.url));
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  turbopack: { root: projectRoot },
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },

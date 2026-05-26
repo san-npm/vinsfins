@@ -13,6 +13,7 @@ import {
   type Locale,
 } from "@/lib/i18n";
 import { buildListProduct, jsonLdToScript } from "@/lib/structured-data";
+import { SHOP_ENABLED } from "@/lib/flags";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -58,12 +59,14 @@ export default async function VinsLayout({ children }: { children: React.ReactNo
 
   return (
     <>
+      {SHOP_ENABLED && (
       <Script
         id="json-ld-wines"
         type="application/ld+json"
         nonce={nonce}
         dangerouslySetInnerHTML={{ __html: jsonLdToScript(jsonLd) }}
       />
+      )}
       <Breadcrumbs
         items={[
           { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },

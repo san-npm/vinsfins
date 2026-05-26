@@ -14,6 +14,7 @@ import {
   type Locale,
 } from "@/lib/i18n";
 import { buildWineProduct, jsonLdToScript } from "@/lib/structured-data";
+import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -56,16 +57,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     lb: "Kafen",
   };
   const desc = wine.description[locale] || wine.description.fr;
+  const priceSuffix = SHOP_ENABLED ? ` — ${wine.priceShop}€` : "";
 
   return {
-    title: `${buyLabel[locale]} ${wine.name} — ${wine.priceShop}€`,
-    description: `${desc} ${wine.grape}, ${wine.region}. ${wine.priceShop}€ — livraison Luxembourg.`,
+    title: `${SHOP_ENABLED ? `${buyLabel[locale]} ` : ""}${wine.name}${priceSuffix}`,
+    description: `${desc} ${wine.grape}, ${wine.region}.${SHOP_ENABLED ? ` ${wine.priceShop}€ — livraison Luxembourg.` : ""}`,
     alternates: alternateUrls(`/boutique/${wine.id}`, locale),
     openGraph: {
-      title: `${wine.name} — ${wine.priceShop}€ | Vins Fins Boutique`,
+      title: `${wine.name}${priceSuffix} | Vins Fins Boutique`,
       description: desc,
       url: `${SITE_URL}/boutique/${wine.id}`,
-      images: [{ url: wine.image, width: 600, height: 800, alt: wine.name }],
+      images: WINE_IMAGES_ENABLED
+        ? [{ url: wine.image, width: 600, height: 800, alt: wine.name }]
+        : [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: wine.name }],
     },
   };
 }
@@ -87,6 +91,7 @@ export default async function BoutiqueProductLayout({
     <>
       {wine && (
         <>
+          {SHOP_ENABLED && (
           <Script
             id={`json-ld-product-${id}`}
             type="application/ld+json"
@@ -102,6 +107,7 @@ export default async function BoutiqueProductLayout({
               ),
             }}
           />
+          )}
           <Breadcrumbs
             items={[
               { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },

@@ -40,5 +40,7 @@ next-env.d.ts
 .env.*.local*
 # remember state
 .remember/
+# local security audit outputs (manual reports, npm-audit dumps, codex sessions)
+/audit-*/
 AUDIT_SEO_AEO_GEO.md
 AUDIT_SEO_AEO_GEO.claude.md

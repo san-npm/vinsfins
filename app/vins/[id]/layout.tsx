@@ -12,9 +12,9 @@ import {
   breadcrumbNames,
   wineCategory,
   alternateUrls,
-  type Locale,
 } from "@/lib/i18n";
 import { buildWineProduct, jsonLdToScript } from "@/lib/structured-data";
+import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
 
 type Props = { params: Promise<{ id: string }> };
 
@@ -45,29 +45,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const cat = wineCategory[wine.category]?.[locale] || wine.category;
   const desc = wine.description[locale] || wine.description.fr;
-
-  const byGlass: Record<Locale, string> = {
-    fr: "au verre",
-    en: "by the glass",
-    de: "im Glas",
-    lb: "am Glas",
-  };
-  const byBottle: Record<Locale, string> = {
-    fr: "la bouteille",
-    en: "bottle",
-    de: "Flasche",
-    lb: "Fläsch",
-  };
+  const priceNote = wine.priceShop > 0 ? ` ${wine.priceShop}€ — livraison Luxembourg.` : "";
 
   return {
     title: `${wine.name} — ${cat}, ${wine.region}`,
-    description: `${desc} ${wine.grape}, ${wine.region}, ${wine.country}. ${wine.priceGlass}€ ${byGlass[locale]}, ${wine.priceBottle}€ ${byBottle[locale]}.`,
+    description: `${desc} ${wine.grape}, ${wine.region}, ${wine.country}.${priceNote}`,
     alternates: alternateUrls(`/vins/${wine.id}`, locale),
     openGraph: {
       title: `${wine.name} | Vins Fins Luxembourg`,
       description: desc,
       url: `${SITE_URL}/vins/${wine.id}`,
-      images: [{ url: wine.image, width: 600, height: 800, alt: wine.name }],
+      images: WINE_IMAGES_ENABLED
+        ? [{ url: wine.image, width: 600, height: 800, alt: wine.name }]
+        : [{ url: `${SITE_URL}/og-image.jpg`, width: 1200, height: 630, alt: wine.name }],
     },
   };
 }
@@ -89,6 +79,7 @@ export default async function WineLayout({
     <>
       {wine && (
         <>
+          {SHOP_ENABLED && (
           <Script
             id={`json-ld-wine-${id}`}
             type="application/ld+json"
@@ -104,6 +95,7 @@ export default async function WineLayout({
               ),
             }}
           />
+          )}
           <Breadcrumbs
             items={[
               { name: breadcrumbNames.home[locale], url: localeUrl("/", locale) },

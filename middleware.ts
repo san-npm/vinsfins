@@ -99,7 +99,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Admin is intentionally INCLUDED in the matcher so the in-middleware
+  // /admin branch (which sets nonce + CSP) is actually reachable. The /api
+  // and asset paths stay excluded — middleware returns NextResponse.next()
+  // for them anyway, but skipping the matcher entirely avoids the cold-start
+  // hit per request.
   matcher: [
-    "/((?!_next|api|admin|favicon\\.ico|robots\\.txt|sitemap\\.xml|og-image|llms\\.txt|images|icons).*)",
+    "/((?!_next|api|favicon\\.ico|robots\\.txt|sitemap\\.xml|og-image|llms\\.txt|images|icons).*)",
   ],
 };

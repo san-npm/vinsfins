@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
 import { useData } from "@/context/DataContext";
 import { WINE_SECTIONS, sectionLabels, sectionCategory } from "@/data/wines";
 import { WINE_FILTERS as filters, filterLabels } from "@/lib/wine-filters";
+import WineImage from "@/components/WineImage";
+import WineBadges from "@/components/WineBadges";
+import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
 
 export default function BoutiquePage() {
   const { t, locale, localePath } = useLanguage();
@@ -85,17 +87,15 @@ export default function BoutiquePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                   {sectionWines.map((wine) => (
                     <div key={wine.id} className="group flex flex-col h-full">
-                      <Link href={localePath(`/boutique/${wine.id}`)}>
-                        <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
-                          <Image
-              unoptimized
+                      {WINE_IMAGES_ENABLED && (
+                        <Link href={localePath(`/boutique/${wine.id}`)}>
+                          <WineImage
                             src={wine.image}
                             alt={wine.name}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover:scale-105"
+                            wrapperClassName="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment"
                           />
-                        </div>
-                      </Link>
+                        </Link>
+                      )}
                       <div className="flex flex-col flex-1">
                         <Link href={localePath(`/boutique/${wine.id}`)}>
                           <h3 className="font-playfair text-base text-ink mb-1 hover:text-wine transition-colors">
@@ -103,15 +103,18 @@ export default function BoutiquePage() {
                           </h3>
                         </Link>
                         <p className="text-xs text-stone mb-2">{wine.region}, {wine.country}</p>
-                        <div className="mt-auto">
-                          <p className="text-lg text-ink mb-3">{wine.priceShop}€</p>
-                          <button
-                            onClick={() => addToCart(wine)}
-                            className="btn-wine text-[9px] w-full text-center"
-                          >
-                            {t("shop.addToCart")}
-                          </button>
-                        </div>
+                        <WineBadges wine={wine} />
+                        {SHOP_ENABLED && (
+                          <div className="mt-auto">
+                            <p className="text-lg text-ink mb-3">{wine.priceShop}€</p>
+                            <button
+                              onClick={() => addToCart(wine)}
+                              className="btn-wine text-[9px] w-full text-center"
+                            >
+                              {t("shop.addToCart")}
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </div>
                   ))}

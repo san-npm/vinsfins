@@ -4,11 +4,13 @@
  * wine list ships in the initial HTML — critical for the SEO intent these
  * hubs exist to capture.
  */
-import Image from "next/image";
 import Link from "next/link";
 import type { Wine } from "@/data/wines";
 import { getLocale, localePath, wineCategory, type Locale } from "@/lib/i18n";
 import { HUBS, HUB_SLUGS, type HubSlug, winesForHub } from "@/lib/wine-hubs";
+import WineImage from "@/components/WineImage";
+import WineBadges from "@/components/WineBadges";
+import { SHOP_ENABLED } from "@/lib/flags";
 
 interface Props {
   slug: HubSlug;
@@ -41,17 +43,12 @@ function WineCard({ wine, locale }: { wine: Wine; locale: Locale }) {
   const cat = wineCategory[wine.category]?.[locale] || wine.category;
   return (
     <Link href={localePath(`/vins/${wine.id}`, locale)} className="group block">
-      <div className="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment">
-        {wine.image?.trim() ? (
-          <Image
-            unoptimized
-            src={wine.image}
-            alt={wine.name}
-            fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : null}
+      <WineImage
+        src={wine.image}
+        alt={wine.name}
+        wrapperClassName="relative aspect-[3/4] overflow-hidden mb-4 bg-parchment"
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+      >
         <div className="absolute top-3 left-3 flex gap-1.5">
           {wine.isNatural && (
             <span className="bg-emerald-700/90 text-[8px] tracking-luxury uppercase px-2 py-0.5 text-white">
@@ -69,7 +66,7 @@ function WineCard({ wine, locale }: { wine: Wine; locale: Locale }) {
             </span>
           )}
         </div>
-      </div>
+      </WineImage>
       <p className="text-[10px] tracking-luxury uppercase text-gold mb-1">{cat}</p>
       <h3 className="font-playfair text-base text-ink mb-1">{wine.name}</h3>
       <p className="text-xs text-stone mb-1">
@@ -77,10 +74,11 @@ function WineCard({ wine, locale }: { wine: Wine; locale: Locale }) {
         {wine.country}
       </p>
       <p className="text-xs text-stone/60 mb-2">{wine.grape}</p>
+      <WineBadges wine={wine} />
       <p className="text-xs text-stone/80 leading-relaxed mb-3">
         {wine.description[locale] || wine.description.fr}
       </p>
-      {wine.priceShop > 0 && (
+      {SHOP_ENABLED && wine.priceShop > 0 && (
         <div className="flex items-baseline gap-3 text-sm">
           <span className="text-ink">{wine.priceShop}€</span>
           <span className="text-stone/50 text-xs">{dict[locale].shop}</span>

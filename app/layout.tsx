@@ -10,6 +10,7 @@ import { DataProvider } from "@/context/DataContext";
 import Script from "next/script";
 import { getLocale, getNonce, pageMeta, SITE_URL, localeUrl, locales } from "@/lib/i18n";
 import { playfairDisplay, sourceSans3 } from "@/lib/fonts";
+import { SHOP_ENABLED } from "@/lib/flags";
 import { businessProfile } from "@/data/content";
 
 export const viewport: Viewport = {
@@ -130,7 +131,7 @@ const restaurantJsonLd = {
   },
   name: businessProfile.name,
   description:
-    "Bar à vins & restaurant au Grund, Luxembourg. Plus de 80 vins naturels et bio de vignerons artisans, accompagnés d'une cuisine française de saison.",
+    "Bar à vins & restaurant au Grund, Luxembourg. 730 vins naturels, bio et biodynamiques de 18 pays, sélectionnés chez des vignerons artisans, accompagnés d'une cuisine française de saison.",
   url: SITE_URL,
   telephone: businessProfile.telephone,
   email: businessProfile.email,
@@ -271,7 +272,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               <Navigation />
               {children}
               <Footer />
-              <CartSidebar />
+              {SHOP_ENABLED && <CartSidebar />}
               <ConsentBanner />
             </CartProvider>
           </DataProvider>

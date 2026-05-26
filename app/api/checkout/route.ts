@@ -27,17 +27,31 @@ const CHECKOUT_EXPIRY_SECONDS = 30 * 60;
 const RL_PER_MINUTE = 8;
 const RL_PER_HOUR = 30;
 
-function getShippingCents(totalBottles: number, domestic: boolean): number {
-  const weightKg = totalBottles * BOTTLE_WEIGHT_KG;
+// POST Luxembourg's max parcel weight is 30kg; heavier orders ship as multiple
+// parcels. Bill per parcel so bulk orders aren't shipped at a flat, loss-making
+// single-parcel rate (a 120-bottle / ~156kg cart previously cost a flat 40€).
+const PARCEL_MAX_KG = 30;
+
+function parcelRateCents(parcelKg: number, domestic: boolean): number {
   if (domestic) {
-    if (weightKg <= 2) return 700;
-    if (weightKg <= 10) return 900;
+    if (parcelKg <= 2) return 700;
+    if (parcelKg <= 10) return 900;
     return 2200; // up to 30kg
   }
   // Europe Zone 1 (FR, DE, BE)
-  if (weightKg <= 2) return 1200;
-  if (weightKg <= 10) return 2000;
+  if (parcelKg <= 2) return 1200;
+  if (parcelKg <= 10) return 2000;
   return 4000; // up to 30kg
+}
+
+function getShippingCents(totalBottles: number, domestic: boolean): number {
+  const weightKg = totalBottles * BOTTLE_WEIGHT_KG;
+  const parcels = Math.max(1, Math.ceil(weightKg / PARCEL_MAX_KG));
+  if (parcels === 1) return parcelRateCents(weightKg, domestic);
+  // Full 30kg parcels at the top tier + the remainder at its own lighter tier.
+  const fullParcels = parcels - 1;
+  const remainderKg = weightKg - fullParcels * PARCEL_MAX_KG;
+  return fullParcels * parcelRateCents(PARCEL_MAX_KG, domestic) + parcelRateCents(remainderKg, domestic);
 }
 
 export async function POST(req: NextRequest) {

@@ -9,6 +9,18 @@
 import type { Wine } from "@/data/wines";
 import { SITE_URL, wineCategory, type Locale } from "@/lib/i18n";
 
+/**
+ * Schema.org `image` must be an absolute, crawlable URL. Wine images are
+ * stored as site-relative paths (/images/...), so resolve them against the
+ * canonical origin — a relative URL silently drops the image from Google's
+ * Merchant Listings / Product rich results.
+ */
+function absoluteImageUrl(src: string): string {
+  if (!src) return src;
+  if (/^https?:\/\//i.test(src)) return src;
+  return `${SITE_URL}${src.startsWith("/") ? "" : "/"}${src}`;
+}
+
 type Country = "LU" | "FR" | "DE" | "BE";
 
 // Single-bottle (≤2kg) POST Luxembourg rate per country. Mirrors
@@ -174,7 +186,7 @@ export function buildWineProduct({ wine, locale, url, variant }: BuildProductOpt
       wine.description[locale]?.trim() ||
       wine.description.fr?.trim() ||
       wine.name,
-    ...(wine.image?.trim() ? { image: [wine.image] } : {}),
+    ...(wine.image?.trim() ? { image: [absoluteImageUrl(wine.image)] } : {}),
     url,
     sku: wine.id,
     mpn: wine.barcode || wine.id,
@@ -225,7 +237,7 @@ export function buildListProduct({ wine, locale, url }: { wine: Wine; locale: Lo
       wine.description[locale]?.trim() ||
       wine.description.fr?.trim() ||
       wine.name,
-    ...(wine.image?.trim() ? { image: [wine.image] } : {}),
+    ...(wine.image?.trim() ? { image: [absoluteImageUrl(wine.image)] } : {}),
     url,
     sku: wine.id,
     brand: { "@type": "Brand", name: resolveBrandName(wine) },
