@@ -11,16 +11,18 @@ function localeUrls(path: string) {
   return { ...byLocale, "x-default": `${SITE_URL}${path}` };
 }
 
-// Build-time freshness for non-legal sections (every deploy refreshes the
-// catalog and content). Legal pages stay pinned to their last review date.
-const BUILD_DATE = new Date().toISOString().slice(0, 10);
+// Pin lastmod per content type to the date the underlying content actually
+// changed, NOT the build date. Stamping `new Date()` on every page on every
+// deploy makes Google see "all pages changed today" — the trust signal then
+// degrades because the freshness claim never correlates with real edits.
+// Bump these only when the corresponding content actually changes.
 const LAST_MODIFIED = {
-  home: BUILD_DATE,
-  wines: BUILD_DATE,
-  menu: BUILD_DATE,
-  shop: BUILD_DATE,
-  about: BUILD_DATE,
-  contact: BUILD_DATE,
+  home: "2026-04-27",     // last hero/copy revision
+  wines: "2026-03-25",    // last catalog enrichment (data/wines.ts header)
+  menu: "2026-03-25",     // last menu edit
+  shop: "2026-04-27",     // last shop schema/copy update
+  about: "2026-03-20",
+  contact: "2026-03-20",
   legal: "2026-01-01",
 };
 

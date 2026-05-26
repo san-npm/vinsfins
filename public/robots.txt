@@ -26,12 +26,14 @@ Allow: /
 Disallow: /admin
 Disallow: /api/
 
-User-agent: Claude-Web
+# Claude-SearchBot is the citation/grounding crawler. Blocking it removes
+# the site from Claude search answers. Claude-User is user-initiated fetches.
+User-agent: Claude-SearchBot
 Allow: /
 Disallow: /admin
 Disallow: /api/
 
-User-agent: anthropic-ai
+User-agent: Claude-User
 Allow: /
 Disallow: /admin
 Disallow: /api/

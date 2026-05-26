@@ -7,7 +7,7 @@ if (!process.env.STRIPE_SECRET_KEY) {
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   // Pin the API version so Stripe dashboard upgrades never silently change
   // response shapes. Keep in sync with the SDK's LatestApiVersion on upgrade.
-  apiVersion: "2026-02-25.clover",
+  apiVersion: "2026-04-22.dahlia",
   httpClient: Stripe.createFetchHttpClient(),
   maxNetworkRetries: 3,
   timeout: 30000,
