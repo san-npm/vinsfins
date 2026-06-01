@@ -15,10 +15,12 @@ export default function VinsPage() {
   const { wines } = useData();
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
-  /* Group wines by section, keeping card order */
+  /* Group wines by section, keeping card order.
+     `isAvailable === false` hides wines awaiting retail prices (e.g. the
+     La Cave de la Grocerie batch) from the public wine list. */
   const visibleSections = WINE_SECTIONS.filter((sec) => {
     if (activeFilter !== "all" && sectionCategory[sec] !== activeFilter) return false;
-    return wines.some((w) => w.section === sec);
+    return wines.some((w) => w.section === sec && w.isAvailable);
   });
 
   return (
@@ -74,7 +76,7 @@ export default function VinsPage() {
       <section className="px-6 pb-24">
         <div className="max-w-7xl mx-auto space-y-16">
           {visibleSections.map((sec) => {
-            const sectionWines = wines.filter((w) => w.section === sec);
+            const sectionWines = wines.filter((w) => w.section === sec && w.isAvailable);
             if (sectionWines.length === 0) return null;
             return (
               <div key={sec}>

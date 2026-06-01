@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { wines as staticWines, type Wine } from "@/data/wines";
-import { loadData } from "@/lib/storage";
+import { type Wine } from "@/data/wines";
+import { catalogueWines, getPublicWines } from "@/lib/catalogue";
 import {
   getLocale,
   getNonce,
@@ -18,30 +18,21 @@ import { SHOP_ENABLED, WINE_IMAGES_ENABLED } from "@/lib/flags";
 
 type Props = { params: Promise<{ id: string }> };
 
-// `loadData` hits KV first and falls back to the static bundle when KV is
-// empty or unreachable. We need that here (not just `staticWines.find`) so
-// that wines added in KV after the build are recognised on dynamic SSR
-// paths instead of returning a hard 404. Apply the same shippable filter as
-// `generateStaticParams` and the sitemap so a delisted product stops
-// returning an indexable page on dynamic SSR (existing prerendered pages
-// stay until next deploy).
+// The public catalogue resolves through `lib/catalogue` (the single source of
+// truth shared with the sitemap, the public API and `/vins/[id]`). Apply the
+// shippable filter so a delisted product stops returning an indexable page.
 function isShippable(w: Wine): boolean {
   return w.isAvailable && w.priceShop > 0;
 }
 
 async function findWine(id: string): Promise<Wine | null> {
-  try {
-    const all = (await loadData("wines", staticWines)) as Wine[];
-    const match = all.find((w) => w.id === id);
-    return match && isShippable(match) ? match : null;
-  } catch {
-    const match = staticWines.find((w) => w.id === id);
-    return match && isShippable(match) ? match : null;
-  }
+  const all = await getPublicWines();
+  const match = all.find((w) => w.id === id);
+  return match && isShippable(match) ? match : null;
 }
 
 export async function generateStaticParams() {
-  return staticWines.filter(isShippable).map((wine) => ({ id: wine.id }));
+  return catalogueWines().filter(isShippable).map((wine) => ({ id: wine.id }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -62,7 +53,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${SHOP_ENABLED ? `${buyLabel[locale]} ` : ""}${wine.name}${priceSuffix}`,
     description: `${desc} ${wine.grape}, ${wine.region}.${SHOP_ENABLED ? ` ${wine.priceShop}€ — livraison Luxembourg.` : ""}`,
-    alternates: alternateUrls(`/boutique/${wine.id}`, locale),
+    // While the shop is off, /boutique/[id] duplicates /vins/[id]; point the
+    // canonical at the wine page so search engines consolidate on one URL.
+    alternates: SHOP_ENABLED
+      ? alternateUrls(`/boutique/${wine.id}`, locale)
+      : { canonical: localeUrl(`/vins/${wine.id}`, locale) },
     openGraph: {
       title: `${wine.name}${priceSuffix} | Vins Fins Boutique`,
       description: desc,

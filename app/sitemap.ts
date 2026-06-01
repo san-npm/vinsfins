@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { wines } from "@/data/wines";
+import { SHOP_ENABLED } from "@/lib/flags";
+import { getPublicWines } from "@/lib/catalogue";
 
 const SITE_URL = "https://www.vinsfins.lu";
 const locales = ["fr", "en", "de", "lb"] as const;
@@ -26,7 +27,7 @@ const LAST_MODIFIED = {
   legal: "2026-01-01",
 };
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages = [
     { path: "/", priority: 1.0, freq: "weekly" as const, lm: LAST_MODIFIED.home },
     { path: "/vins", priority: 0.9, freq: "weekly" as const, lm: LAST_MODIFIED.wines },
@@ -54,12 +55,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // Only emit wine URLs that actually render — `/vins/[id]` pages are
-  // static-param'd on wines with `priceShop > 0 && isAvailable`, so any
-  // URL outside that set 301-redirects to a locale prefix and 404s.
-  // Emitting them wastes crawl budget and creates soft-404 warnings in
-  // Google Search Console.
-  const indexableWines = wines.filter((w) => w.isAvailable && w.priceShop > 0);
+  // Source from the SAME resolver the detail pages use (`getPublicWines`) so the
+  // sitemap can never advertise a URL that resolves to a noindex/notFound page —
+  // in either catalogue or shop mode. `priceShop > 0` keeps the historical
+  // "indexable wine" definition (excludes wines awaiting a retail price).
+  const indexableWines = (await getPublicWines()).filter((w) => w.priceShop > 0);
 
   for (const wine of indexableWines) {
     for (const l of locales) {
@@ -70,13 +70,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
         priority: 0.7,
         alternates: { languages: localeUrls(`/vins/${wine.id}`) },
       });
-      pages.push({
-        url: l === "fr" ? `${SITE_URL}/boutique/${wine.id}` : `${SITE_URL}/${l}/boutique/${wine.id}`,
-        lastModified: LAST_MODIFIED.shop,
-        changeFrequency: "weekly",
-        priority: 0.7,
-        alternates: { languages: localeUrls(`/boutique/${wine.id}`) },
-      });
+      // While the shop is off, /boutique/[id] canonicalises to /vins/[id], so
+      // emitting it here would advertise duplicate (non-canonical) URLs. Only
+      // list the buy pages once the shop is live again.
+      if (SHOP_ENABLED) {
+        pages.push({
+          url: l === "fr" ? `${SITE_URL}/boutique/${wine.id}` : `${SITE_URL}/${l}/boutique/${wine.id}`,
+          lastModified: LAST_MODIFIED.shop,
+          changeFrequency: "weekly",
+          priority: 0.7,
+          alternates: { languages: localeUrls(`/boutique/${wine.id}`) },
+        });
+      }
     }
   }
 
