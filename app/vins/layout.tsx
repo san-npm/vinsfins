@@ -32,6 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 function buildWineListJsonLd(locale: Locale) {
+  // Only advertise wines that are actually on the list — wines awaiting
+  // retail prices (isAvailable === false) are excluded from structured data.
+  const listed = wines.filter((w) => w.isAvailable);
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -39,8 +42,8 @@ function buildWineListJsonLd(locale: Locale) {
     description:
       "Plus de 80 vins naturels et bio sélectionnés auprès de vignerons artisans français et luxembourgeois.",
     url: `${SITE_URL}/vins`,
-    numberOfItems: wines.length,
-    itemListElement: wines.slice(0, 10).map((wine, i) => ({
+    numberOfItems: listed.length,
+    itemListElement: listed.slice(0, 10).map((wine, i) => ({
       "@type": "ListItem",
       position: i + 1,
       item: buildListProduct({

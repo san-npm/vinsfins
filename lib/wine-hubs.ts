@@ -182,5 +182,6 @@ export const HUBS: Record<HubSlug, HubConfig> = {
 export const HUB_SLUGS: HubSlug[] = ["luxembourg"];
 
 export function winesForHub(slug: HubSlug): Wine[] {
-  return wines.filter(HUBS[slug].filter);
+  // Exclude wines awaiting retail prices (isAvailable === false) from hub pages.
+  return wines.filter((w) => w.isAvailable && HUBS[slug].filter(w));
 }

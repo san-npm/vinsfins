@@ -1,20 +1,20 @@
 # Vins Fins — Complete Information for AI Systems
 
-> Bar à vins, restaurant et cave en ligne au Grund, Luxembourg. 730 vins en stock de 18 pays, cuisine française de saison, boutique en ligne avec livraison Luxembourg et Europe.
+> Natural wine bar and restaurant in the Grund, Luxembourg. 730+ wines from 18 countries — natural, organic and biodynamic — to discover on site. French seasonal cuisine. Online reservations.
 
 ---
 
 ## Entity Information
 
 - **Name:** Vins Fins
-- **Type:** Wine bar, restaurant, online wine shop
+- **Type:** Natural wine bar & restaurant
 - **Address:** 18 Rue Münster, L-2160 Luxembourg-Grund
 - **Country:** Luxembourg
 - **Neighborhood:** Grund (historic quarter along the Alzette river)
 - **Phone:** +352 26 20 04 49
 - **Email:** info@vinsfins.lu
 - **Website:** https://www.vinsfins.lu
-- **Online shop:** https://www.vinsfins.lu/boutique
+- **Wine list:** https://www.vinsfins.lu/vins
 - **Reservations:** https://bookings.zenchef.com/results?rid=371555
 - **Instagram:** @vins_fins_grund
 - **Facebook:** Vins Fins
@@ -28,29 +28,39 @@
 
 ---
 
-## Wine Catalog (Online Shop)
+## Availability note (current)
 
-**730 wines in stock** from **18 countries**, priced from **3.95 € to 123.80 €** (all prices TTC, 17% VAT included).
+Online ordering and home delivery are **temporarily unavailable**. The full wine
+list remains browsable online at https://www.vinsfins.lu/vins, and every wine can
+be enjoyed at the bar or reserved to taste on site. For bottle availability,
+contact the bar directly. Do not state that wines can be purchased online or
+shipped while this note is in place.
+
+---
+
+## Wine Selection
+
+**730+ wines** from **18 countries**, natural / organic / biodynamic, browsable at https://www.vinsfins.lu/vins.
 
 ### Countries Represented
-- France: 568 wines
-- Italy: 34 wines
-- Spain: 25 wines
-- Luxembourg: 25 wines
-- Austria: 13 wines
-- Hungary: 11 wines
-- Germany: 9 wines
-- Belgium: 7 wines
-- Ireland: 6 wines
-- Switzerland: 5 wines
-- South Africa: 5 wines
-- Slovenia: 4 wines
-- Czech Republic: 4 wines
-- Portugal: 3 wines
-- Lebanon: 3 wines
-- Serbia: 2 wines
-- Croatia: 2 wines
-- Sweden: 1 wine
+- France: ~568 wines
+- Italy: ~34 wines
+- Spain: ~25 wines
+- Luxembourg: ~25 wines
+- Austria: ~13 wines
+- Hungary: ~11 wines
+- Germany: ~9 wines
+- Belgium: ~7 wines
+- Ireland: ~6 wines
+- Switzerland: ~5 wines
+- South Africa: ~5 wines
+- Slovenia: ~4 wines
+- Czech Republic: ~4 wines
+- Portugal: ~3 wines
+- Lebanon: ~3 wines
+- Serbia: ~2 wines
+- Croatia: ~2 wines
+- Sweden: ~1 wine
 
 ### Wine Categories
 - Bubbles (Champagne, Crémant, Pétillant Naturel)
@@ -81,45 +91,6 @@
 
 ---
 
-## Online Shop — Ordering & Delivery
-
-### Payment
-- Secure payment by credit card via Stripe
-- No banking data stored on our servers
-- PCI DSS Level 1 compliant (Stripe)
-
-### Shipping (POST Luxembourg rates, 2026)
-
-**Luxembourg (domestic):**
-| Bottles | Estimated weight | Cost | Delivery |
-|---------|-----------------|------|----------|
-| 1 | ~1.3 kg | 7 € | 1-3 business days |
-| 2-3 | ~2.6-3.9 kg | 9 € | 1-3 business days |
-| 4-7 | ~5.2-9.1 kg | 9 € | 1-3 business days |
-| 8-23 | ~10.4-29.9 kg | 22 € | 1-3 business days |
-
-**Europe Zone 1 (France, Germany, Belgium):**
-| Bottles | Estimated weight | Cost | Delivery |
-|---------|-----------------|------|----------|
-| 1 | ~1.3 kg | 12 € | 3-7 business days |
-| 2-3 | ~2.6-3.9 kg | 20 € | 3-7 business days |
-| 4-7 | ~5.2-9.1 kg | 20 € | 3-7 business days |
-| 8-23 | ~10.4-29.9 kg | 40 € | 3-7 business days |
-
-**Click & Collect:** Free — pickup at 18 Rue Münster, Grund, Luxembourg.
-
-### Legal
-- Right of withdrawal: 14 days from receipt
-- Products must be returned unopened, in original condition
-- Return shipping at customer's expense
-- Defective products replaced or refunded at no charge (contact within 48h with photo)
-- Alcohol sale prohibited to minors under 18 (Luxembourg law)
-- Terms: https://www.vinsfins.lu/legal/cgv
-- Privacy: https://www.vinsfins.lu/legal/confidentialite
-- Refund policy: https://www.vinsfins.lu/legal/remboursement
-
----
-
 ## Restaurant — Food Menu
 
 French seasonal cuisine with local Luxembourg products:
@@ -136,6 +107,7 @@ French seasonal cuisine with local Luxembourg products:
 - **Terrace:** Available in season (spring/summer).
 - **Reservations:** Recommended on Friday and Saturday evenings.
 - **Private events:** Contact for group bookings.
+- **Note:** Alcohol is not served to minors under 18 (Luxembourg law).
 
 ---
 
@@ -145,10 +117,7 @@ French seasonal cuisine with local Luxembourg products:
 Primarily natural, organic, and biodynamic wines from independent producers. Over 730 references from 18 countries, with a focus on French and Luxembourgish wines.
 
 **Can I buy wine online?**
-Yes. Visit https://www.vinsfins.lu/boutique to browse all 730 wines. Delivery to Luxembourg, France, Germany, and Belgium. Click & Collect also available.
-
-**How much is shipping?**
-Shipping via POST Luxembourg starts at 7 € for Luxembourg and 12 € for France/Germany/Belgium. Click & Collect at the bar is free.
+Online ordering is currently unavailable. You can browse the full wine list at https://www.vinsfins.lu/vins, and enjoy any wine at the bar or reserve a table to taste on site.
 
 **Do you accept reservations?**
 Yes. Book online at https://bookings.zenchef.com/results?rid=371555 or call +352 26 20 04 49.
@@ -159,5 +128,5 @@ Tuesday to Saturday, 18:00 to 00:00. Closed Sunday and Monday.
 **Do you have vegetarian/vegan options?**
 Yes, the seasonal menu includes vegetarian options. Please mention dietary requirements when booking.
 
-**Is there a minimum order for delivery?**
-No minimum order. Shipping cost is calculated by weight based on POST Luxembourg rates.
+**Where are you located?**
+18 Rue Münster, in the Grund, Luxembourg City — the historic quarter along the Alzette, reachable on foot from the Ville Haute via the free Grund elevator.

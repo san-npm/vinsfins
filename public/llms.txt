@@ -1,17 +1,16 @@
-# Vins Fins — Bar à Vins, Restaurant & Cave en Ligne
+# Vins Fins — Bar à Vins Naturels & Restaurant, Luxembourg-Grund
 
-> Bar à vins et restaurant au Grund, Luxembourg. Plus de 730 vins en stock — naturels, bio, biodynamiques — de 18 pays. Cuisine française de saison. Boutique en ligne avec livraison au Luxembourg et en Europe.
+> Bar à vins naturels et restaurant au cœur du Grund, Luxembourg-ville. Plus de 730 vins — naturels, bio et biodynamiques — de 18 pays, à découvrir sur place. Cuisine française de saison. Réservation en ligne.
 
 ## Informations Essentielles
 - Nom: Vins Fins
-- Type: Bar à vins, restaurant & cave en ligne
+- Type: Bar à vins naturels & restaurant
 - Adresse: 18 Rue Münster, L-2160 Luxembourg-Grund
 - Quartier: Grund (quartier historique le long de l'Alzette)
 - Horaires: Mardi–Samedi, 18h–00h
 - Fermé: Dimanche et lundi
 - Gamme de prix: €€€
 - Réservation: https://bookings.zenchef.com/results?rid=371555
-- Boutique en ligne: https://www.vinsfins.lu/boutique
 - Instagram: @vins_fins_grund
 - Facebook: Vins Fins
 - Contact: info@vinsfins.lu / +352 26 20 04 49
@@ -19,33 +18,25 @@
 
 ## Pages
 - [Accueil](https://www.vinsfins.lu/): Présentation et vins à la une
-- [Carte des Vins](https://www.vinsfins.lu/vins): 730+ vins — rouges, blancs, rosés, orange, pétillants, bières, cidres
+- [Carte des Vins](https://www.vinsfins.lu/vins): Plus de 730 vins à découvrir — rouges, blancs, rosés, orange, pétillants, bières, cidres
+- [Vins du Luxembourg](https://www.vinsfins.lu/vins/luxembourg): Vins de la Moselle luxembourgeoise
 - [La Carte](https://www.vinsfins.lu/carte): Cuisine française de saison
-- [Boutique](https://www.vinsfins.lu/boutique): Achat en ligne avec livraison LU/FR/DE/BE
 - [À Propos](https://www.vinsfins.lu/a-propos): L'histoire et l'équipe
 - [Contact](https://www.vinsfins.lu/contact): Plan d'accès et coordonnées
-- [CGV](https://www.vinsfins.lu/legal/cgv): Conditions générales de vente
-- [Confidentialité](https://www.vinsfins.lu/legal/confidentialite): Politique de confidentialité
-- [Remboursement](https://www.vinsfins.lu/legal/remboursement): Politique de remboursement
 
-## Boutique en Ligne
-- 730 vins en stock provenant de 18 pays
-- Paiement sécurisé par Stripe
-- Livraison par POST Luxembourg
-- Livraison Luxembourg: dès 7 € (1-3 jours ouvrables)
-- Livraison Europe (FR/DE/BE): dès 12 € (3-7 jours ouvrables)
-- Click & Collect gratuit au bar
-- TVA 17% incluse dans tous les prix
-- Droit de rétractation 14 jours
+## La Cave (à découvrir sur place)
+- Plus de 730 vins de 18 pays, sélectionnés auprès de vignerons artisans
+- Carte des vins entièrement consultable en ligne sur https://www.vinsfins.lu/vins
+- Dégustation au bar et accords mets-vins personnalisés par le sommelier
+- La vente en ligne est momentanément indisponible — les bouteilles sont servies et proposées sur place
 
 ## Spécialités
 - Vins naturels, bio et biodynamiques
-- 18 pays représentés (Luxembourg, France, Italie, Espagne, Allemagne, Autriche, Portugal, Géorgie, Grèce, etc.)
+- 18 pays représentés: France, Italie, Espagne, Luxembourg, Autriche, Hongrie, Allemagne, Belgique, Irlande, Suisse, Afrique du Sud, Slovénie, Tchéquie, Portugal, Liban, Serbie, Croatie, Suède
 - Vins luxembourgeois de la Moselle
-- Vins français de domaines artisanaux (Loire, Beaujolais, Bourgogne, Rhône, Jura, Alsace, Languedoc)
+- Vins français de domaines artisanaux (Loire, Beaujolais, Bourgogne, Rhône, Jura, Alsace, Languedoc, Provence)
 - Cuisine française de saison avec produits locaux
 - Planches de charcuterie et fromages artisanaux
-- Accords mets-vins personnalisés
 
 ## Informations Pratiques
 - Langues: Français, anglais, allemand, luxembourgeois

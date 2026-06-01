@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server";
-import { wines, type Wine } from "@/data/wines";
-import { loadData } from "@/lib/storage";
+import { type Wine } from "@/data/wines";
+import { getPublicWines } from "@/lib/catalogue";
 
-// KV is the source of truth; admin edits must be visible without a redeploy.
+// Public catalogue feed for the client (listing + detail hydration). Resolves
+// through `lib/catalogue` so it stays in lock-step with the sitemap, the
+// prerendered routes and the detail pages — in catalogue mode that is the
+// curated static bundle; when the shop is live it is KV-first.
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -31,6 +34,6 @@ function sanitizeWine(w: Wine) {
 }
 
 export async function GET() {
-  const allWines = (await loadData("wines", wines)) as Wine[];
+  const allWines: Wine[] = await getPublicWines();
   return NextResponse.json(allWines.map(sanitizeWine));
 }
