@@ -11,6 +11,7 @@ import {
   alternateUrls,
 } from "@/lib/i18n";
 import { wines } from "@/data/wines";
+import { SHOP_ENABLED } from "@/lib/flags";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
@@ -60,7 +61,9 @@ export default async function BoutiqueLayout({ children }: { children: React.Rea
     itemListElement: shopWines.slice(0, 100).map((w, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      url: `${SITE_URL}/boutique/${w.id}`,
+      // While the shop is off, /boutique/[id] canonicalises to /vins/[id];
+      // reference the canonical wine URL so the ItemList stays consistent.
+      url: SHOP_ENABLED ? `${SITE_URL}/boutique/${w.id}` : `${SITE_URL}/vins/${w.id}`,
       name: w.name,
     })),
   };

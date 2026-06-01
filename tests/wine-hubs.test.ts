@@ -56,16 +56,16 @@ describe("winesForHub — luxembourg", () => {
 });
 
 describe("sitemap — hub routes are emitted per locale", () => {
-  it("includes /vins/luxembourg for each locale", () => {
-    const urls = new Set(sitemap().map((e) => e.url));
+  it("includes /vins/luxembourg for each locale", async () => {
+    const urls = new Set((await sitemap()).map((e) => e.url));
     expect(urls.has("https://www.vinsfins.lu/vins/luxembourg")).toBe(true);
     expect(urls.has("https://www.vinsfins.lu/en/vins/luxembourg")).toBe(true);
     expect(urls.has("https://www.vinsfins.lu/de/vins/luxembourg")).toBe(true);
     expect(urls.has("https://www.vinsfins.lu/lb/vins/luxembourg")).toBe(true);
   });
 
-  it("does NOT include naturel or bio hubs (flags unpopulated — would soft-404)", () => {
-    const urls = sitemap().map((e) => e.url);
+  it("does NOT include naturel or bio hubs (flags unpopulated — would soft-404)", async () => {
+    const urls = (await sitemap()).map((e) => e.url);
     expect(urls.some((u) => u.includes("/vins/naturel"))).toBe(false);
     expect(urls.some((u) => u.includes("/vins/bio"))).toBe(false);
   });
