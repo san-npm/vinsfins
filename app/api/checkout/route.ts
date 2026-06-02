@@ -3,7 +3,6 @@ import { createHash, randomBytes } from "crypto";
 import { stripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
 import { reserveStock, releaseStock } from "@/lib/stock";
-import { loadData } from "@/lib/storage";
 import { getClientIp, rateLimit } from "@/lib/ratelimit";
 
 interface CartItemPayload {
@@ -111,7 +110,7 @@ export async function POST(req: NextRequest) {
 
     // Validate ALL items BEFORE reserving stock — prevents inventory corruption
     // via negative quantities or invalid IDs
-    const wines = (await loadData("wines", staticWines)) as Wine[];
+    const wines = staticWines as Wine[];
 
     for (const item of items) {
       if (!item.wineId || typeof item.quantity !== "number" || item.quantity < 1 || item.quantity > 99 || !Number.isInteger(item.quantity)) {
