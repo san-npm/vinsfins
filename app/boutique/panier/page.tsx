@@ -72,11 +72,11 @@ export default function PanierPage() {
           </div>
           <div className="flex justify-between text-sm mb-4">
             <span className="text-stone">{t("cart.shipping")}</span>
-            <span className="text-stone">{totalPrice >= 100 ? t("cart.free") || "Gratuit" : "5€"}</span>
+            <span className="text-stone">{t("cart.shippingNote")}</span>
           </div>
           <div className="flex justify-between text-lg font-playfair mb-8">
             <span>{t("cart.total")}</span>
-            <span>{totalPrice >= 100 ? totalPrice : totalPrice + 5}€</span>
+            <span>{totalPrice}€</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link href="/boutique/checkout" className="btn-wine text-center flex-1">

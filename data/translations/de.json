@@ -73,7 +73,7 @@
     "heroLabel": "Das Erlebnis Mitnehmen",
     "heroTitle": "Boutique",
     "heroDesc": "Unsere kuratierte Weinauswahl, lieferbar in ganz Luxemburg.",
-    "freeDelivery": "Kostenloser Versand ab 100€",
+    "freeDelivery": "Gratis Click & Collect · Versand ab 7€",
     "deliveryTime": "Lieferung in 2–3 Tagen",
     "giftWrapping": "Geschenkverpackung verfügbar",
     "all": "Alle",
@@ -87,7 +87,7 @@
     "byTheGlass": "Im Glas",
     "atRestaurant": "Im Restaurant",
     "addToCart": "In den Warenkorb",
-    "freeDelivery": "Kostenloser Versand ab 100€ innerhalb Luxemburgs",
+    "freeDelivery": "Gratis Click & Collect · Versand ab 7€",
     "notFound": "Wein nicht gefunden",
     "backToShopBtn": "Zurück zur Boutique"
   },
@@ -102,7 +102,7 @@
     "checkout": "Zur Kasse",
     "clearCart": "Warenkorb Leeren",
     "remove": "Entfernen",
-    "shippingNote": "Versandkosten werden an der Kasse berechnet"
+    "shippingNote": "An der Kasse berechnet"
   },
   "cartSidebar": {
     "title": "Ihr Warenkorb",
