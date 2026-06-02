@@ -20,5 +20,5 @@
 
 // Typed as `boolean` (not the literal `false`) so flipping to `true` needs no
 // other code change and guarded branches are never treated as dead code.
-export const SHOP_ENABLED: boolean = false;
-export const WINE_IMAGES_ENABLED: boolean = false;
+export const SHOP_ENABLED: boolean = true;
+export const WINE_IMAGES_ENABLED: boolean = true;

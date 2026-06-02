@@ -1,5 +1,4 @@
 import { wines as staticWines, type Wine } from "@/data/wines";
-import { SHOP_ENABLED } from "@/lib/flags";
 
 /**
  * Single source of truth for the PUBLIC wine catalogue.
@@ -22,17 +21,12 @@ export function catalogueWines(): Wine[] {
 }
 
 export async function getPublicWines(): Promise<Wine[]> {
-  // Invariant: only `isAvailable` wines are ever public, in either mode — an
-  // unavailable/delisted wine must never resolve to an indexable page.
-  if (SHOP_ENABLED) {
-    try {
-      const { loadData } = await import("@/lib/storage");
-      const all = (await loadData("wines", staticWines)) as Wine[];
-      return all.filter((w) => w.isAvailable);
-    } catch {
-      return catalogueWines();
-    }
-  }
+  // vinsfins is statically driven: data/wines.ts is the single source of truth
+  // for the public catalogue, in catalogue OR shop mode. We deliberately never
+  // read the shared KV here — it belongs to the sister site (grocerie), and a
+  // KV-first read would reintroduce the disjoint-ID → notFound() → noindex bug
+  // whenever KV and the static bundle diverge. Stock COUNTS still live in KV
+  // (see lib/stock.ts); only the catalogue LIST is static.
   return catalogueWines();
 }
 

@@ -56,12 +56,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   // Source from the SAME resolver the detail pages use (`getPublicWines`) so the
-  // sitemap can never advertise a URL that resolves to a noindex/notFound page —
-  // in either catalogue or shop mode. `priceShop > 0` keeps the historical
-  // "indexable wine" definition (excludes wines awaiting a retail price).
-  const indexableWines = (await getPublicWines()).filter((w) => w.priceShop > 0);
+  // sitemap can never advertise a URL that resolves to a noindex/notFound page.
+  // The wine-bar MENU (/vins) indexes every available wine — the full cellar,
+  // priced or not. The online SHOP (/boutique) only lists wines with a real
+  // retail price (priceShop > 0).
+  const publicWines = await getPublicWines();
 
-  for (const wine of indexableWines) {
+  for (const wine of publicWines) {
     for (const l of locales) {
       pages.push({
         url: l === "fr" ? `${SITE_URL}/vins/${wine.id}` : `${SITE_URL}/${l}/vins/${wine.id}`,
@@ -70,10 +71,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         priority: 0.7,
         alternates: { languages: localeUrls(`/vins/${wine.id}`) },
       });
-      // While the shop is off, /boutique/[id] canonicalises to /vins/[id], so
-      // emitting it here would advertise duplicate (non-canonical) URLs. Only
-      // list the buy pages once the shop is live again.
-      if (SHOP_ENABLED) {
+      // Buy pages only for wines actually on sale online, and only once the
+      // shop is live (otherwise /boutique/[id] canonicalises to /vins/[id]).
+      if (SHOP_ENABLED && wine.priceShop > 0) {
         pages.push({
           url: l === "fr" ? `${SITE_URL}/boutique/${wine.id}` : `${SITE_URL}/${l}/boutique/${wine.id}`,
           lastModified: LAST_MODIFIED.shop,

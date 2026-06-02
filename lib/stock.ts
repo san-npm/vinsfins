@@ -1,9 +1,10 @@
 import { wines as staticWines, type Wine } from "@/data/wines";
-import { loadData } from "@/lib/storage";
 import { kv } from "@vercel/kv";
 
 async function getCurrentWines(): Promise<Wine[]> {
-  return (await loadData("wines", staticWines)) as Wine[];
+  // vinsfins is statically driven: the wine LIST comes from the static bundle.
+  // Stock COUNTS still live in shared KV under stock:{id} (handled below).
+  return staticWines;
 }
 
 /**
