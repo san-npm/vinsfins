@@ -73,7 +73,7 @@
     "heroLabel": "D'Erliefnis Mathuelen",
     "heroTitle": "Boutique",
     "heroDesc": "Eis kuratéiert Wäinauswiel, liwwerbar a ganz Lëtzebuerg.",
-    "freeDelivery": "Gratis Liwwerung ab 100€",
+    "freeDelivery": "Gratis Click & Collect · Liwwerung ab 7€",
     "deliveryTime": "Liwwerung an 2–3 Deeg",
     "giftWrapping": "Kadosverpackung verfügbar",
     "all": "All",
@@ -87,7 +87,7 @@
     "byTheGlass": "Am Glas",
     "atRestaurant": "Am Restaurant",
     "addToCart": "An de Kuerf",
-    "freeDelivery": "Gratis Liwwerung ab 100€ bannent Lëtzebuerg",
+    "freeDelivery": "Gratis Click & Collect · Liwwerung ab 7€",
     "notFound": "Wäin net fonnt",
     "backToShopBtn": "Zréck an d'Boutique"
   },
@@ -102,7 +102,7 @@
     "checkout": "Bezuelen",
     "clearCart": "Kuerf Eidelen",
     "remove": "Läschen",
-    "shippingNote": "Liwwerungskäschte gi bei der Bestellung berechent"
+    "shippingNote": "Beim Bezuelen berechent"
   },
   "cartSidebar": {
     "title": "Äre Kuerf",

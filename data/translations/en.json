@@ -73,7 +73,7 @@
     "heroLabel": "Take the Experience Home",
     "heroTitle": "Boutique",
     "heroDesc": "Our curated selection of wines, available for delivery across Luxembourg.",
-    "freeDelivery": "Free delivery over €100",
+    "freeDelivery": "Free Click & Collect · Delivery from €7",
     "deliveryTime": "Delivery in 2–3 days",
     "giftWrapping": "Gift wrapping available",
     "all": "All",
@@ -87,7 +87,7 @@
     "byTheGlass": "By the Glass",
     "atRestaurant": "At the Restaurant",
     "addToCart": "Add to Cart",
-    "freeDelivery": "Free delivery on orders over €100 within Luxembourg",
+    "freeDelivery": "Free Click & Collect · Delivery from €7",
     "notFound": "Wine not found",
     "backToShopBtn": "Back to Shop"
   },
@@ -102,7 +102,7 @@
     "checkout": "Proceed to Checkout",
     "clearCart": "Clear Cart",
     "remove": "Remove",
-    "shippingNote": "Shipping calculated at checkout"
+    "shippingNote": "Calculated at checkout"
   },
   "cartSidebar": {
     "title": "Your Cart",

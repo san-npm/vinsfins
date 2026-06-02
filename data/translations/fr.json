@@ -73,7 +73,7 @@
     "heroLabel": "Emportez l'Expérience",
     "heroTitle": "Boutique",
     "heroDesc": "Notre sélection de vins, disponible en livraison dans tout le Luxembourg.",
-    "freeDelivery": "Livraison gratuite dès 100€",
+    "freeDelivery": "Click & Collect gratuit · Livraison dès 7€",
     "deliveryTime": "Livraison en 2–3 jours",
     "giftWrapping": "Emballage cadeau disponible",
     "all": "Tous",
@@ -87,7 +87,7 @@
     "byTheGlass": "Au Verre",
     "atRestaurant": "Au Restaurant",
     "addToCart": "Ajouter au Panier",
-    "freeDelivery": "Livraison gratuite pour les commandes de plus de 100€ au Luxembourg",
+    "freeDelivery": "Click & Collect gratuit · Livraison dès 7€",
     "notFound": "Vin introuvable",
     "backToShopBtn": "Retour à la Boutique"
   },
@@ -102,7 +102,7 @@
     "checkout": "Passer la Commande",
     "clearCart": "Vider le Panier",
     "remove": "Supprimer",
-    "shippingNote": "Frais de port calculés à la commande"
+    "shippingNote": "Calculée au paiement"
   },
   "cartSidebar": {
     "title": "Votre Panier",
