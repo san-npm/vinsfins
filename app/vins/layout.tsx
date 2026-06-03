@@ -10,9 +10,8 @@ import {
   localeUrl,
   breadcrumbNames,
   alternateUrls,
-  type Locale,
 } from "@/lib/i18n";
-import { buildListProduct, jsonLdToScript } from "@/lib/structured-data";
+import { jsonLdToScript } from "@/lib/structured-data";
 import { SHOP_ENABLED } from "@/lib/flags";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -31,7 +30,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function buildWineListJsonLd(locale: Locale) {
+function buildWineListJsonLd() {
   // Only advertise wines that are actually on the list — wines awaiting
   // retail prices (isAvailable === false) are excluded from structured data.
   const listed = wines.filter((w) => w.isAvailable);
@@ -43,14 +42,14 @@ function buildWineListJsonLd(locale: Locale) {
       "Plus de 80 vins naturels et bio sélectionnés auprès de vignerons artisans français et luxembourgeois.",
     url: `${SITE_URL}/vins`,
     numberOfItems: listed.length,
+    // Plain ListItems (url + name): nesting full Products here demanded an
+    // Offer per item, which is invalid for browse-only wines that carry no
+    // price. The 70 priced wines keep full Product+Offer on their own pages.
     itemListElement: listed.slice(0, 10).map((wine, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: buildListProduct({
-        wine,
-        locale,
-        url: `${SITE_URL}/vins/${wine.id}`,
-      }),
+      url: `${SITE_URL}/vins/${wine.id}`,
+      name: wine.name,
     })),
   };
 }
@@ -58,7 +57,7 @@ function buildWineListJsonLd(locale: Locale) {
 export default async function VinsLayout({ children }: { children: React.ReactNode }) {
   const locale = await getLocale();
   const nonce = await getNonce();
-  const jsonLd = buildWineListJsonLd(locale);
+  const jsonLd = buildWineListJsonLd();
 
   return (
     <>

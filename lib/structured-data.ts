@@ -162,7 +162,7 @@ interface BuildProductOptions {
   variant: ProductVariant;
 }
 
-export function buildWineProduct({ wine, locale, url, variant }: BuildProductOptions) {
+export function buildWineProduct({ wine, locale, url, variant }: BuildProductOptions): Record<string, unknown> | null {
   const offers: ReturnType<typeof buildOffer>[] = [];
 
   if (variant === "shop") {
@@ -177,6 +177,12 @@ export function buildWineProduct({ wine, locale, url, variant }: BuildProductOpt
     if (wine.priceBottle > 0) offers.push(buildOffer(wine, "bottle"));
     if (isShippable(wine)) offers.push(buildOffer(wine, "shop"));
   }
+
+  // Google rich results reject a Product with no offers/review/aggregateRating
+  // ("Il faut indiquer offers, review, ou aggregateRating"). Browse-only wines
+  // carry no price, so emit no Product at all — the page still ranks via its
+  // HTML, and a valid Product returns automatically once a price is set.
+  if (offers.length === 0) return null;
 
   const product: Record<string, unknown> = {
     "@context": "https://schema.org",
