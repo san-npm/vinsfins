@@ -9,7 +9,6 @@ import {
   getNonce,
   localeUrl,
 } from "@/lib/i18n";
-import { buildListProduct } from "@/lib/structured-data";
 import { HUBS, type HubSlug, winesForHub } from "@/lib/wine-hubs";
 import { SHOP_ENABLED } from "@/lib/flags";
 
@@ -64,11 +63,8 @@ export default async function HubLayout({
       itemListElement: hubWines.slice(0, 20).map((wine, i) => ({
         "@type": "ListItem",
         position: i + 1,
-        item: buildListProduct({
-          wine,
-          locale,
-          url: `${SITE_URL}/vins/${wine.id}`,
-        }),
+        url: `${SITE_URL}/vins/${wine.id}`,
+        name: wine.name,
       })),
     },
   };

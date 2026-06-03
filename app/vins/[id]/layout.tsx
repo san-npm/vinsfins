@@ -59,25 +59,23 @@ export default async function WineLayout({
   const wine = await findPublicWine(id);
   if (!wine) notFound();
 
+  const wineProduct = buildWineProduct({
+    wine,
+    locale,
+    url: `${SITE_URL}/vins/${wine.id}`,
+    variant: "menu",
+  });
+
   return (
     <>
       {wine && (
         <>
-          {SHOP_ENABLED && (
+          {SHOP_ENABLED && wineProduct && (
           <Script
             id={`json-ld-wine-${id}`}
             type="application/ld+json"
             nonce={nonce}
-            dangerouslySetInnerHTML={{
-              __html: jsonLdToScript(
-                buildWineProduct({
-                  wine,
-                  locale,
-                  url: `${SITE_URL}/vins/${wine.id}`,
-                  variant: "menu",
-                }),
-              ),
-            }}
+            dangerouslySetInnerHTML={{ __html: jsonLdToScript(wineProduct) }}
           />
           )}
           <Breadcrumbs
