@@ -8895,7 +8895,7 @@ export const wines: Wine[] = [
     region: 'Crémant de Luxembourg', country: 'Luxembourg', grape: '',
     category: 'sparkling', section: 'bubbles',
     description: { fr: 'Crémant de Luxembourg Cuvée Brut du domaine Clos Jangli, dans la vallée de la Moselle.', en: 'Crémant de Luxembourg Cuvée Brut from Clos Jangli in the Moselle valley.', de: 'Wein aus Luxemburg.', lb: 'Wäin vun Lëtzebuerg.' },
-    priceGlass: 0, priceBottle: 0, priceShop: 17,
+    priceGlass: 0, priceBottle: 0, priceShop: 25,
     image: '/images/wines/clos-jangli-cuvee-brut-cremant-de-luxembourg-0-75cl.jpg',
     isAvailable: true, isFeatured: false,
     isOrganic: false, isBiodynamic: false, isNatural: false,
