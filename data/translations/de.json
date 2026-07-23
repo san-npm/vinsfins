@@ -3,10 +3,19 @@
     "wines": "Weine",
     "menu": "Speisekarte",
     "shop": "Boutique",
+    "giftVouchers": "Gutscheine",
     "about": "Über uns",
     "contact": "Kontakt",
     "reserve": "Reservieren",
     "reserveTable": "Tisch reservieren"
+  },
+  "giftVouchers": {
+    "heroLabel": "Verschenken",
+    "heroTitle": "Geschenkgutscheine",
+    "intro": "Verschenken Sie einen Abend im Vins Fins. Gutschein mit frei wählbarem Betrag, 1 Jahr gültig, Versand per E-Mail.",
+    "embedTitle": "Vins Fins Gutschein-Shop",
+    "fallbackText": "Der Shop wird nicht angezeigt?",
+    "fallbackLink": "In neuem Tab öffnen"
   },
   "home": {
     "heroSubtitle": "Weinbar · Grund, Luxemburg",

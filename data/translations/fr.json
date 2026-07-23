@@ -3,10 +3,19 @@
     "wines": "Vins",
     "menu": "Carte",
     "shop": "Boutique",
+    "giftVouchers": "Chèques Cadeaux",
     "about": "À Propos",
     "contact": "Contact",
     "reserve": "Réserver",
     "reserveTable": "Réserver une Table"
+  },
+  "giftVouchers": {
+    "heroLabel": "Offrir",
+    "heroTitle": "Chèques Cadeaux",
+    "intro": "Offrez un moment chez Vins Fins. Chèque cadeau au montant de votre choix, valable 1 an, envoyé par email et prêt à être offert.",
+    "embedTitle": "Boutique de chèques cadeaux Vins Fins",
+    "fallbackText": "La boutique ne s'affiche pas ?",
+    "fallbackLink": "Ouvrir dans un nouvel onglet"
   },
   "home": {
     "heroSubtitle": "Bar à Vins · Grund, Luxembourg",

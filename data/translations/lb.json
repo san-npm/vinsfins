@@ -3,10 +3,19 @@
     "wines": "Wäiner",
     "menu": "Kaart",
     "shop": "Buttek",
+    "giftVouchers": "Kadosbongen",
     "about": "Iwwer eis",
     "contact": "Kontakt",
     "reserve": "Reservéieren",
     "reserveTable": "Dësch reservéieren"
+  },
+  "giftVouchers": {
+    "heroLabel": "Schenken",
+    "heroTitle": "Kadosbongen",
+    "intro": "Schenkt en Owend am Vins Fins. Kadosbong mam Montant vun Ärer Wiel, 1 Joer gëlteg, per E-Mail geschéckt.",
+    "embedTitle": "Vins Fins Kadosbongen-Buttek",
+    "fallbackText": "De Shop gëtt net ugewisen?",
+    "fallbackLink": "An engem neien Tab opmaachen"
   },
   "home": {
     "heroSubtitle": "Wäibistro · Gronn, Lëtzebuerg",

@@ -14,6 +14,7 @@ const navLinks = [
   { href: "/vins", key: "nav.wines" },
   { href: "/carte", key: "nav.menu" },
   { href: "/boutique", key: "nav.shop" },
+  { href: "/cheques-cadeaux", key: "nav.giftVouchers" },
   { href: "/a-propos", key: "nav.about" },
   { href: "/contact", key: "nav.contact" },
 ];
