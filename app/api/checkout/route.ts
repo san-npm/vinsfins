@@ -53,7 +53,40 @@ function getShippingCents(totalBottles: number, domestic: boolean): number {
   return fullParcels * parcelRateCents(PARCEL_MAX_KG, domestic) + parcelRateCents(remainderKg, domestic);
 }
 
+// Same-origin guard for state-changing endpoints. `Origin` is set by browsers
+// on all cross-origin fetch/XHR; rejecting mismatches blocks malicious sites
+// from making a victim's browser reserve stock and create Stripe sessions
+// (a stock-hold DoS path even though CORS hides the response). Server-to-
+// server callers and Stripe webhooks don't hit this route.
+function isSameOriginPost(req: NextRequest): boolean {
+  const origin = req.headers.get("origin");
+  if (!origin) {
+    // No Origin header = not a browser request. Allowed only when
+    // Sec-Fetch-Site says "same-origin" or "none" (direct navigation).
+    const sfs = req.headers.get("sec-fetch-site");
+    return sfs === "same-origin" || sfs === "none" || sfs === null;
+  }
+  try {
+    // Compare the FULL origin (scheme + host), not just the host: browsers
+    // treat http://site and https://site as different origins, so a page
+    // served over plain http must not be able to hit the https endpoint.
+    // Behind Vercel's proxy the request URL is internal; x-forwarded-proto
+    // carries the external scheme (absent in local dev, where req.url is
+    // already correct).
+    const requestHost = req.headers.get("host") ?? new URL(req.url).host;
+    const requestProto =
+      req.headers.get("x-forwarded-proto")?.split(",")[0].trim() ??
+      new URL(req.url).protocol.replace(":", "");
+    return new URL(origin).origin === `${requestProto}://${requestHost}`;
+  } catch {
+    return false;
+  }
+}
+
 export async function POST(req: NextRequest) {
+  if (!isSameOriginPost(req)) {
+    return NextResponse.json({ error: "Cross-origin requests are not allowed." }, { status: 403 });
+  }
   // Per-IP rate limit before any mutation. `failClosed: true` means a KV
   // outage returns 503 rather than silently disabling the limiter and
   // re-exposing the stock-reservation abuse this control was added to stop.
