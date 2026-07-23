@@ -256,6 +256,40 @@ export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
         "18 Rue Münster, Lëtzebuerg-Gronn. Dënschdeg–Samschdeg 18–24 Auer. Online-Reservéierung.",
     },
   },
+  "cheques-cadeaux": {
+    fr: {
+      title: "Chèques Cadeaux | Vins Fins, Bar à Vin à Luxembourg",
+      description:
+        "Offrez un chèque cadeau Vins Fins : montant au choix, valable 1 an, envoyé par email. Bar à vins naturels au Grund, Luxembourg. Achat en ligne sécurisé.",
+      ogTitle: "Chèques Cadeaux | Vins Fins, Grund",
+      ogDescription:
+        "Offrez un chèque cadeau Vins Fins : montant au choix, valable 1 an, envoyé par email.",
+    },
+    en: {
+      title: "Gift Vouchers | Vins Fins, Wine Bar in Luxembourg",
+      description:
+        "Give a Vins Fins gift voucher: choose the amount, valid 1 year, sent by email. Natural wine bar in Grund, Luxembourg. Secure online purchase.",
+      ogTitle: "Gift Vouchers | Vins Fins, Grund",
+      ogDescription:
+        "Give a Vins Fins gift voucher: choose the amount, valid 1 year, sent by email.",
+    },
+    de: {
+      title: "Geschenkgutscheine | Vins Fins, Weinbar in Luxemburg",
+      description:
+        "Verschenken Sie einen Vins Fins Gutschein: Betrag frei wählbar, 1 Jahr gültig, Versand per E-Mail. Naturwein-Bar im Grund, Luxemburg. Sicherer Online-Kauf.",
+      ogTitle: "Geschenkgutscheine | Vins Fins, Grund",
+      ogDescription:
+        "Verschenken Sie einen Vins Fins Gutschein: Betrag frei wählbar, 1 Jahr gültig, Versand per E-Mail.",
+    },
+    lb: {
+      title: "Kadosbongen | Vins Fins, Wäibar zu Lëtzebuerg",
+      description:
+        "Schenkt e Vins Fins Kadosbong: Montant fräi wielbar, 1 Joer gëlteg, per E-Mail geschéckt. Naturwäibar am Gronn, Lëtzebuerg. Séchere Kaf online.",
+      ogTitle: "Kadosbongen | Vins Fins, Gronn",
+      ogDescription:
+        "Schenkt e Vins Fins Kadosbong: Montant fräi wielbar, 1 Joer gëlteg, per E-Mail geschéckt.",
+    },
+  },
 };
 
 /* Breadcrumb name translations */
@@ -266,6 +300,7 @@ export const breadcrumbNames: Record<string, Record<Locale, string>> = {
   boutique: { fr: "Boutique", en: "Shop", de: "Shop", lb: "Buttek" },
   "a-propos": { fr: "À Propos", en: "About", de: "Über Uns", lb: "Iwwer Eis" },
   contact: { fr: "Contact", en: "Contact", de: "Kontakt", lb: "Kontakt" },
+  "cheques-cadeaux": { fr: "Chèques Cadeaux", en: "Gift Vouchers", de: "Geschenkgutscheine", lb: "Kadosbongen" },
 };
 
 /* Wine category translations (for metadata) */

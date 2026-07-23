@@ -22,6 +22,7 @@ const LAST_MODIFIED = {
   wines: "2026-03-25",    // last catalog enrichment (data/wines.ts header)
   menu: "2026-03-25",     // last menu edit
   shop: "2026-04-27",     // last shop schema/copy update
+  giftVouchers: "2026-07-23", // Zenchef gift voucher page added
   about: "2026-03-20",
   contact: "2026-03-20",
   legal: "2026-01-01",
@@ -34,6 +35,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/vins/luxembourg", priority: 0.85, freq: "weekly" as const, lm: LAST_MODIFIED.wines },
     { path: "/carte", priority: 0.9, freq: "weekly" as const, lm: LAST_MODIFIED.menu },
     { path: "/boutique", priority: 0.8, freq: "weekly" as const, lm: LAST_MODIFIED.shop },
+    { path: "/cheques-cadeaux", priority: 0.7, freq: "monthly" as const, lm: LAST_MODIFIED.giftVouchers },
     { path: "/a-propos", priority: 0.6, freq: "monthly" as const, lm: LAST_MODIFIED.about },
     { path: "/contact", priority: 0.7, freq: "monthly" as const, lm: LAST_MODIFIED.contact },
     { path: "/legal/cgv", priority: 0.3, freq: "yearly" as const, lm: LAST_MODIFIED.legal },

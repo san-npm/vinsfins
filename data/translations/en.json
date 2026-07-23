@@ -3,10 +3,19 @@
     "wines": "Wines",
     "menu": "Menu",
     "shop": "Shop",
+    "giftVouchers": "Gift Vouchers",
     "about": "About",
     "contact": "Contact",
     "reserve": "Reserve",
     "reserveTable": "Reserve a Table"
+  },
+  "giftVouchers": {
+    "heroLabel": "Give",
+    "heroTitle": "Gift Vouchers",
+    "intro": "Give someone an evening at Vins Fins. A gift voucher for the amount of your choice, valid for 1 year, sent by email and ready to give.",
+    "embedTitle": "Vins Fins gift voucher shop",
+    "fallbackText": "Shop not loading?",
+    "fallbackLink": "Open in a new tab"
   },
   "home": {
     "heroSubtitle": "Wine Bar · Grund, Luxembourg",
