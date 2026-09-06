@@ -4,19 +4,18 @@ import { stripe } from "@/lib/stripe";
 import { wines as staticWines, type Wine } from "@/data/wines";
 import { reserveStock, releaseStock } from "@/lib/stock";
 import { getClientIp, rateLimit } from "@/lib/ratelimit";
+import {
+  deliveryEstimateDays,
+  getShippingCents,
+  isShipCountry,
+  parcelWeights,
+  type ShipCountry,
+} from "@/lib/dpd";
 
 interface CartItemPayload {
   wineId: string;
   quantity: number;
 }
-
-/**
- * POST Luxembourg shipping rates (2026)
- * Domestic (LU): Parcel ≤2kg = 7€, ≤10kg = 9€, ≤30kg = 22€
- * Europe Zone 1 (FR, DE, BE): Parcel ≤2kg = 12€, ≤10kg = 20€, ≤30kg = 40€
- * Average bottle weight: ~1.3kg
- */
-const BOTTLE_WEIGHT_KG = 1.3;
 
 // Checkout Session expiry — Stripe minimum is 30 minutes.
 // Short expiry releases reserved stock quickly if the customer abandons.
@@ -26,32 +25,12 @@ const CHECKOUT_EXPIRY_SECONDS = 30 * 60;
 const RL_PER_MINUTE = 8;
 const RL_PER_HOUR = 30;
 
-// POST Luxembourg's max parcel weight is 30kg; heavier orders ship as multiple
-// parcels. Bill per parcel so bulk orders aren't shipped at a flat, loss-making
-// single-parcel rate (a 120-bottle / ~156kg cart previously cost a flat 40€).
-const PARCEL_MAX_KG = 30;
-
-function parcelRateCents(parcelKg: number, domestic: boolean): number {
-  if (domestic) {
-    if (parcelKg <= 2) return 700;
-    if (parcelKg <= 10) return 900;
-    return 2200; // up to 30kg
-  }
-  // Europe Zone 1 (FR, DE, BE)
-  if (parcelKg <= 2) return 1200;
-  if (parcelKg <= 10) return 2000;
-  return 4000; // up to 30kg
-}
-
-function getShippingCents(totalBottles: number, domestic: boolean): number {
-  const weightKg = totalBottles * BOTTLE_WEIGHT_KG;
-  const parcels = Math.max(1, Math.ceil(weightKg / PARCEL_MAX_KG));
-  if (parcels === 1) return parcelRateCents(weightKg, domestic);
-  // Full 30kg parcels at the top tier + the remainder at its own lighter tier.
-  const fullParcels = parcels - 1;
-  const remainderKg = weightKg - fullParcels * PARCEL_MAX_KG;
-  return fullParcels * parcelRateCents(PARCEL_MAX_KG, domestic) + parcelRateCents(remainderKg, domestic);
-}
+const COUNTRY_LABEL: Record<ShipCountry, string> = {
+  LU: "Luxembourg",
+  FR: "France",
+  DE: "Deutschland",
+  BE: "Belgique",
+};
 
 // Same-origin guard for state-changing endpoints. `Origin` is set by browsers
 // on all cross-origin fetch/XHR; rejecting mismatches blocks malicious sites
@@ -118,9 +97,10 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json();
-    const { items, deliveryMethod } = body as {
+    const { items, deliveryMethod, country } = body as {
       items: CartItemPayload[];
       deliveryMethod: "delivery" | "pickup";
+      country?: string;
     };
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -131,6 +111,16 @@ export async function POST(req: NextRequest) {
     if (deliveryMethod !== "delivery" && deliveryMethod !== "pickup") {
       return NextResponse.json({ error: "Invalid delivery method" }, { status: 400 });
     }
+
+    // DPD charges a different rate per destination, and Stripe fixes the
+    // shipping price when the session is created — before it collects the
+    // address. So the destination is chosen on our page, and the Stripe
+    // session is then locked to that one country: a customer cannot pay the
+    // Luxembourg rate and have the parcel delivered to France.
+    if (deliveryMethod === "delivery" && !isShipCountry(country)) {
+      return NextResponse.json({ error: "Invalid delivery country" }, { status: 400 });
+    }
+    const destination = country as ShipCountry;
 
     // Cap cart size — an attacker could try to reserve thousands of bottles.
     const totalQty = items.reduce(
@@ -219,20 +209,20 @@ export async function POST(req: NextRequest) {
       || (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : null)
       || "https://vinsfins.vercel.app";
 
-    // Build shipping options for delivery
-    // Single rate (EU/Zone 1) to prevent customers selecting cheaper LU rate
-    // when shipping abroad. POST Luxembourg EU rate covers all destinations.
+    // One DPD rate, priced for the destination the customer picked and for the
+    // number of parcels the order splits into (DPD bills per parcel, 20kg max).
+    const estimate = deliveryMethod === "delivery" ? deliveryEstimateDays(destination) : null;
     const shippingOptions = deliveryMethod === "delivery"
       ? [
           {
             shipping_rate_data: {
               type: "fixed_amount" as const,
-              fixed_amount: { amount: getShippingCents(totalBottles, false), currency: "eur" },
-              display_name: "Livraison POST Luxembourg (LU/FR/DE/BE)",
+              fixed_amount: { amount: getShippingCents(totalBottles, destination), currency: "eur" },
+              display_name: `Livraison DPD — ${COUNTRY_LABEL[destination]}`,
               tax_behavior: "inclusive" as const,
               delivery_estimate: {
-                minimum: { unit: "business_day" as const, value: 1 },
-                maximum: { unit: "business_day" as const, value: 7 },
+                minimum: { unit: "business_day" as const, value: estimate!.minimum },
+                maximum: { unit: "business_day" as const, value: estimate!.maximum },
               },
             },
           },
@@ -259,8 +249,11 @@ export async function POST(req: NextRequest) {
       line_items: lineItems,
       shipping_options: shippingOptions,
       shipping_address_collection: deliveryMethod === "delivery" ? {
-        allowed_countries: ["LU", "FR", "DE", "BE"],
+        // Locked to the country the rate was priced for.
+        allowed_countries: [destination],
       } : undefined,
+      // DPD needs a recipient phone number to raise a Predict notification.
+      phone_number_collection: { enabled: deliveryMethod === "delivery" },
       automatic_tax: process.env.STRIPE_AUTOMATIC_TAX === "true"
         ? { enabled: true }
         : undefined,
@@ -269,6 +262,14 @@ export async function POST(req: NextRequest) {
         deliveryMethod,
         itemsJson: JSON.stringify(items.map((i) => ({ id: i.wineId, qty: i.quantity }))),
         nonceHash,
+        // Carried so the webhook can book the DPD shipment without recomputing
+        // what the customer was actually quoted.
+        ...(deliveryMethod === "delivery"
+          ? {
+              shipCountry: destination,
+              parcels: String(parcelWeights(totalBottles).length),
+            }
+          : {}),
       },
       success_url: `${origin}/boutique/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/boutique/checkout/cancel`,

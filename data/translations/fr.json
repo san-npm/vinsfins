@@ -82,8 +82,8 @@
     "heroLabel": "Emportez l'Expérience",
     "heroTitle": "Boutique",
     "heroDesc": "Notre sélection de vins, disponible en livraison dans tout le Luxembourg.",
-    "freeDelivery": "Click & Collect gratuit · Livraison dès 7€",
-    "deliveryTime": "Livraison en 2–3 jours",
+    "freeDelivery": "Click & Collect gratuit · Livraison DPD dès 6,89€",
+    "deliveryTime": "Livraison en 1-4 jours",
     "giftWrapping": "Emballage cadeau disponible",
     "all": "Tous",
     "giftBoxes": "Coffrets Cadeaux",
@@ -96,7 +96,7 @@
     "byTheGlass": "Au Verre",
     "atRestaurant": "Au Restaurant",
     "addToCart": "Ajouter au Panier",
-    "freeDelivery": "Click & Collect gratuit · Livraison dès 7€",
+    "freeDelivery": "Click & Collect gratuit · Livraison DPD dès 6,89€",
     "notFound": "Vin introuvable",
     "backToShopBtn": "Retour à la Boutique"
   },
@@ -138,7 +138,7 @@
     "phone": "Téléphone",
     "deliveryMethod": "Mode de Livraison",
     "delivery": "Livraison",
-    "deliveryDesc": "Livraison à votre adresse",
+    "deliveryDesc": "DPD · LU, FR, DE, BE",
     "clickCollect": "Click & Collect",
     "clickCollectDesc": "Retrait en boutique",
     "pickupAt": "Retrait chez Vins Fins",
@@ -169,7 +169,11 @@
     "mockNote": "Ceci est une maquette — aucune commande réelle n'a été passée. Dans la version réelle, vous recevriez un email de confirmation.",
     "mockDisclaimer": "Ceci est une vitrine. Aucun paiement ne sera traité et aucune commande ne sera passée.",
     "emptyCart": "Votre panier est vide",
-    "backToShop": "Retour à la Boutique"
+    "backToShop": "Retour à la Boutique",
+    "deliveryCountry": "Pays de livraison",
+    "deliveryCountryNote": "Le tarif DPD dépend de la destination.",
+    "shippingHint": "Livraison DPD : {rate} pour cette destination",
+    "shippingHintMulti": "Livraison DPD : {rate} ({parcels} colis)"
   },
   "about": {
     "heroLabel": "Notre Histoire",

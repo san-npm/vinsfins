@@ -82,8 +82,8 @@
     "heroLabel": "Das Erlebnis Mitnehmen",
     "heroTitle": "Boutique",
     "heroDesc": "Unsere kuratierte Weinauswahl, lieferbar in ganz Luxemburg.",
-    "freeDelivery": "Gratis Click & Collect · Versand ab 7€",
-    "deliveryTime": "Lieferung in 2–3 Tagen",
+    "freeDelivery": "Gratis Click & Collect · DPD-Versand ab 6,89€",
+    "deliveryTime": "Lieferung in 1-4 Tagen",
     "giftWrapping": "Geschenkverpackung verfügbar",
     "all": "Alle",
     "giftBoxes": "Geschenkboxen",
@@ -96,7 +96,7 @@
     "byTheGlass": "Im Glas",
     "atRestaurant": "Im Restaurant",
     "addToCart": "In den Warenkorb",
-    "freeDelivery": "Gratis Click & Collect · Versand ab 7€",
+    "freeDelivery": "Gratis Click & Collect · DPD-Versand ab 6,89€",
     "notFound": "Wein nicht gefunden",
     "backToShopBtn": "Zurück zur Boutique"
   },
@@ -138,7 +138,7 @@
     "phone": "Telefon",
     "deliveryMethod": "Liefermethode",
     "delivery": "Lieferung",
-    "deliveryDesc": "An Ihre Adresse geliefert",
+    "deliveryDesc": "DPD · LU, FR, DE, BE",
     "clickCollect": "Click & Collect",
     "clickCollectDesc": "Abholung im Geschäft",
     "pickupAt": "Abholung bei Vins Fins",
@@ -169,7 +169,11 @@
     "mockNote": "Dies ist ein Mockup — es wurde keine echte Bestellung aufgegeben. In der echten Version würden Sie eine Bestätigungsmail erhalten.",
     "mockDisclaimer": "Dies ist ein Schaufenster. Es wird keine Zahlung verarbeitet und keine Bestellung aufgegeben.",
     "emptyCart": "Ihr Warenkorb ist leer",
-    "backToShop": "Zurück zur Boutique"
+    "backToShop": "Zurück zur Boutique",
+    "deliveryCountry": "Lieferland",
+    "deliveryCountryNote": "Der DPD-Tarif richtet sich nach dem Zielland.",
+    "shippingHint": "DPD-Lieferung: {rate} in dieses Land",
+    "shippingHintMulti": "DPD-Lieferung: {rate} ({parcels} Pakete)"
   },
   "about": {
     "heroLabel": "Unsere Geschichte",

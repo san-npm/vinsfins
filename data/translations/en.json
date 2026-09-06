@@ -82,8 +82,8 @@
     "heroLabel": "Take the Experience Home",
     "heroTitle": "Boutique",
     "heroDesc": "Our curated selection of wines, available for delivery across Luxembourg.",
-    "freeDelivery": "Free Click & Collect · Delivery from €7",
-    "deliveryTime": "Delivery in 2–3 days",
+    "freeDelivery": "Free Click & Collect · DPD delivery from €6.89",
+    "deliveryTime": "Delivery in 1-4 days",
     "giftWrapping": "Gift wrapping available",
     "all": "All",
     "giftBoxes": "Gift Boxes",
@@ -96,7 +96,7 @@
     "byTheGlass": "By the Glass",
     "atRestaurant": "At the Restaurant",
     "addToCart": "Add to Cart",
-    "freeDelivery": "Free Click & Collect · Delivery from €7",
+    "freeDelivery": "Free Click & Collect · DPD delivery from €6.89",
     "notFound": "Wine not found",
     "backToShopBtn": "Back to Shop"
   },
@@ -138,7 +138,7 @@
     "phone": "Phone",
     "deliveryMethod": "Delivery Method",
     "delivery": "Delivery",
-    "deliveryDesc": "Delivered to your address",
+    "deliveryDesc": "DPD · LU, FR, DE, BE",
     "clickCollect": "Click & Collect",
     "clickCollectDesc": "Pickup in store",
     "pickupAt": "Pickup at Vins Fins",
@@ -169,7 +169,11 @@
     "mockNote": "This is a mockup — no actual order has been placed. In the real version, you'd receive a confirmation email.",
     "mockDisclaimer": "This is a showcase. No payment will be processed and no order will be placed.",
     "emptyCart": "Your cart is empty",
-    "backToShop": "Back to Shop"
+    "backToShop": "Back to Shop",
+    "deliveryCountry": "Delivery country",
+    "deliveryCountryNote": "The DPD rate depends on the destination.",
+    "shippingHint": "DPD delivery: {rate} to this destination",
+    "shippingHintMulti": "DPD delivery: {rate} ({parcels} parcels)"
   },
   "about": {
     "heroLabel": "Our Story",
