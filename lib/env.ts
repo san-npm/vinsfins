@@ -17,6 +17,14 @@ const SPECS: EnvSpec[] = [
   { name: "RESEND_API_KEY", critical: false },
   { name: "FROM_EMAIL", critical: false },
   { name: "ADMIN_EMAIL", critical: false },
+  // DPD Web Parcel (Packlink). Non-critical on purpose: without it the shop
+  // still sells and confirms orders, and parcels are booked by hand in the
+  // portal, rather than the whole site refusing to boot.
+  { name: "DPD_API_KEY", critical: false },
+  { name: "DPD_SENDER_PHONE", critical: false },
+  // Without it Vercel Cron cannot call /api/admin/dpd/sync and no customer
+  // is ever sent a tracking number.
+  { name: "CRON_SECRET", critical: false },
   { name: "KV_REST_API_URL", critical: true },
   { name: "KV_REST_API_TOKEN", critical: true },
 ];

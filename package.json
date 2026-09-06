@@ -14,7 +14,8 @@
     "rescrape:scrape": "tsx scripts/v2/orchestrate.ts --stage=scrape",
     "rescrape:classify": "tsx scripts/v2/orchestrate.ts --stage=classify",
     "rescrape:apply": "tsx scripts/v2/orchestrate.ts --stage=apply",
-    "rescrape:all": "tsx scripts/v2/orchestrate.ts --stage=all"
+    "rescrape:all": "tsx scripts/v2/orchestrate.ts --stage=all",
+    "dpd:rates": "tsx scripts/dpd-rates.ts"
   },
   "dependencies": {
     "@stripe/stripe-js": "^8.11.0",

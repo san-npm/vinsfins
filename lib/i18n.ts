@@ -158,7 +158,7 @@ export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
     fr: {
       title: "Boutique — Achetez nos Vins en Ligne",
       description:
-        "Commandez vos vins naturels préférés en ligne. Sélection de domaines bio et biodynamiques. Click & Collect gratuit au Grund ou livraison dès 7€.",
+        "Commandez vos vins naturels préférés en ligne. Sélection de domaines bio et biodynamiques. Click & Collect gratuit au Grund ou livraison DPD dès 6,89€.",
       ogTitle: "Boutique — Achetez nos Vins en Ligne | Vins Fins Luxembourg",
       ogDescription:
         "Commandez vos vins naturels en ligne. Domaines bio et biodynamiques. Livraison Luxembourg.",
@@ -166,7 +166,7 @@ export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
     en: {
       title: "Shop — Buy Our Wines Online",
       description:
-        "Order your favourite natural wines online. Selection of organic and biodynamic estates. Free Click & Collect in Grund or delivery from €7.",
+        "Order your favourite natural wines online. Selection of organic and biodynamic estates. Free Click & Collect in Grund or DPD delivery from €6.89.",
       ogTitle: "Shop — Buy Our Wines Online | Vins Fins Luxembourg",
       ogDescription:
         "Order natural wines online. Organic and biodynamic estates. Luxembourg delivery.",
@@ -174,7 +174,7 @@ export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
     de: {
       title: "Shop — Unsere Weine Online Kaufen",
       description:
-        "Bestellen Sie Ihre Lieblings-Naturweine online. Auswahl an Bio- und biodynamischen Weingütern. Gratis Click & Collect in Grund oder Versand ab 7€.",
+        "Bestellen Sie Ihre Lieblings-Naturweine online. Auswahl an Bio- und biodynamischen Weingütern. Gratis Click & Collect in Grund oder DPD-Versand ab 6,89€.",
       ogTitle: "Shop — Unsere Weine Online Kaufen | Vins Fins Luxemburg",
       ogDescription:
         "Naturweine online bestellen. Bio- und biodynamische Weingüter. Lieferung Luxemburg.",
@@ -182,7 +182,7 @@ export const pageMeta: Record<string, Record<Locale, PageMeta>> = {
     lb: {
       title: "Buttek — Eis Wäiner Online Kafen",
       description:
-        "Bestellt Är Liibléngs-Naturwäiner online. Auswiel u Bio- a biodynamesche Wënzereien. Gratis Click & Collect zu Gronn oder Liwwerung ab 7€.",
+        "Bestellt Är Liibléngs-Naturwäiner online. Auswiel u Bio- a biodynamesche Wënzereien. Gratis Click & Collect zu Gronn oder DPD-Liwwerung ab 6,89€.",
       ogTitle: "Buttek — Eis Wäiner Online Kafen | Vins Fins Lëtzebuerg",
       ogDescription:
         "Naturwäiner online bestellen. Bio- a biodynamesch Wënzereien. Liwwerung Lëtzebuerg.",

@@ -15,9 +15,10 @@ const LOCK_TTL_SECONDS = 15;
 async function acquireLock(key: string): Promise<boolean> {
   try {
     const lockKey = `lock:migrate:${key}`;
-    const got = await kv.setnx(lockKey, Date.now());
-    if (got) await kv.expire(lockKey, LOCK_TTL_SECONDS);
-    return Boolean(got);
+    // Atomic SET NX EX. With SETNX plus a separate EXPIRE, a KV failure between
+    // the two turns a 15-second lock into a permanent one.
+    const got = await kv.set(lockKey, Date.now(), { nx: true, ex: LOCK_TTL_SECONDS });
+    return got !== null;
   } catch {
     return false;
   }

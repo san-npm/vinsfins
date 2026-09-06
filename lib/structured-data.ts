@@ -8,6 +8,7 @@
  */
 import type { Wine } from "@/data/wines";
 import { SITE_URL, wineCategory, type Locale } from "@/lib/i18n";
+import { SHIP_COUNTRIES, singleBottleRateEur, transitDays, type ShipCountry } from "@/lib/dpd";
 
 /**
  * Schema.org `image` must be an absolute, crawlable URL. Wine images are
@@ -21,19 +22,9 @@ function absoluteImageUrl(src: string): string {
   return `${SITE_URL}${src.startsWith("/") ? "" : "/"}${src}`;
 }
 
-type Country = "LU" | "FR" | "DE" | "BE";
+type Country = ShipCountry;
 
-// Single-bottle (≤2kg) POST Luxembourg rate per country. Mirrors
-// getShippingCents() in app/api/checkout/route.ts:30; if that tier changes,
-// update here too.
-const SHIPPING_RATE_EUR: Record<Country, number> = {
-  LU: 7,
-  FR: 12,
-  DE: 12,
-  BE: 12,
-};
-
-const SHIPPING_COUNTRIES: Country[] = ["LU", "FR", "DE", "BE"];
+const SHIPPING_COUNTRIES: readonly Country[] = SHIP_COUNTRIES;
 
 /**
  * 14-day return window per /legal/remboursement. Customer bears return
@@ -50,13 +41,21 @@ export const MERCHANT_RETURN_POLICY = {
   refundType: "https://schema.org/FullRefund",
 } as const;
 
+/**
+ * One entry per destination, priced from the single DPD rate table so the
+ * markup cannot drift from what checkout actually charges. The rate quoted is
+ * the cheapest case, a single bottle.
+ */
 function shippingDetailsFor(country: Country) {
+  // handlingTime below already covers picking and hand-in, so transitTime here
+  // is DPD's carrier transit on its own.
+  const transit = transitDays(country);
   return {
     "@type": "OfferShippingDetails",
     shippingDestination: { "@type": "DefinedRegion", addressCountry: country },
     shippingRate: {
       "@type": "MonetaryAmount",
-      value: SHIPPING_RATE_EUR[country].toString(),
+      value: singleBottleRateEur(country).toFixed(2),
       currency: "EUR",
     },
     deliveryTime: {
@@ -69,8 +68,8 @@ function shippingDetailsFor(country: Country) {
       },
       transitTime: {
         "@type": "QuantitativeValue",
-        minValue: 1,
-        maxValue: 7,
+        minValue: transit,
+        maxValue: transit + 1,
         unitCode: "DAY",
       },
     },

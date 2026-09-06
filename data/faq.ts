@@ -38,7 +38,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       {
         question: "Livrez-vous à l'international ?",
         answer:
-          "Nous livrons au Luxembourg, en France, en Allemagne et en Belgique via POST Luxembourg. Les tarifs sont calculés selon le poids au moment du paiement. Le Click & Collect à Grund est gratuit.",
+          "Nous livrons au Luxembourg, en France, en Allemagne et en Belgique via DPD. Le tarif exact s'affiche avant le paiement, selon la destination et le nombre de colis (dès 6,89 € au Luxembourg, 11,70 € en Belgique, 14,34 € en Allemagne, 19,66 € en France). Le Click & Collect à Grund est gratuit.",
       },
       {
         question: "Proposez-vous de la cuisine ?",
@@ -75,7 +75,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       {
         question: "Do you ship internationally?",
         answer:
-          "We ship to Luxembourg, France, Germany and Belgium via POST Luxembourg. Rates are weight-based and shown at checkout. Click & Collect in Grund is free.",
+          "We ship to Luxembourg, France, Germany and Belgium via DPD. The exact rate is shown before payment, based on destination and parcel count (from €6.89 to Luxembourg, €11.70 to Belgium, €14.34 to Germany, €19.66 to France). Click & Collect in Grund is free.",
       },
       {
         question: "Do you serve food?",
@@ -112,7 +112,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       {
         question: "Liefern Sie international?",
         answer:
-          "Wir liefern nach Luxemburg, Frankreich, Deutschland und Belgien via POST Luxembourg. Die Preise werden nach Gewicht beim Checkout berechnet. Click & Collect im Grund ist kostenlos.",
+          "Wir liefern nach Luxemburg, Frankreich, Deutschland und Belgien via DPD. Der genaue Preis wird vor der Zahlung angezeigt, je nach Zielland und Paketanzahl (ab 6,89 € nach Luxemburg, 11,70 € nach Belgien, 14,34 € nach Deutschland, 19,66 € nach Frankreich). Click & Collect im Grund ist kostenlos.",
       },
       {
         question: "Servieren Sie Speisen?",
@@ -149,7 +149,7 @@ export const faqByLocale: Record<Locale, { title: string; label: string; items: 
       {
         question: "Liwwert Dir international?",
         answer:
-          "Mir liwweren no Lëtzebuerg, Frankräich, Däitschland a Belgien iwwer POST Luxembourg. D'Präisser ginn no Gewiicht beim Checkout gerechent. Click & Collect am Gronn ass gratis.",
+          "Mir liwweren no Lëtzebuerg, Frankräich, Däitschland a Belgien iwwer DPD. De genaue Präis gëtt virum Bezuelen ugewisen, no Destinatioun an Unzuel Päck (ab 6,89 € op Lëtzebuerg, 11,70 € op Belgien, 14,34 € op Däitschland, 19,66 € op Frankräich). Click & Collect am Gronn ass gratis.",
       },
       {
         question: "Servéiert Dir Iesssachen?",

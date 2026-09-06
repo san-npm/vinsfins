@@ -213,7 +213,9 @@ const storeJsonLd = {
     deliveryTime: {
       "@type": "ShippingDeliveryTime",
       businessDays: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday"] },
-      transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 7, unitCode: "d" },
+      // DPD transits LU/BE/DE in 1 business day and FR in 2, plus up to two
+      // days for picking, packing and hand-in at the Pickup shop.
+      transitTime: { "@type": "QuantitativeValue", minValue: 1, maxValue: 4, unitCode: "d" },
     },
   },
 };

@@ -82,8 +82,8 @@
     "heroLabel": "D'Erliefnis Mathuelen",
     "heroTitle": "Boutique",
     "heroDesc": "Eis kuratéiert Wäinauswiel, liwwerbar a ganz Lëtzebuerg.",
-    "freeDelivery": "Gratis Click & Collect · Liwwerung ab 7€",
-    "deliveryTime": "Liwwerung an 2–3 Deeg",
+    "freeDelivery": "Gratis Click & Collect · DPD-Liwwerung ab 6,89€",
+    "deliveryTime": "Liwwerung an 1-4 Deeg",
     "giftWrapping": "Kadosverpackung verfügbar",
     "all": "All",
     "giftBoxes": "Kadosboxen",
@@ -96,7 +96,7 @@
     "byTheGlass": "Am Glas",
     "atRestaurant": "Am Restaurant",
     "addToCart": "An de Kuerf",
-    "freeDelivery": "Gratis Click & Collect · Liwwerung ab 7€",
+    "freeDelivery": "Gratis Click & Collect · DPD-Liwwerung ab 6,89€",
     "notFound": "Wäin net fonnt",
     "backToShopBtn": "Zréck an d'Boutique"
   },
@@ -138,7 +138,7 @@
     "phone": "Telefon",
     "deliveryMethod": "Liwwermethode",
     "delivery": "Liwwerung",
-    "deliveryDesc": "Op Är Adress geliwwert",
+    "deliveryDesc": "DPD · LU, FR, DE, BE",
     "clickCollect": "Click & Collect",
     "clickCollectDesc": "Ofhuelen am Geschäft",
     "pickupAt": "Ofhuelen bei Vins Fins",
@@ -169,7 +169,11 @@
     "mockNote": "Dëst ass e Mockup — et gouf keng richteg Bestellung gemaach. An der richteger Versioun géift Dir eng Bestätegungsmail kréien.",
     "mockDisclaimer": "Dëst ass eng Vitrine. Keng Bezuelung gëtt veraarbecht a keng Bestellung gëtt gemaach.",
     "emptyCart": "Äre Kuerf ass eidel",
-    "backToShop": "Zréck an d'Boutique"
+    "backToShop": "Zréck an d'Boutique",
+    "deliveryCountry": "Liwwerland",
+    "deliveryCountryNote": "De DPD-Tarif hänkt vun der Destinatioun of.",
+    "shippingHint": "DPD-Liwwerung: {rate} an dëst Land",
+    "shippingHintMulti": "DPD-Liwwerung: {rate} ({parcels} Päck)"
   },
   "about": {
     "heroLabel": "Eis Geschicht",

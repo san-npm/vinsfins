@@ -4,11 +4,20 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { useCart } from "@/context/CartContext";
+import { SHIP_COUNTRIES, getShippingCents, parcelWeights, type ShipCountry } from "@/lib/dpd";
+
+const COUNTRY_NAMES: Record<ShipCountry, string> = {
+  LU: "Luxembourg",
+  FR: "France",
+  DE: "Deutschland",
+  BE: "Belgique / België",
+};
 
 export default function CheckoutPage() {
   const { t } = useLanguage();
   const { items, totalPrice } = useCart();
   const [deliveryMethod, setDeliveryMethod] = useState<"delivery" | "pickup">("delivery");
+  const [country, setCountry] = useState<ShipCountry>("LU");
   const [ageConfirmed, setAgeConfirmed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,6 +30,13 @@ export default function CheckoutPage() {
       </main>
     );
   }
+
+  // DPD bills per parcel and per destination, so the exact figure is known
+  // before payment. Showing it here removes the old "calculated at checkout"
+  // surprise on the Stripe page.
+  const totalBottles = items.reduce((sum, item) => sum + item.quantity, 0);
+  const shippingCents = getShippingCents(totalBottles, country);
+  const parcelCount = parcelWeights(totalBottles).length;
 
   const handleCheckout = async () => {
     setLoading(true);
@@ -36,6 +52,7 @@ export default function CheckoutPage() {
             quantity: item.quantity,
           })),
           deliveryMethod,
+          ...(deliveryMethod === "delivery" ? { country } : {}),
         }),
       });
 
@@ -100,8 +117,30 @@ export default function CheckoutPage() {
             )}
 
             {deliveryMethod === "delivery" && (
-              <div className="bg-parchment/50 p-4 border border-ink/5 text-sm text-stone">
-                {t("checkout.stripeAddressNote") || "L'adresse de livraison sera collectée lors du paiement sécurisé."}
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="ship-country" className="block text-sm text-ink mb-2">
+                    {t("checkout.deliveryCountry") || "Pays de livraison"}
+                  </label>
+                  <select
+                    id="ship-country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value as ShipCountry)}
+                    className="w-full border border-ink/15 bg-white px-4 py-3 text-sm text-ink"
+                  >
+                    {SHIP_COUNTRIES.map((code) => (
+                      <option key={code} value={code}>
+                        {COUNTRY_NAMES[code]}
+                      </option>
+                    ))}
+                  </select>
+                  <p className="text-xs text-stone/60 mt-2">
+                    {t("checkout.deliveryCountryNote") || "Le tarif DPD dépend de la destination."}
+                  </p>
+                </div>
+                <div className="bg-parchment/50 p-4 border border-ink/5 text-sm text-stone">
+                  {t("checkout.stripeAddressNote") || "L'adresse de livraison sera collectée lors du paiement sécurisé."}
+                </div>
               </div>
             )}
 
@@ -164,17 +203,20 @@ export default function CheckoutPage() {
                   <span className="text-stone">
                     {deliveryMethod === "pickup"
                       ? (t("checkout.free") || "Gratuit")
-                      : "Calculé au paiement / Calculated at checkout"}
+                      : `${(shippingCents / 100).toFixed(2)}€`}
                   </span>
                 </div>
                 {deliveryMethod === "delivery" && (
                   <p className="text-xs text-stone/50">
-                    Tarifs POST Luxembourg : dès 12€ (selon poids)
+                    DPD · {COUNTRY_NAMES[country]}
+                    {parcelCount > 1 ? ` · ${parcelCount} colis` : ""}
                   </p>
                 )}
                 <div className="flex justify-between text-lg font-playfair pt-2 border-t border-ink/5">
                   <span>{t("checkout.total")}</span>
-                  <span>{totalPrice.toFixed(2)}€{deliveryMethod === "delivery" ? " + livraison" : ""}</span>
+                  <span>
+                    {(totalPrice + (deliveryMethod === "delivery" ? shippingCents / 100 : 0)).toFixed(2)}€
+                  </span>
                 </div>
                 <p className="text-xs text-stone/50 mt-2">TVA 17% incluse / VAT 17% included</p>
               </div>
