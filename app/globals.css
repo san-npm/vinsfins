@@ -17,6 +17,26 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-playfair font-normal;
   }
+  /* The admin panel is the only dark-background page carrying form fields.
+     Preflight makes controls inherit body's ink colour (#2a2522), which is all
+     but invisible on the dark field behind them. Colour them once here rather
+     than on ~25 individual class strings, so a field added later is readable
+     by default instead of repeating the bug. */
+  .admin-dark input,
+  .admin-dark select,
+  .admin-dark textarea {
+    @apply text-cream;
+  }
+  .admin-dark input::placeholder,
+  .admin-dark textarea::placeholder {
+    color: rgba(240, 230, 211, 0.4);
+  }
+  /* An open native select menu paints with the OS palette, not the field's, so
+     the options need the dark pair spelled out too. */
+  .admin-dark select option {
+    background-color: #1c1e1c;
+    color: #f0e6d3;
+  }
   input:focus, select:focus, textarea:focus {
     @apply outline-none ring-0;
     border-color: rgba(196, 162, 101, 0.4);

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import "@/lib/env";
 import { stripe } from "@/lib/stripe";
-import { sendOrderConfirmation, retrySendEmail, esc } from "@/lib/email";
 import { releaseStock } from "@/lib/stock";
 import { isShipCountry } from "@/lib/dpd";
 import { createDraftShipment, isDpdConfigured } from "@/lib/dpd-api";
@@ -13,7 +12,6 @@ import Stripe from "stripe";
 export const maxDuration = 30;
 
 const ALLOWED_DELIVERY_COUNTRIES = new Set(["LU", "FR", "DE", "BE"]);
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "contact@vinsfins.lu";
 
 const MAX_NAME_LEN = 200;
 const MAX_LINE_LEN = 200;
@@ -86,26 +84,10 @@ async function flagOrderForReview(
   reason: string,
   country: string | undefined,
 ): Promise<void> {
-  const orderRef = session.id.slice(-8).toUpperCase();
   const customerEmail = session.customer_details?.email ?? "(none)";
   const amount = session.amount_total ?? 0;
-  const html = `
-    <div style="font-family:Helvetica,Arial,sans-serif;color:#333;max-width:600px">
-      <h2 style="color:#8B0000">Order flagged for manual review</h2>
-      <p>An order was paid but failed backend address validation and was <strong>not</strong> auto-confirmed.</p>
-      <ul>
-        <li><strong>Order:</strong> #${orderRef}</li>
-        <li><strong>Session:</strong> ${session.id}</li>
-        <li><strong>Reason:</strong> ${esc(reason)}</li>
-        <li><strong>Country received:</strong> ${esc(country) || "(none)"}</li>
-        <li><strong>Customer email:</strong> ${esc(customerEmail)}</li>
-        <li><strong>Amount:</strong> ${(amount / 100).toFixed(2)} €</li>
-        <li><strong>Delivery method:</strong> ${esc(session.metadata?.deliveryMethod) || "(none)"}</li>
-      </ul>
-      <p>Action: contact the customer, then either ship manually or refund via Stripe dashboard.</p>
-    </div>
-  `;
-  // Persist a flag for admin visibility (24h TTL is enough — admin should act fast).
+  // The KV record is the only trace of a flagged order: there is no alerting
+  // channel left, so it is kept for 30 days for whoever comes looking.
   await kv.set(`flagged_order:${session.id}`, {
     sessionId: session.id,
     reason,
@@ -114,12 +96,6 @@ async function flagOrderForReview(
     amount,
     createdAt: Date.now(),
   }, { ex: 30 * 24 * 60 * 60 }).catch(() => { /* best effort */ });
-
-  await retrySendEmail({
-    to: ADMIN_EMAIL,
-    subject: `[REVIEW] Order #${orderRef} — ${reason}${country ? ` (${country})` : ""}`,
-    html,
-  });
 }
 
 const FULFILLED_KEY = (id: string) => `fulfilled:${id}`;
@@ -155,12 +131,6 @@ function parseSessionItems(session: Stripe.Checkout.Session): { wineId: string; 
   } catch {
     return [];
   }
-}
-
-async function notifyAdmin(subject: string, html: string): Promise<void> {
-  await retrySendEmail({ to: ADMIN_EMAIL, subject, html }).catch(() => {
-    /* best effort: the console.error above is the last resort */
-  });
 }
 
 /**
@@ -220,16 +190,9 @@ async function bookDpdShipment(session: Stripe.Checkout.Session): Promise<void> 
     }));
   } catch (err) {
     const message = err instanceof Error ? err.message : String(err);
+    // Log-only: there is no alerting channel. A paid order with no parcel is
+    // found by reading the function logs or by the order never shipping.
     console.error(`[vinsfins webhook] DPD booking failed for ${orderRef}: ${message}`);
-    await notifyAdmin(
-      `[DPD] Order #${orderRef} — book this parcel by hand`,
-      `<p>The order was paid and confirmed, but no DPD reference came back.</p>
-       <p><strong>Reason:</strong> ${esc(message)}</p>
-       <p><strong>Check Web Parcel for this order reference BEFORE creating anything</strong>:
-          a call can fail after DPD has already accepted the parcel, and creating it
-          again would mean paying twice.</p>
-       <p>Order <strong>#${esc(orderRef)}</strong>.</p>`,
-    );
     return;
   }
 
@@ -245,27 +208,18 @@ async function bookDpdShipment(session: Stripe.Checkout.Session): Promise<void> 
         reference,
         orderRef: orderRef,
         sessionId: session.id,
-        email: session.customer_details?.email ?? null,
         parcels: Number(session.metadata?.parcels ?? 1),
-        trackingSent: false,
+        trackingCollected: false,
         attempts: 0,
         createdAt: Date.now(),
       },
       { ex: 90 * 24 * 60 * 60 },
     );
   } catch (err) {
-    // The parcel EXISTS. Only the tracking-email queue entry is missing, so say
-    // exactly that rather than sending the shop off to create a duplicate.
+    // The parcel EXISTS but is not in the sync queue, so it will never pick up
+    // a tracking code. Recoverable by hand from the portal; do NOT rebook.
     const message = err instanceof Error ? err.message : String(err);
     console.error(`[vinsfins webhook] DPD draft ${reference} created but not queued: ${message}`);
-    await notifyAdmin(
-      `[DPD] Order #${orderRef} — parcel booked, tracking email not queued`,
-      `<p>DPD draft <strong>${esc(reference)}</strong> was created for order
-         <strong>#${esc(orderRef)}</strong>. Do NOT create it again.</p>
-       <p>Only the tracking-email queue entry failed, so send the customer their
-          tracking number by hand once you confirm the parcel.</p>
-       <p><strong>Reason:</strong> ${esc(message)}</p>`,
-    );
   }
 }
 
@@ -285,17 +239,6 @@ async function fulfillOrder(session: Stripe.Checkout.Session) {
 }
 
 async function runFulfilment(session: Stripe.Checkout.Session) {
-  // Retrieve line items for the email
-  const lineItemsResponse = await stripe.checkout.sessions.listLineItems(session.id, {
-    limit: 100,
-  });
-
-  const orderItems = lineItemsResponse.data.map((item) => ({
-    description: item.description || "Article",
-    quantity: item.quantity || 1,
-    amount: item.amount_total / (item.quantity || 1),
-  }));
-
   // Retrieve full session with shipping details
   // No expand: collected_information is returned inline, and asking Stripe to
   // expand it (or the retired shipping_details) is a 400.
@@ -325,11 +268,8 @@ async function runFulfilment(session: Stripe.Checkout.Session) {
     return;
   }
 
-  // Send confirmation email (customer + admin)
-  await sendOrderConfirmation(fullSession, orderItems);
-
-  // Hand the parcel to DPD. Runs after the email so a carrier problem can
-  // never stop the customer being told their order went through.
+  // Hand the parcel to DPD. Best-effort: a carrier problem must not stop the
+  // rest of fulfilment.
   await bookDpdShipment(fullSession);
 
   // Stock was already reserved atomically at checkout creation (DECRBY).
