@@ -11,18 +11,22 @@ const LANG_LABELS: Record<Lang, string> = { fr: "Français", en: "English", de: 
 const WINE_CATS = ["red", "white", "rosé", "orange", "sparkling"] as const;
 const MENU_CATS = ["starters", "platters", "carpaccios", "mains", "desserts", "specials"] as const;
 
-type Tab = "menu" | "wines" | "content" | "emails";
+type Tab = "orders" | "menu" | "wines" | "content";
 
-interface FailedEmailSummary {
-  id: string;
-  to: string;
-  subject: string;
+interface Order {
+  ref: string;
   sessionId: string;
-  errorMessage: string;
-  createdAt: number;
-  attempts: number;
-  lastAttemptAt: number;
+  created: number;
+  amount: number;
+  currency: string;
+  paymentStatus: string;
+  deliveryMethod: "delivery" | "pickup";
+  customer: { name: string | null; email: string | null; phone: string | null };
+  address: { line1: string | null; line2: string | null; postalCode: string | null; city: string | null; country: string | null } | null;
+  items: { name: string; qty: number }[];
+  dpd: { reference: string; tracking: { code: string; url: string }[] } | null;
 }
+
 
 function emptyLR(): Record<Lang, string> {
   return { fr: "", en: "", de: "", lb: "" };
@@ -46,8 +50,9 @@ export default function AdminPage() {
   const [content, setContent] = useState<SiteContent | null>(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState("");
-  const [failedEmails, setFailedEmails] = useState<FailedEmailSummary[]>([]);
-  const [emailBusy, setEmailBusy] = useState<string | null>(null);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersError, setOrdersError] = useState("");
+  const [ordersLoading, setOrdersLoading] = useState(false);
 
   const loadData = useCallback(async () => {
     if (!authenticated) return;
@@ -61,35 +66,26 @@ export default function AdminPage() {
     if (c) setContent(c);
   }, [authenticated]);
 
-  const loadFailedEmails = useCallback(async () => {
+  const loadOrders = useCallback(async () => {
     if (!authenticated) return;
-    const res = await fetch("/api/admin/failed-emails");
-    if (!res.ok) {
-      if (res.status === 401) setAuthenticated(false);
-      return;
+    setOrdersLoading(true);
+    setOrdersError("");
+    try {
+      const res = await fetch("/api/admin/orders");
+      if (res.status === 401) { setAuthenticated(false); return; }
+      if (!res.ok) { setOrdersError("Stripe injoignable — réessayez."); return; }
+      const json: { orders: Order[] } = await res.json();
+      setOrders(json.orders ?? []);
+    } catch {
+      setOrdersError("Stripe injoignable — réessayez.");
+    } finally {
+      setOrdersLoading(false);
     }
-    const json: { items: FailedEmailSummary[] } = await res.json();
-    setFailedEmails(json.items ?? []);
   }, [authenticated]);
 
   useEffect(() => {
-    if (tab === "emails") loadFailedEmails();
-  }, [tab, loadFailedEmails]);
-
-  const failedEmailAction = async (id: string, action: "retry" | "delete") => {
-    setEmailBusy(id);
-    try {
-      const res = await fetch("/api/admin/failed-emails", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id, action }),
-      });
-      if (res.status === 401) setAuthenticated(false);
-      await loadFailedEmails();
-    } finally {
-      setEmailBusy(null);
-    }
-  };
+    if (tab === "orders") loadOrders();
+  }, [tab, loadOrders]);
 
   useEffect(() => { loadData(); }, [loadData]);
 
@@ -115,7 +111,7 @@ export default function AdminPage() {
 
   if (!authenticated) {
     return (
-      <div className="min-h-screen bg-dark flex items-center justify-center">
+      <div className="min-h-screen bg-dark admin-dark flex items-center justify-center">
         <div className="bg-dark-card/90 backdrop-blur p-8 rounded-lg shadow-lg max-w-sm w-full">
           <h1 className="font-playfair text-2xl text-cream mb-1 text-center">Vins Fins</h1>
           <p className="text-stone text-sm text-center mb-6">Administration</p>
@@ -137,7 +133,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-dark admin-dark">
       <div className="max-w-6xl mx-auto px-4 py-8">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -148,19 +144,89 @@ export default function AdminPage() {
         </div>
 
         <div className="flex gap-1 mb-6 border-b border-cream/10">
-          {(["menu", "wines", "content", "emails"] as Tab[]).map(t => (
+          {(["orders", "menu", "wines", "content"] as Tab[]).map(t => (
             <button
               key={t}
               onClick={() => setTab(t)}
               className={`px-4 py-2 text-sm font-medium transition border-b-2 -mb-px ${tab === t ? "border-wine text-wine" : "border-transparent text-stone hover:text-ink"}`}
             >
-              {t === "menu" ? "🍽 Carte" : t === "wines" ? "🍷 Vins" : t === "content" ? "📝 Contenu" : `✉ Emails échoués${failedEmails.length ? ` (${failedEmails.length})` : ""}`}
+              {t === "orders" ? "📦 Commandes" : t === "menu" ? "🍽 Carte" : t === "wines" ? "🍷 Vins" : "📝 Contenu"}
             </button>
           ))}
         </div>
 
         {saving && <div className="text-stone text-sm mb-2">Enregistrement...</div>}
         {saved && <div className="text-green-400 text-sm mb-2">✓ {saved} sauvegardé</div>}
+
+        {tab === "orders" && (
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-stone text-sm">
+                Les 25 dernières commandes payées, lues directement dans Stripe.
+              </p>
+              <button onClick={loadOrders} className="text-stone hover:text-wine text-sm">↻ Rafraîchir</button>
+            </div>
+
+            {ordersError && <div className="text-red-400 text-sm">{ordersError}</div>}
+            {ordersLoading && orders.length === 0 && <div className="text-stone text-sm">Chargement...</div>}
+            {!ordersLoading && !ordersError && orders.length === 0 && (
+              <div className="bg-dark-card/70 backdrop-blur rounded-lg p-6 border border-cream/10 text-stone text-sm text-center">
+                Aucune commande.
+              </div>
+            )}
+
+            {orders.map((o) => (
+              <div key={o.sessionId} className="bg-dark-card/70 backdrop-blur rounded-lg p-4 border border-cream/10 text-sm">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
+                  <span className="text-cream font-mono">#{o.ref}</span>
+                  <span className="text-stone">{new Date(o.created).toLocaleString("fr-FR")}</span>
+                  <span className="text-cream font-medium">{(o.amount / 100).toFixed(2)} {o.currency}</span>
+                  <span className={`text-xs px-2 py-0.5 rounded ${o.deliveryMethod === "delivery" ? "bg-wine/20 text-wine" : "bg-cream/10 text-stone"}`}>
+                    {o.deliveryMethod === "delivery" ? "Livraison" : "Retrait"}
+                  </span>
+                  {o.paymentStatus !== "paid" && (
+                    <span className="text-xs px-2 py-0.5 rounded bg-yellow-500/20 text-yellow-400">
+                      {o.paymentStatus}
+                    </span>
+                  )}
+                </div>
+
+                <div className="text-stone text-xs mb-2">
+                  {o.customer.name && <span className="text-cream">{o.customer.name}</span>}
+                  {o.customer.email && <span> · {o.customer.email}</span>}
+                  {o.customer.phone && <span> · {o.customer.phone}</span>}
+                </div>
+
+                {o.address && (
+                  <div className="text-stone text-xs mb-2">
+                    {o.address.line1}{o.address.line2 ? `, ${o.address.line2}` : ""} — {o.address.postalCode} {o.address.city} ({o.address.country})
+                  </div>
+                )}
+
+                {o.items.length > 0 && (
+                  <ul className="text-cream text-xs mb-2 space-y-0.5">
+                    {o.items.map((it, i) => (
+                      <li key={i}><span className="text-stone">{it.qty} ×</span> {it.name}</li>
+                    ))}
+                  </ul>
+                )}
+
+                {o.dpd && (
+                  <div className="text-xs text-stone border-t border-cream/10 pt-2 mt-2">
+                    DPD <span className="font-mono text-cream">{o.dpd.reference}</span>
+                    {o.dpd.tracking.length > 0 ? (
+                      <> — {o.dpd.tracking.map((t) => (
+                        <a key={t.code} href={t.url} target="_blank" rel="noopener noreferrer" className="text-wine hover:underline mr-2 font-mono">{t.code}</a>
+                      ))}</>
+                    ) : (
+                      <> — <span className="text-yellow-400">brouillon à confirmer dans Web Parcel</span></>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
 
         {tab === "menu" && (
           <div>
@@ -302,49 +368,6 @@ export default function AdminPage() {
           </div>
         )}
 
-        {tab === "emails" && (
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <p className="text-stone text-sm">
-                Confirmations de commande qui n&apos;ont pas pu être envoyées via Resend. Cliquez sur Renvoyer pour réessayer.
-              </p>
-              <button onClick={loadFailedEmails} className="text-stone hover:text-wine text-sm">↻ Rafraîchir</button>
-            </div>
-            {failedEmails.length === 0 && (
-              <div className="bg-dark-card/70 backdrop-blur rounded-lg p-6 border border-cream/10 text-stone text-sm text-center">
-                Aucun email en échec.
-              </div>
-            )}
-            {failedEmails.map((f) => (
-              <div key={f.id} className="bg-dark-card/70 backdrop-blur rounded-lg p-4 border border-cream/10 text-sm">
-                <div className="flex flex-wrap gap-x-6 gap-y-1 mb-2">
-                  <div><span className="text-stone">À:</span> <span className="text-cream">{f.to}</span></div>
-                  <div><span className="text-stone">Commande:</span> <span className="text-cream font-mono text-xs">{f.sessionId.slice(-8).toUpperCase()}</span></div>
-                  <div><span className="text-stone">Tentatives:</span> <span className="text-cream">{f.attempts}</span></div>
-                  <div><span className="text-stone">Dernière:</span> <span className="text-cream">{new Date(f.lastAttemptAt).toLocaleString("fr-FR")}</span></div>
-                </div>
-                <div className="text-cream mb-1">{f.subject}</div>
-                <div className="text-red-400 text-xs mb-3 break-all">{f.errorMessage}</div>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => failedEmailAction(f.id, "retry")}
-                    disabled={emailBusy === f.id}
-                    className="bg-wine text-cream px-3 py-1.5 rounded text-xs hover:bg-wine/90 transition disabled:opacity-50"
-                  >
-                    {emailBusy === f.id ? "..." : "Renvoyer"}
-                  </button>
-                  <button
-                    onClick={() => failedEmailAction(f.id, "delete")}
-                    disabled={emailBusy === f.id}
-                    className="text-stone hover:text-red-400 text-xs px-3 py-1.5 transition disabled:opacity-50"
-                  >
-                    Supprimer
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );

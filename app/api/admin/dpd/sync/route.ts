@@ -3,20 +3,20 @@ import { timingSafeEqual } from "crypto";
 import { kv } from "@vercel/kv";
 import { verifyToken } from "@/lib/admin-auth";
 import { getShipment, isDpdConfigured, trackingUrl } from "@/lib/dpd-api";
-import { sendTrackingEmail } from "@/lib/email";
 
 /**
- * Send tracking numbers to customers once DPD has issued them.
+ * Collect DPD parcel numbers once they are issued.
  *
  * A DPD draft has no parcel number until the shop confirms and pays for it in
- * Web Parcel, so there is nothing to email at booking time. This job walks the
- * orders waiting on a number and sends each one as it appears.
+ * Web Parcel, so there is nothing to record at booking time. This job walks the
+ * orders waiting on a number and stores each one as it appears; the numbers come
+ * back in this endpoint's JSON response, which is the only place they surface.
  *
  * Runs either from the admin panel (session cookie) or from Vercel Cron, which
  * authenticates with `Authorization: Bearer $CRON_SECRET`.
  */
 
-// Each item costs a Packlink round trip bounded at 8s plus KV and an email.
+// Each item costs a Packlink round trip bounded at 8s plus KV.
 // The wall-clock guard below is what actually keeps the run inside this.
 export const maxDuration = 60;
 
@@ -24,9 +24,9 @@ const PENDING_SET = "dpd:pending";
 const recordKey = (sessionId: string) => `dpd:${sessionId}`;
 
 /**
- * Each item costs one Packlink round trip plus possibly an email send. Kept
- * well inside the serverless function budget: a backlog drains over successive
- * runs rather than timing out and losing the whole run.
+ * Each item costs one Packlink round trip. Kept well inside the serverless
+ * function budget: a backlog drains over successive runs rather than timing
+ * out and losing the whole run.
  */
 const MAX_PER_RUN = 20;
 
@@ -49,9 +49,9 @@ interface PendingShipment {
   reference: string;
   orderRef: string;
   sessionId: string;
-  email: string | null;
   parcels: number;
-  trackingSent: boolean;
+  trackingCodes?: string[];
+  trackingCollected: boolean;
   attempts?: number;
   createdAt?: number;
 }
@@ -76,9 +76,9 @@ export async function GET(req: NextRequest) {
   const authorized = isCronCall(req) || verifyToken(req);
   if (!authorized) {
     // Without CRON_SECRET this endpoint is unreachable by Cron and no customer
-    // ever gets a tracking email. Say so in the logs rather than 401ing mutely.
+    // ever has its parcel number recorded. Say so in the logs rather than 401ing mutely.
     if (!process.env.CRON_SECRET) {
-      console.error("[vinsfins dpd:sync] CRON_SECRET is not set — scheduled tracking emails cannot run");
+      console.error("[vinsfins dpd:sync] CRON_SECRET is not set — the scheduled tracking sync cannot run");
     }
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
@@ -87,7 +87,7 @@ export async function GET(req: NextRequest) {
   }
 
   const sessionIds = (await kv.smembers<string[]>(PENDING_SET)) ?? [];
-  const results: { orderRef: string; status: string }[] = [];
+  const results: { orderRef: string; status: string; tracking?: { code: string; url: string }[] }[] = [];
   const startedAt = Date.now();
 
   for (const sessionId of sessionIds.slice(0, MAX_PER_RUN)) {
@@ -101,7 +101,7 @@ export async function GET(req: NextRequest) {
       await kv.srem(PENDING_SET, sessionId);
       continue;
     }
-    if (record.trackingSent) {
+    if (record.trackingCollected) {
       await kv.srem(PENDING_SET, sessionId);
       continue;
     }
@@ -112,8 +112,6 @@ export async function GET(req: NextRequest) {
       // Leaving it queued would starve every newer order behind it, because the
       // run only ever looks at the first MAX_PER_RUN members of the set.
       await kv.srem(PENDING_SET, sessionId);
-      // Nothing will look at this record again, and it holds the customer's
-      // email address, so drop it rather than letting it sit out its TTL.
       await kv.del(recordKey(sessionId)).catch(() => { /* TTL will collect it */ });
       console.warn(`[vinsfins dpd:sync] giving up on ${record.orderRef} after ${attempts} attempts`);
       results.push({ orderRef: record.orderRef, status: "abandoned" });
@@ -126,8 +124,8 @@ export async function GET(req: NextRequest) {
 
       // Wait for a number for every parcel: marking the order done after the
       // first one would leave a two-parcel order half-tracked forever. Past
-      // half the attempt budget (a week), send whatever DPD has rather than
-      // leaving the customer with nothing.
+      // half the attempt budget (a week), keep whatever DPD has rather than
+      // ending up with nothing.
       const expected = Math.max(1, record.parcels || 1);
       const complete = codes.length >= expected || attempts >= Math.floor(MAX_ATTEMPTS / 2);
 
@@ -139,43 +137,21 @@ export async function GET(req: NextRequest) {
         });
         continue;
       }
-      if (!record.email) {
-        await kv.srem(PENDING_SET, sessionId);
-        await kv.del(recordKey(sessionId)).catch(() => { /* TTL will collect it */ });
-        results.push({ orderRef: record.orderRef, status: "no customer email" });
-        continue;
-      }
-
-      // Count the attempt BEFORE sending. If the process dies between the send
-      // and the cleanup, the next run retries at most MAX_ATTEMPTS times rather
-      // than re-sending the same email on every run forever.
-      await bumpAttempts(sessionId, record, attempts);
-
-      const sent = await sendTrackingEmail({
-        to: record.email,
-        orderRef: record.orderRef,
-        trackingLinks: codes.map((code) => ({ code, url: trackingUrl(code) })),
-      });
-      if (!sent) {
-        // Otherwise a permanently failing address is indistinguishable from
-        // "the shop never confirmed the draft" when the budget runs out.
-        console.error(
-          `[vinsfins dpd:sync] tracking email refused for ${record.orderRef} (attempt ${attempts + 1}/${MAX_ATTEMPTS})`,
-        );
-        results.push({ orderRef: record.orderRef, status: "email failed, will retry" });
-        continue;
-      }
-
-      // Mark sent BEFORE cleaning up: if the delete fails, the flag still stops
-      // the next run re-sending the same tracking email.
-      await kv.set(recordKey(sessionId), { ...record, trackingSent: true }, { ex: RECORD_TTL_SECONDS });
+      // Keep the record: the numbers it now holds are the only copy, and the
+      // TTL is what eventually collects it.
+      await kv.set(
+        recordKey(sessionId),
+        { ...record, trackingCodes: codes, trackingCollected: true },
+        { ex: RECORD_TTL_SECONDS },
+      );
       // Past this point nothing may throw: the catch below would re-persist the
-      // stale record with trackingSent false and undo the mark just written.
-      await kv.srem(PENDING_SET, sessionId).catch(() => { /* flagged sent already */ });
-      // Then drop the record entirely rather than letting it sit out its TTL:
-      // it holds the customer's email address and has no further purpose.
-      await kv.del(recordKey(sessionId)).catch(() => { /* flag above already guards */ });
-      results.push({ orderRef: record.orderRef, status: "tracking sent" });
+      // stale record and undo the mark just written.
+      await kv.srem(PENDING_SET, sessionId).catch(() => { /* flagged collected already */ });
+      results.push({
+        orderRef: record.orderRef,
+        status: "tracking collected",
+        tracking: codes.map((code) => ({ code, url: trackingUrl(code) })),
+      });
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       console.error(`[vinsfins dpd:sync] ${record.orderRef}: ${message}`);

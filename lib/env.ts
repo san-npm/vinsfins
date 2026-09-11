@@ -14,8 +14,6 @@ const SPECS: EnvSpec[] = [
   { name: "STRIPE_WEBHOOK_SECRET", critical: true },
   { name: "ADMIN_PASSWORD", critical: true },
   { name: "TOKEN_SECRET", critical: true },
-  { name: "RESEND_API_KEY", critical: false },
-  { name: "FROM_EMAIL", critical: false },
   { name: "ADMIN_EMAIL", critical: false },
   // DPD Web Parcel (Packlink). Non-critical on purpose: without it the shop
   // still sells and confirms orders, and parcels are booked by hand in the
