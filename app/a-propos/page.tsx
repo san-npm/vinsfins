@@ -40,8 +40,8 @@ export default function AProposPage() {
         <div className="max-w-5xl mx-auto">
           <div className="relative aspect-[21/9] overflow-hidden">
             <Image
-              src="/vins-fins-la-grocerie.jpeg"
-              alt="Vins Fins — La Grocerie"
+              src="/vins-fins-salle.jpeg"
+              alt="La salle de Vins Fins, bar à vins au Grund"
               fill
               className="object-cover"
             />
@@ -62,6 +62,20 @@ export default function AProposPage() {
             <p>{t("about.philoP1")}</p>
             <p>{t("about.philoP2")}</p>
             <p>{t("about.philoP3")}</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Image break */}
+      <section className="px-6 pb-20">
+        <div className="max-w-5xl mx-auto">
+          <div className="relative aspect-[21/9] overflow-hidden">
+            <Image
+              src="/vins-fins-carpaccio.jpeg"
+              alt="Carpaccio italien au bœuf Black Angus, roquette et parmesan"
+              fill
+              className="object-cover"
+            />
           </div>
         </div>
       </section>

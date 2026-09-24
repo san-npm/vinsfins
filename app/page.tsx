@@ -33,7 +33,7 @@ export default function HomePage() {
             src="/vins-fins.jpeg"
             alt="Vins Fins — Bar à vins au Grund, Luxembourg"
             fill
-            className="object-cover"
+            className="object-cover object-[50%_60%]"
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/60" />
